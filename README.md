@@ -1,2 +1,4 @@
 # AMYGDALA_REACT_VS_CONNECT
-Predicting emotion reactivity of the amygdala using resting-state connectivity of the amygdala
+Pipeline to predict emotion task reactivity of the amygdala using resting-state connectivity of the amygdala as seed-region.
+
+> Preliminary note: The Python module used in this pipeline assumes your scripts and analysis files are stored in one and the same working directory. Also, the task and resting-state fMRI data of the experiment is converted to NIFTI format, and stored in a data directory where the different types of data (T1, resting-state, task data) are specified as subdirectories for each subject. These subdirectories need to be specified by suffixes added to the mother directory name (e.g. subject001 > subject001_1_1). Finally, an Excel (.xlsx) file needs to be made that specifies, for each subject, the subject ID, and specific suffixes added to the subject ID to identify the subdirectories.
