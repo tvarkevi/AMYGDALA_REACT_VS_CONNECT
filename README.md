@@ -25,5 +25,6 @@ This code generates a variable called *my_experiment* with attributes that defin
 
 > Note: Since the Experiment class is inherited by all the other subclasses, it does not need to be defined seperately for the analysis to be conducted; it is called automatically when initializing the subclasses later on.
 
-## 1. Data preprocessing
+## 2. Data preprocessing
 
+The data preprocessing methods in the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) are conducted in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. 
