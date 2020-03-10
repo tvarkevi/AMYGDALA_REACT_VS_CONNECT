@@ -43,20 +43,21 @@ The following preprocessing steps are supported by the pipeline:
 
 ### 2.1 Realignment
 
-Realignment of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for process are  called [Realignment.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Realignment.m) and [Realignment_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Realignment_job.m)
+Realignment of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the realignment process are [Realignment.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Realignment.m) and [Realignment_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Realignment_job.m)
 
-To conduct the realignment process, enter the following code in a consoleassuming the above block of code has already been run:
+To conduct the realignment process, enter the following code in a console:
 
 ```
 my_experiment = Amy.Preprocessing()
 my_experiment.run_preprocessing()
 ```
-Since this class inherits from the Experiment class, the same three user inputs described in section 1 need to be specified. Furthermore, the program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data here.
-2. The type of preprocessing step that needs to be conducted. Enter 1 for realignment.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be applied. This is not a relevant option at this stage, and so nothing should be specified for this input. Simply press the enter key.
 
-> Note, the above block of code assumes that the module has already been imported. If this is not the case, run the following code beforehand:
+Since this class inherits from the main Experiment class, the same three user inputs as described earlier (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. The specific preprocessing step that needs to be conducted. Enter 1 for realignment.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. This should be skipped at this stage. Simply press the enter key.
+
+> Note, the above block of code assumes that the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module has already been imported. If this is not the case, run the following code beforehand:
 
 ```
 working_dir = r'O:\Project directory\Analysis'
@@ -64,3 +65,34 @@ working_dir = r'O:\Project directory\Analysis'
 import os
 os.chdir(working_dir)
 ```
+
+### 2.2 Inclusive mask
+
+Extraction of a subject-specific inclusive voxel mask is supported by module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. If inclusive masks should be conducted, enter the following code in the console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.extract_inclusive_FOV_mask()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described earlier (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. An optional prefix to indicate the exact scan identifiers to base the extraction on. Enter r for the realigned scans.
+
+### 2.3 Slice-timing correction
+
+Slice-timing correction of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the slice-timing correction are [SliceTimingCorrection.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection.m) and [SliceTimingCorrection_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection_job.m)
+
+To conduct the slice-timing correction, enter the following code in a console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.run_preprocessing()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described earlier (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. The specific preprocessing step that needs to be conducted. Enter 2 for slice-timing correction.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. Slice-timing correction needs to be performed on the realigned functional scans. Enter r for the realigned scans.
+
+
