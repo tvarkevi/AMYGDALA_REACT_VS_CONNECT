@@ -78,6 +78,7 @@ my_experiment.extract_inclusive_FOV_mask()
 Since this class inherits from the main Experiment class, the same three user inputs as described earlier (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
 2. An optional prefix to indicate the exact scan identifiers to base the extraction on. Enter r for the realigned scans.
+3. Whether an across-subjects inclusive mask should be made. Enter 1 (yes) or 0 (no).
 
 ### 2.3 Slice-timing correction
 
