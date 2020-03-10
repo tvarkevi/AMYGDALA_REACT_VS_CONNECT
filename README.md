@@ -66,7 +66,7 @@ import os
 os.chdir(working_dir)
 ```
 
-### 2.2 Inclusive mask
+### 2.2 Inclusive mask extraction
 
 Extraction of a subject-specific inclusive voxel mask is supported by module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. If inclusive masks should be conducted, enter the following code in the console:
 
