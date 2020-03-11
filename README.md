@@ -227,9 +227,9 @@ As part of the first-level analysis pipeline of the emotion task data, the follo
 
 ### 3.1 Behavioral data
 
-Before the first-level analysis of the emotion task data can be conducted, the task data of needs to be extracted from the raw logfiles. As described in the preliminary note of this manual, the raw logfiles need to be copied to the data directory, in a subfolder named after the dataset in question: i.e., data_dir > LOGS_MARS, or data_dir > LOGS_BETER. Furthermore, all individual logfiles need to end with **aug2010.log**, otherwise the program will not locate them. 
+Before the first-level analysis of the emotion task data can be conducted, the task data needs to be extracted from the raw logfiles. As described in the preliminary note of this manual, the raw logfiles need to be copied to the data directory (data_dir), in a subfolder named after the dataset in question; i.e., data_dir > LOGS_MARS, or data_dir > LOGS_BETER. Furthermore, all individual logfiles need to end with **aug2010.log**, otherwise the program will not be able to find them. 
 
-The extraction of the behavioral data from the raw logfiles is performed by the *extract_behavioral_data* method of the EmotionTask class. This method creates a comma seperated (.csv) file that contains the onsets, picture identifiers, conditions, responses, and reaction times (RT) of all emotional picture trial blocks. This CSV file is stored in a new subdirectory within the data directory (data_dir), named after the dataset in question: i.e., data_dir > ONSETS_MARS, or data_dir > ONSETS_BETER.
+The extraction of the behavioral data from the raw logfiles is performed by the *extract_behavioral_data* method of the EmotionTask class. This method creates a comma seperated (.csv) file that contains the onsets, picture identifiers, conditions, responses, and reaction times (RT) of all emotional picture trial blocks. This CSV file is written to a new subdirectory in the data directory (data_dir), named after the dataset in question: i.e., data_dir > ONSETS_MARS, or data_dir > ONSETS_BETER.
 
 In order to extract the task data from the raw logfiles, enter the following code in a console:
 
