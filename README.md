@@ -154,7 +154,7 @@ my_experiment.erode_segmentation_mask()
 
 Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
-2. An optional prefix to indicate the exact scan identifiers on which the erosion needs to be applied. The erosion can be conducted on all possible outputs (c1, c2, c3, c4, c5) of the segmentation procedure. To perform the erosion on the white-matter segmentation, enter c2. To perform the erosion on the CSF segmentation, enter c3.
+2. An optional prefix to indicate the exact scan identifiers on which the erosion needs to be applied. In theory, the erosion can be conducted on all possible outputs of the segmentation procedure (c1, c2, c3, c4, c5). To perform the erosion on the white-matter segmentation, enter c2. To perform the erosion on the CSF segmentation, enter c3.
 
 ### 2.8 Normalization
 
@@ -170,7 +170,7 @@ my_experiment.run_preprocessing()
 Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
 2. The specific preprocessing step that needs to be conducted. Enter 5 for normalization.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the normalization process can be conducted on any series of functional data. Enter b_map_ for the raw beta maps (output of the connectivity analysis).
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the normalization process can be conducted on any series of functional images. Enter b_map_ for the raw beta maps (output of the connectivity analysis).
 
 ### 2.9 Smoothing
 
@@ -186,11 +186,11 @@ my_experiment.run_preprocessing()
 Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
 2. The specific preprocessing step that needs to be conducted. Enter 6 for smoothing.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the smoothihng procedure can be applied on any series of functional data. Enter nb_map_ for the normalized beta (connectivity) maps.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the smoothihng procedure can be applied on any series of functional images. Enter nb_map_ for the normalized beta (connectivity) maps.
 
 ### 2.10 Filtering
 
-Filtering of the timeseries data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *run_filtering* method of the Preprocessing class. The filtering procedure is performed 'under the hood' by many of the first-level methods later on, in which the method is typically integrated, and so does not need to be initialized manually. Nevertheless, the method *can* be initialized manually. To bandpass filter a given signal at 0.01-0.08 Hz, enter the following code in a console:
+Filtering of the timeseries data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *run_filtering* method of the Preprocessing class. The filtering procedure is integrated in many of the first-level methods described below, and does not need to be conducted manually. Nevertheless, the method *can* be conducted manually. For instance, to bandpass filter a given signal (your_signal) at 0.01-0.08 Hz, at a given repetition time (your_TR), enter the following code in a console:
 
 ```
 TR = your_TR
