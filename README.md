@@ -149,7 +149,7 @@ Since this class inherits from the main Experiment class, the same three user in
 
 ### 2.7 Erosion 
 
-Erosion of the segmentation data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *erode_segmentation_mask* method of the Preprocessing class. This method uses the MATLAB function [Erosion.m]() via a shell call command. 
+Erosion of the segmentation data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *erode_segmentation_mask* method of the Preprocessing class. This method uses the MATLAB function [Erosion.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Erosion.m) via a shell call command. 
 
 Enter the following code in the console to execute this process:
 
