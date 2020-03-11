@@ -223,11 +223,11 @@ The following preprocessing pipeline is recommended for the emotion task data:
 
 As part of the first-level analysis pipeline of the emotion task data, the following steps need to be conducted after the preprocessing steps:
 1. Extraction of the behavioral task data from the logfiles (see section 3.1)
-2. Extraction of the confound regressors (see section 3.3)
-3. Extraction of the spike regressors (see section 3.4)
-4. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.5)
-5. Creation of a (subject-level) region-of-interest (ROI) mask in native space (see section 3.2)
-6. Extraction (across subjects) of the ROI-masked statistical paramatric data (see section 3.7)
+2. Extraction of the confound regressors (see section 3.2)
+3. Extraction of the spike regressors (see section 3.3)
+4. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.4)
+5. Creation of a (subject-level) region-of-interest (ROI) mask in native space (see section 3.5)
+6. Extraction (across subjects) of the ROI-masked statistical paramatric data (see section 3.6)
 
 ### 3.1 Behavioral data
 
@@ -291,7 +291,10 @@ The process creates an output CSV file in the emotion task scan directory called
 
 ### 3.4 First-level analysis
 
-First-level analysis of the emotion task images is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the realignment process are [FirstLevelAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m) and [FirstLevelAnalysis_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis_job.m)
+First-level analysis of the emotion task images is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the first-level analysis are [FirstLevelAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m) and [FirstLevelAnalysis_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis_job.m). The method conducts the following three procedures:
+1. Model specification, in which Neutral, Positive, and Negative (picture) conditions are defined, respectively, with the task onsets and durations derived from the output files generated in section 3.1. The confound regressors and spike regressors generated in sections 3.2 and 3.3, respectively, are entered as nuisance variables at this stage.
+2. Model estimation
+3. Contrast specification, using the following contrasts (respectively): Negative vs. Neutral, Positive vs. Neutral, and Negative vs. Positive.
 
 To perform the first-level analysis, enter the following code in a console:
 
@@ -305,5 +308,50 @@ Since this class inherits from the main Experiment class, the same three user in
 2. An optional explicit mask to to base the first-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the slice-time corrected and realigned functional data is used at this stage. Enter ar for the slice-time corrected and realigned functional (emotion task) images.
 
+The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called LEV1, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **LEV1**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
 
+### 3.5 Native ROI mask
 
+AFter the first-level analysis has been performed, the statistical parametric data of the region-of-interest (ROI), in this case the amygdala, needs to be extracted. The first step towards accomplishing this goal is creating an ROI mask in native space for each subject in the dataset. The [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module uses the *create_native_roi_mask* of the EmotionTask class to do so. 
+
+The *create_native_roi_mask* module utilizes [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) using [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the procedure are called [GlobalToNativeMask.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask.m) and [GlobalToNativeMask_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask_job.m). The method inverse normalizes a given ROI mask, via the following five-step procedure:
+1. The coregistered (to the mean functional image) anatomical image is normalized to NMI space.
+2. The ROI mask is coregistered to the normalized anatomical image generated in step 1.
+3. The deformation yielded generated in step 1 is used to create an inverse (MNI to native) deformation field.
+4. The inverse deformation field is used to reslice the T1-coregistered ROI mask generated in step 2, into native space.
+5. The native ROI mask generated in step 4 is coregistered to the anatomical image used as input in step 1.
+
+To perform the global-to-native ROI mask transformation, enter the following code in a console:
+
+```
+my_experiment = Amy.EmotionTask()
+my_experiment.create_native_roi_mask()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class).
+2. The name of the ROI mask used for the analyses, as listed in the working directory. It is recommended that a probability map of the amygdala is used. 
+3. An optional prefix to indicate the exact scan identifier of the anatomical image to base the inverse normalization on. It is recommended that the anatomical image coregistered to the mean functional image is used for this procedure. Enter c for the coregistered anatomical image.
+
+The result of this procedure is a set of files and images that are written to the T1 directory of each subject. The native ROI mask used for further analysis steps is indicated by teh prefix **cic** followed by the original filename of the ROI mask; e.g. cicAmygdala_total_probability_map.nii.
+
+### 3.6 ROI-masked SPM data
+
+AFter the first-level analysis has been performed, the statistical parametric data of the region-of-interest (ROI), in this case the amygdala, needs to be extracted. The second step towards accomplishing this goal is masking the statistical parametric output generated by the first-level analysis (see section 3.4), using the native ROI mask generated at the previous stage (see section 3.5). The [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module uses the *extract_roi_masked_spm_data* of the EmotionTask class to achieve this goal. This method computes the probability weighted mean (or sum) of the statistical parametric maps of each subject, seperately for each hemisphere.
+
+To execute the *extract_roi_masked_spm_data* method, enter the following code in the console:
+
+```
+my_experiment = Amy.EmotionTask()
+my_experiment.extract_roi_masked_spm_data()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class).
+2. The name of the ROI mask used for the analyses, as listed in the working directory. It is recommended that a probability map of the amygdala is used.
+3. The nature of the ROI mask specified in step 2. Enter 1 for a binary ROI mask, or 2 for a probabilistic ROI mask.
+4. The name of the statistical parametric map generated by the first-level analysis (see section 3.4), on which the ROI mask should be applied. The con_0001.nii file corresponds to the contrast Negative vs. Neutral, con_0002.nii to the contrast Positive vs. Neutral, and con_0003.nii to the contrast Negative vs. Positive.
+
+The probability weighted mean (or summed) SPM values are written to an output CSV file in the working directory. The file is named after the specific dataset entered into the analyses (MARS, BETER), the summary statistic used to mask the parametric maps (Mean, Sum), and the specific contrast map on which the ROI mask was applied (e.g., con_0001); for example: **MARS_EMO_Mean_Con_0001.csv**
+
+## 4. Resting-state
