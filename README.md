@@ -64,6 +64,8 @@ working_dir = r'O:\Project directory\Analysis'
 
 import os
 os.chdir(working_dir)
+
+import amygdala_project as Amy
 ```
 
 ### 2.2 Inclusive mask extraction
