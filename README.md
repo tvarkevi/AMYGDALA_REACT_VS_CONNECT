@@ -218,12 +218,12 @@ The following preprocessing pipeline is recommended for the emotion task data:
 8. Erosion of the cerobrospinal fluid (CSF) segmentation (see section 2.7)
 
 As part of the first-level analysis pipeline of the emotion task data, the following steps need to be conducted after the preprocessing steps:
-9. Extraction of the task data from the log files (see section 3.1)
-10. Creation of a region-of-interest (ROI) mask in native space (see section 3.2)
-11. Extraction of confound regressors (see section 3.3)
-12. Extraction of spike regressors (see section 3.4)
-13. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.5)
-14. Extraction of ROI-masked statistical paramatric map data (see section 3.7)
+1. Extraction of the task data from the log files (see section 3.1)
+2. Creation of a region-of-interest (ROI) mask in native space (see section 3.2)
+3. Extraction of confound regressors (see section 3.3)
+4. Extraction of spike regressors (see section 3.4)
+5. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.5)
+6. Extraction of ROI-masked statistical paramatric map data (see section 3.7)
 
 ### 3.1 Behavioral data
 
