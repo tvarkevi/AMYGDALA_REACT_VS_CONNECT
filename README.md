@@ -211,19 +211,19 @@ The following preprocessing pipeline is recommended for the emotion task data:
 1. Realignment of the raw functional images (see section 2.1)
 2. Extraction of the FD Jenkinson data (see section 2.3)
 3. Slice-timing correction of the realigned functional images (see section 2.4)
-4. Coregistration of the anatomical image to the mean function image (see section 2.5)
-5. Extraction of inclusve field-of-view (FOV) voxel mask, based on the realigned functional images (see section 2.2)
+4. Coregistration of the anatomical image to the mean functional image (see section 2.5)
+5. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask, based on the realigned functional images (see section 2.2)
 6. Segmentation of the coregistered anatomical image (see section 2.6)
 7. Erosion of the white-matter segmentation (see section 2.7)
 8. Erosion of the cerobrospinal fluid (CSF) segmentation (see section 2.7)
 
 As part of the first-level analysis pipeline of the emotion task data, the following steps need to be conducted after the preprocessing steps:
-1. Extraction of the task data from the log files (see section 3.1)
-2. Extraction of confound regressors (see section 3.3)
-3. Extraction of spike regressors (see section 3.4)
+1. Extraction of the behavioral task data from the logfiles (see section 3.1)
+2. Extraction of the confound regressors (see section 3.3)
+3. Extraction of the spike regressors (see section 3.4)
 4. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.5)
-5. Creation of a region-of-interest (ROI) mask in native space (see section 3.2)
-6. Extraction of ROI-masked statistical paramatric map data (see section 3.7)
+5. Creation of a (subject-level) region-of-interest (ROI) mask in native space (see section 3.2)
+6. Extraction (across subjects) of the ROI-masked statistical paramatric data (see section 3.7)
 
 ### 3.1 Behavioral data
 
