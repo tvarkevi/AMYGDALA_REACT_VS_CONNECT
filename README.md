@@ -203,9 +203,53 @@ your_signal, unused = my_experiment.run_filtering(your_signal, 1/TR, 0.08)
 
 ## 3. Emotion task
 
-The analysis of the emotion task data described here is based on the paradigm of [Van Buuren et al. (2011)](https://www.sciencedirect.com/science/article/pii/S000632231100254X) (see also [Heesink et al., 2018](https://www.cambridge.org/core/journals/european-psychiatry/article/neural-activity-during-the-viewing-of-emotional-pictures-in-veterans-with-pathological-anger-and-aggression/C3179D960B2B1DA0C0C33D34B5FCA2D6)).
+The emotion task described here is based on the paradigm of [Van Buuren et al. (2011)](https://www.sciencedirect.com/science/article/pii/S000632231100254X) (see also [Heesink et al., 2018](https://www.cambridge.org/core/journals/european-psychiatry/article/neural-activity-during-the-viewing-of-emotional-pictures-in-veterans-with-pathological-anger-and-aggression/C3179D960B2B1DA0C0C33D34B5FCA2D6)).
 
+The analysis of the emotion task data is conducted by the EmotionTask class of the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module. This class inherits all attributes and methods of the Preprocessing class (which itself inherits from the Experiment base class). The first-level analysis of the emotion task data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via shell call commands.
 
+The following preprocessing pipeline is recommended for the emotion task data:
+1. Realignment of the raw functional images (see section 2.1)
+2. Extraction of the FD Jenkinson data (see section 2.3)
+3. Slice-timing correction of the realigned functional images (see section 2.4)
+4. Coregistration of the anatomical image to the mean function image (see section 2.5)
+5. Extraction of inclusve field-of-view (FOV) voxel mask, based on the realigned functional images (see section 2.2)
+6. Segmentation of the coregistered anatomical image (see section 2.6)
+7. Erosion of the white-matter segmentation (see section 2.7)
+8. Erosion of the cerobrospinal fluid (CSF) segmentation (see section 2.7)
+
+As part of the first-level analysis pipeline of the emotion task data, the following steps need to be conducted after the preprocessing steps:
+9. Extraction of the task data from the log files (see section 3.1)
+10. Creation of a region-of-interest (ROI) mask in native space (see section 3.2)
+11. Extraction of confound regressors (see section 3.3)
+12. Extraction of spike regressors (see section 3.4)
+13. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.5)
+14. Extraction of ROI-masked statistical paramatric map data (see section 3.7)
+
+### 3.1 Behavioral data
+
+Before the first-level analysis of the emotion task data can be conducted, the task data of needs to be extracted from the raw logfiles. As described in the preliminary note of this manual, the raw logfiles need to be copied to the data directory, in a subfolder named after the dataset in question: i.e., data_dir > LOGS_MARS, or data_dir > LOGS_BETER. Furthermore, all individual logfiles need to end with **aug2010.log**, otherwise the program will not locate them. 
+
+The extraction of the behavioral data from the raw logfiles is performed by the *extract_behavioral_data* method of the EmotionTask class. This method creates a comma seperated (.csv) file that contains the onsets, picture identifiers, conditions, responses, and reaction times (RT) of all emotional picture trial blocks. This CSV file is stored in a new subdirectory within the data directory (data_dir), named after the dataset in question: i.e., data_dir > ONSETS_MARS, or data_dir > ONSETS_BETER.
+
+In order to extract the task data from the raw logfiles, enter the following code in a console:
+
+```
+my_experiment = Amy.EmotionTask()
+my_experiment.extract_behavioral_data()
+```
+
+> Note, the above block of code assumes that the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
+
+```
+working_dir = r'O:\Project directory\Analysis'
+
+import os
+os.chdir(working_dir)
+
+import amygdala_project as Amy
+```
+
+### 3.2 Native ROI mask
 
 
 
