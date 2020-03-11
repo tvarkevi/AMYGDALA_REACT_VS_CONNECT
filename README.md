@@ -219,10 +219,10 @@ The following preprocessing pipeline is recommended for the emotion task data:
 
 As part of the first-level analysis pipeline of the emotion task data, the following steps need to be conducted after the preprocessing steps:
 1. Extraction of the task data from the log files (see section 3.1)
-2. Creation of a region-of-interest (ROI) mask in native space (see section 3.2)
-3. Extraction of confound regressors (see section 3.3)
-4. Extraction of spike regressors (see section 3.4)
-5. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.5)
+2. Extraction of confound regressors (see section 3.3)
+3. Extraction of spike regressors (see section 3.4)
+4. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 3.5)
+5. Creation of a region-of-interest (ROI) mask in native space (see section 3.2)
 6. Extraction of ROI-masked statistical paramatric map data (see section 3.7)
 
 ### 3.1 Behavioral data
@@ -249,7 +249,39 @@ os.chdir(working_dir)
 import amygdala_project as Amy
 ```
 
-### 3.2 Native ROI mask
+### 3.2 Confound regressors
 
+Before the first-level analysis of the emotion task data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors used by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) are extracted by the *extract_confound_regressors* method of the EmotionTask class. This method computes a total of 36 nuisance parameters, based on the six realignment parameters (6P). their derivatives (12P), quadratic terms (18P), and quadratic terms of their derivatives (24P), as well as the white-matter, CSF, and global mean signal (27P), their derivatives (30P), quadratic terms (33P), and quadratic terms of their derivatives (36P), following recent recommendations by [Satterthwaite et al. (2013)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3811142/), [Ciric et al. (2017)](https://www.sciencedirect.com/science/article/pii/S1053811917302288), [Parkes et al. (2018)](https://www.sciencedirect.com/science/article/pii/S1053811917310972), [Ciric et al. (2018)](https://www.nature.com/articles/s41596-018-0065-y), and [Satterthwaite et al. (2019)](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23665).
 
+To execute the *extract_confound_regressors* method, enter the following code in the console:
+
+```
+my_experiment = Amy.EmotionTask()
+my_experiment.extract_confound_regressors()
+```
+
+Since this class inherits from the both main Experiment class, via the Preprocessing class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \__init__ method of the Preprocessing class).
+2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
+3. An optional prefix to indicate the white matter scan to base the confound model on. It is recommended that the eroded white-matter segmentation is used at this stage. Enter ec2 for the eroded white-matter segmentation.
+4. An optional prefix to indicate the CSF scan to base the confound model on. It is recommended that the eroded CSF segmentation is used at this stage. Enter ec3 for the eroded CSF segmentation.
+
+The process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used in the first-level analysis described in section 3.4.
+
+### 3.2 Spike regressors
+
+Before the first-level analysis of the emotion task data can be conducted, the spike regressors need to be extracted from the FD Jenkinson data. The spike regressors used by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) are extracted by the *extract_spike_regressors* method of the EmotionTask class. The number and identity of the spike regressors computed by this method are defined by which frames exceed a pre-specified threshold (e.g. 0.2 mm). .
+
+To execute the *extract_spike_regressors* method, enter the following code in the console:
+
+```
+my_experiment = Amy.EmotionTask()
+my_experiment.extract_spike_regressors()
+```
+
+Since this class inherits from the both main Experiment class, via the Preprocessing class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \__init__ method of the Preprocessing class).
+2. The FD Jenkinson threshold above which frames (i.e., individual functional volumes) are marked as outlier. A threshold of 0.2 mm is recommended at this stage.
+
+The process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_spike_regressors.csv**. This file can be used in the first-level analysis described in section 3.4. The process also creates an overview text files for the dataset in question (MARS, BETER), containing, for all subjects, the number of outliers and mean framewise displacement (MFD). This file can be found in the working directory as either **MARS_Outliers_FD_Jenkinson_EMO.txt** or **BETER_Outliers_FD_Jenkinson_EMO.txt**.
 
