@@ -202,3 +202,10 @@ your_signal, unused = my_experiment.run_filtering(your_signal, 1/TR, 0.08)
 ```
 
 ## 3. Emotion task
+
+The analysis of the emotion task data described here is based on the paradigm of [Van Buuren et al. (2011)](https://www.sciencedirect.com/science/article/pii/S000632231100254X) (see also [Heesink et al., 2018](https://www.cambridge.org/core/journals/european-psychiatry/article/neural-activity-during-the-viewing-of-emotional-pictures-in-veterans-with-pathological-anger-and-aggression/C3179D960B2B1DA0C0C33D34B5FCA2D6)).
+
+
+
+
+
