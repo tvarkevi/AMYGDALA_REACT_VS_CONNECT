@@ -196,7 +196,7 @@ Since this class inherits from the main Experiment class, the same three user in
 
 ### 2.10 Filtering
 
-Filtering of the timeseries data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *run_filtering* method of the Preprocessing class. This method utilizes a filtering procedure (*ezfilt.m*) developed by Thomas Gladwin (https://www.tegladwin.com/). Note, however, that the filtering procedure is integrated in many of the first-level methods described latero on, and thus does not need to be conducted manually. Nevertheless, the method *can* be conducted manually. For instance, to bandpass filter a given signal (your_signal) at 0.01-0.08 Hz, at a given repetition time (your_TR), enter the following code in a console:
+Filtering of the timeseries data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *run_filtering* method of the Preprocessing class. This method utilizes a filtering procedure (*ezfilt.m*) developed by Thomas Gladwin (https://www.tegladwin.com/), rewritten into Python code. Note that filtering is integrated in many of the first-level procedures described below, and so does not need to be conducted manually. Nevertheless, the method *can* be conducted manually. For instance, to bandpass filter a given signal (your_signal) at 0.01-0.08 Hz, at a given repetition time (your_TR), enter the following code in a console:
 
 ```
 TR = your_TR
