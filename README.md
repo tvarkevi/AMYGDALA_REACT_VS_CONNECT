@@ -261,12 +261,12 @@ my_experiment.extract_confound_regressors()
 ```
 
 Since this class inherits from the both main Experiment class, via the Preprocessing class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \__init__ method of the Preprocessing class).
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the /__init__ method of the Preprocessing class).
 2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the white matter scan to base the confound model on. It is recommended that the eroded white-matter segmentation is used at this stage. Enter ec2 for the eroded white-matter segmentation.
 4. An optional prefix to indicate the CSF scan to base the confound model on. It is recommended that the eroded CSF segmentation is used at this stage. Enter ec3 for the eroded CSF segmentation.
 
-The process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used in the first-level analysis described in section 3.4.
+The process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the GLM in the first-level analysis described in section 3.4.
 
 ### 3.2 Spike regressors
 
