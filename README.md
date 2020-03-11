@@ -52,12 +52,12 @@ my_experiment = Amy.Preprocessing()
 my_experiment.run_preprocessing()
 ```
 
-Since this class inherits from the main Experiment class, the same three user inputs as described earlier (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+Since this class inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
 2. The specific preprocessing step that needs to be conducted. Enter 1 for realignment.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. This should be skipped at this stage. Simply press the enter key.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. This option should be skipped at this stage. Simply press the enter key to continue.
 
-> Note, the above block of code assumes that the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module has already been imported. If this is not the case, run the following code beforehand:
+> Note, the above block of code assumes that the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
 
 ```
 working_dir = r'O:\Project directory\Analysis'
@@ -70,19 +70,32 @@ import amygdala_project as Amy
 
 ### 2.2 Inclusive mask extraction
 
-Extraction of a subject-specific inclusive voxel mask is supported by module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. If inclusive masks should be conducted, enter the following code in the console:
+Extraction of a subject-specific inclusive voxel mask is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. Enter the following code in the console to execute this process:
 
 ```
 my_experiment = Amy.Preprocessing()
 my_experiment.extract_inclusive_FOV_mask()
 ```
 
-Since this class inherits from the main Experiment class, the same three user inputs as described earlier (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+Since this class inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
 2. An optional prefix to indicate the exact scan identifiers to base the extraction on. Enter r for the realigned scans.
-3. Whether an across-subjects inclusive mask should be made. Enter 1 (yes) or 0 (no).
+3. The last input asks whether an across-subjects inclusive mask should be constructed. Enter 1 (yes) or 0 (no).
 
-### 2.3 Slice-timing correction
+### 2.3 Framewise displacement
+
+Extraction of framewise displacement data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module. The module uses the [Jenkinson](https://pdfs.semanticscholar.org/291c/9d66cf886ed27d89dc03d42a4612b66ab007.pdf) method. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.extract_FD_jenkinson()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. The reference scan that is used to calculate the framewise displacement data. Enter 1 for the first image, or M for the mean image.
+
+### 2.4 Slice-timing correction
 
 Slice-timing correction of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the slice-timing correction are [SliceTimingCorrection.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection.m) and [SliceTimingCorrection_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection_job.m)
 
@@ -93,9 +106,99 @@ my_experiment = Amy.Preprocessing()
 my_experiment.run_preprocessing()
 ```
 
-Since this class inherits from the main Experiment class, the same three user inputs as described earlier (see section 1) need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
 2. The specific preprocessing step that needs to be conducted. Enter 2 for slice-timing correction.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. Slice-timing correction needs to be performed on the realigned functional scans. Enter r for the realigned scans.
 
+### 2.5 Coregistration
 
+Coregistration of the raw anatomical image to the mean functional image is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the coregistration are [Coregistration.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration.m) and [Coregistration_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration_job.m)
+
+To conduct the coregistration procedure, enter the following code in a console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.run_preprocessing()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. The specific preprocessing step that needs to be conducted. Enter 3 for coregistration.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The raw anatomical volume needs to be used as source image at this stage. Simply press the enter key to continue.
+
+### 2.6 Segmentation 
+
+Segmentation of the anatomical data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the segmentation are [Segmentation.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Segmentation.m) and [Segmentation_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Segmentation_job.m)
+
+To conduct the segmentation procedure, enter the following code in a console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.run_preprocessing()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. The specific preprocessing step that needs to be conducted. Enter 4 for segmentation.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The segmentation can be conducted on either the raw or coregistered anatomical data. Simply press the enter key to conduct the segmentation on the raw T1 image. Enter c for the coregistered anatomical image.
+
+### 2.7 Erosion 
+
+Erosion of the segmentation data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *erode_segmentation_mask* method of the Preprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.erode_segmentation_mask()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. An optional prefix to indicate the exact scan identifiers on which the erosion needs to be applied. The erosion can be conducted on all possible outputs (c1, c2, c3, c4, c5) of the segmentation procedure. To perform the erosion on the white-matter segmentation, enter c2. To perform the erosion on the CSF segmentation, enter c3.
+
+### 2.8 Normalization
+
+Normalization of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the normalization procedure are [Normalization.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Normalization.m) and [Normalization_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Normalization_job.m)
+
+To conduct the normalization procedure, enter the following code in a console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.run_preprocessing()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. The specific preprocessing step that needs to be conducted. Enter 5 for normalization.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the normalization process can be conducted on any series of functional data. Enter b_map_ for the raw beta maps (output of the connectivity analysis).
+
+### 2.9 Smoothing
+
+Smoothing of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the smoothing procedure are [Smoothing.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Smoothing.m) and [Smoothing_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Smoothing_job.m)
+
+To conduct the smoothing procedure, enter the following code in a console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.run_preprocessing()
+```
+
+Since this class inherits from the main Experiment class, the same three user inputs as described in section 1 need to be entered. Furthermore, the program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data .
+2. The specific preprocessing step that needs to be conducted. Enter 6 for smoothing.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the smoothihng procedure can be applied on any series of functional data. Enter nb_map_ for the normalized beta (connectivity) maps.
+
+### 2.10 Filtering
+
+Filtering of the timeseries data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *run_filtering* method of the Preprocessing class. The filtering procedure is performed 'under the hood' by many of the first-level methods later on, in which the method is typically integrated, and so does not need to be initialized manually. Nevertheless, the method *can* be initialized manually. To bandpass filter a given signal at 0.01-0.08 Hz, enter the following code in a console:
+
+```
+TR = your_TR
+
+my_experiment = Amy.Preprocessing()
+
+unused, your_signal = my_experiment.run_filtering(your_signal, 1/TR, 0.01)
+your_signal, unused = my_experiment.run_filtering(your_signal, 1/TR, 0.08)
+```
+
+## 3. Emotion task
