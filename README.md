@@ -277,7 +277,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 3. An optional prefix to indicate the white matter scan to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
 4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected realigned functional images are used at this stage. Enter ar for the slice-time corrected realigned functional scans.
 
-The confound regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the GLM in the first-level analysis described in section 3.4.
+The confound regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in the first-level analysis described in section 3.4.
 
 ### 3.3 Spike regressors
 
@@ -362,3 +362,120 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 The probability weighted mean (or summed) SPM values are written to an output CSV file in the working directory. The file is named after the specific dataset entered into the analyses (MARS, BETER), the summary statistic used to mask the parametric maps (Mean, Sum), and the specific contrast map on which the ROI mask was applied (e.g., con_0001); for example: **MARS_EMO_Mean_Con_0001.csv**
 
 ## 4. Resting-state
+
+The analysis of the resting-state data is conducted via the RestingState subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class. The seed=based connectivity (first-level) analysis of the resting-state data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via shell call commands.
+
+The following preprocessing pipeline is recommended for the resting-state data:
+1. Realignment of the raw functional images (see section 2.1)
+2. Extraction of the FD Jenkinson data (see section 2.3)
+3. Coregistration of the anatomical image to the mean functional image (see section 2.5)
+4. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.2)
+5. Segmentation of the coregistered anatomical image (see section 2.6)
+6. Erosion of the white-matter and CSF segmentations (see section 2.7)
+
+As part of the first-level seed-based connectivity pipeline of the resting-state data, the following steps need to be performed after the preprocessing steps:
+1. Construction of a (subject-level) native ROI mask (see section 4.1)
+2. Extraction of the region-of-interest (ROI) regressors (see section 4.2)
+3. Extraction of the confound regressors (see section 4.3)
+4. Extraction of the spike regressors (see section 4.4)
+5. Voxel-wise seed-based connectivity analysis (see section 4.5)
+6. Normalization of the beta (connectivity) maps (see section 2.8)
+7. Optional: smoothing of the normalized beta (connectivity) maps (see section 2.9)
+
+### 4.1 Native ROI mask
+
+Before the seed-based connectivity analysis can be performed, the region-of-interest (ROI) mask needs to be transformed to native space. The *create_native_roi_mask* module used for this procedure ultilizes [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the procedure itself are [GlobalToNativeMask.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask.m) and [GlobalToNativeMask_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask_job.m). The method inverse normalizes the specified ROI mask, via the following 5-step procedure:
+1. The coregistered (to the mean functional image) anatomical image is normalized to NMI space.
+2. The ROI mask is coregistered to the normalized anatomical image generated in step 1.
+3. The deformation matrix yielded by step 1 is used to create an inverse (MNI to native) deformation field.
+4. The inverse deformation field yielded by step 3 is used to reslice the T1-coregistered ROI mask yielded by step 2 into native space.
+5. The native ROI mask generated in step 4 is coregistered to the anatomical image that was used as input in step 1.
+
+To perform the global-to-native ROI mask transformation, enter the following code in a console:
+
+```
+my_experiment = Amy.RestingState()
+my_experiment.create_native_roi_mask()
+```
+
+Since the RestingState subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class).
+2. The name of the ROI mask used for the analyses, as listed in the working directory. It is recommended that a probability map of the amygdala is used. 
+3. An optional prefix to indicate the exact scan identifier of the anatomical image to base the inverse normalization on. It is recommended that the anatomical image coregistered to the mean functional image is used for this procedure. Enter c for the coregistered anatomical image.
+
+The result of this procedure is a set of files and images that are written to the T1 directory of each subject. The native ROI mask used for further analysis steps is indicated by the prefix **cic** followed by the original filename of the ROI mask; e.g. cicAmygdala_total_probability_map.nii.
+
+
+### 4.2 ROI regressors
+
+Before the connectivity analysis of the resting-state data can be conducted, the ROI regressors (left/right hemisphere) need to be extracted from the data. The ROI regressors are extracted using the *extract_roi_regressors* method of the RestingState class. This method computes one ROI regressor per hemisphere, based on a pre-specified ROI mask, which can be either probabilistic or binary.
+
+To execute the *extract_roi_regressors* method, enter the following code in the console:
+
+```
+my_experiment = Amy.RestingState()
+my_experiment.extract_roi_regressors()
+```
+
+Since the RestingState subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the analysis needs to be performed. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class).
+2. The name of the ROI mask used for the analyses, as listed in the working directory. It is recommended that a probability map of the amygdala is used.
+3. The nature of the ROI mask specified in step 2. Enter 1 for a binary ROI mask, or 2 for a probabilistic one.
+4. An optional prefix to indicate what version of the ROI mask should be used for the analyses. It is recommended that the mask is transformed to subject/native space using the procedure described in section 4.1, which generates an output native space ROI mask in the subjects' T1 directory. Enter cic to utilize this version of the native ROI mask.
+5. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
+
+The ROI regressor process creates two output CSV files in the resting-state scan directory called (e.g.) data_dir > NIFTI_MARS_REST > xm13101101 > xm13101101_5_1 > **xm13101101_5_1_lh_roi regressor.csv**/**xm13101101_5_1_rh_roi regressor.csv**. These files can be used to define the predictor-of-interest in the voxel-wise connectivity analysis described in section 4.5.
+
+### 4.3 Confound regressors
+
+Before the connectivity analysis of the resting-state data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors are extracted using the *extract_confound_regressors* method of the RestingState class. This method computes a total of 36 nuisance parameters, following recent recommendations by [Satterthwaite et al. (2013)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3811142/), [Ciric et al. (2017)](https://www.sciencedirect.com/science/article/pii/S1053811917302288), [Parkes et al. (2018)](https://www.sciencedirect.com/science/article/pii/S1053811917310972), [Ciric et al. (2018)](https://www.nature.com/articles/s41596-018-0065-y), and [Satterthwaite et al. (2019)](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23665): i.e., the six realignment parameters (6P). their derivatives (12P), quadratic terms (18P), and quadratic terms of their derivatives (24P), as well as the white-matter, CSF, and global mean signal (27P), their derivatives (30P), quadratic terms (33P), and quadratic terms of their derivatives (36P).
+
+To execute the *extract_confound_regressors* method, enter the following code in the console:
+
+```
+my_experiment = Amy.RestingState()
+my_experiment.extract_confound_regressors()
+```
+
+Since the RestingState subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the analysis needs to be performed. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class).
+2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
+3. An optional prefix to indicate the white matter scan to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
+4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
+
+The confound regressor process creates an output CSV file in the resting-state scan directory called (e.g.) data_dir > NIFTI_MARS_REST > xm13101101 > xm13101101_5_1 > **xm13101101_5_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in voxel-wise connectivity analysis model described in section 4.5.
+
+### 4.4 Spike regressors
+
+Before the connectivity analysis of the resting-state data can be conducted, the spike regressors need to be extracted from the FD Jenkinson data. The spike regressors are extracted using the *extract_spike_regressors* method of the RestingState class. The number and identity of the spike regressors computed by this method are defined by how many and what frames exceed a given pre-specified threshold (e.g. 0.2 mm).
+
+To execute the *extract_spike_regressors* method, enter the following code in the console:
+
+```
+my_experiment = Amy.RestingState()
+my_experiment.extract_spike_regressors()
+```
+
+Since the RestingState subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class).
+2. The FD Jenkinson threshold above which frames (i.e., individual functional volumes) are marked as outliers. A threshold of 0.2 mm is recommended at this stage.
+
+The spike regressor process creates an output CSV file in the resting-state scan directory called (e.g.) data_dir > NIFTI_MARS_REST > xm13101101 > xm13101101_5_1 > **xm13101101_5_1_spike_regressors.csv**. This file can be used to define the GLM in the first-level analysis described in section 4.5. The process also creates an output text files in the working directory, containing, for all subjects of the dataset in question (MARS, BETER), the number of outliers and mean framewise displacement (MFD). This file is stored in the working directory as either **MARS_Outliers_FD_Jenkinson_REST.txt** or **BETER_Outliers_FD_Jenkinson_REST.txt**.
+
+### 4.5 Voxel-wise connectivity analysis
+
+The voxel-wise seed-based functional connectivity analysis of the resting-state data is conducted using the *voxel_wise_connectivity_analysis* method. This method performs two GLMs per voxel in the brain, using the gray matter mask yielded by the segmentation procedure (see section 2.6) to extract the voxel signals. In the first GLM, the signal of the left ROI regressor is entered as predictor-of-interest, along with the 36 confound regressors (see section 4.3) and spike regressors (see section 4.4) as covariates-of-no-interest, and the signal of each voxel (individually) as outcome variable. In the second GLM, the signal of the right ROI regressor is entered as predictor-of-interest, again with the 36 confound regressors (see section 4.3) and spike regressors (see section 4.4) as covariates-of-no-interest, and the signal of each voxel (individually) as outcome variable. 
+
+The GLM (beta) coefficients of the predictors-of-interest (left/right ROI) are extracted by the *voxel_wise_connectivity_analysis* method, and stored as NIFTI files in the resting-state directory of each of the subjects (e.g. **b_map_lh_xm13101101.nii**, **b_map_rh_xm13101101.nii**). The beta-values contained by each of these two output files represent the relationships of the left and right ROI signals, in this case the left and right amygdalae, with the signal of each individual gray matter voxel, corrected for the nuisance effects of motion, white-matter, CSF, and global signal, with censoring of the frames flagged as framewise displacement outliers.
+
+To perform the voxel-wise seed-based connectivity analysis, enter the following code in a console:
+
+```
+my_experiment = Amy.RestingState()
+my_experiment.voxel_wise_connectivity_analysis()
+```
+
+Since the RestingState subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class).
+2. An optional prefix to indicate the exact scan identifiers on which the conncetivity analysis needs to be conducted. It is recommended that the realigned functional data is used at this stage. Enter r for the realigned functional (resting-state) images.
+
