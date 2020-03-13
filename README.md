@@ -10,7 +10,8 @@ Pipeline to predict emotion task reactivity of the amygdala using resting-state 
 > 6. An Excel (.xlsx) file needs to be present in the working directory which specifies, for each subject, the subject identifier (e.g. xm13101101), the subject number (e.g. MARS011), group membership (e.g. 1 or 0) and the specific suffixes added to the main subject ID in order to differentiate the different scan subdirectories for that subject (e.g. \_4_1, \_5_1, etc.).
 
 Table of contents
-[Setting up the experiment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#1-setting-up-the-experiment-)
+1. [Setting up the experiment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#1-setting-up-the-experiment-)
+2. [Data preprocessing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#2-data-preprocessing-)
 
 ## 1. Setting up the experiment <a name="Setting up the experiment"></a>
 
