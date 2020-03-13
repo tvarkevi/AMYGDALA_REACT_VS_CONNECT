@@ -31,6 +31,10 @@ Table of contents
     5. [Native ROI mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#35-native-roi-mask)
     6. [ROI-masked SPM data](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#36-roi-masked-spm-data)
 4. [Resting-state](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#4-resting-state)
+    1. [Native ROI mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#41-native-roi-mask)
+    2. [ROI regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#42-roi-regressors)
+    3. [Confound regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#43-confound-regressors)
+    4. [Spike regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#44-spike-regressors)
 
 ## 1. Setting up the experiment
 
