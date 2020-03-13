@@ -28,6 +28,8 @@ Table of contents
     2. [Confound regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#32-confound-regressors)
     3. [Spike regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#33-spike-regressors)
     4. [First-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#34-first-level-analysis)
+    5. [Native ROI mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#35-native-roi-mask)
+    6. [ROI-masked SPM data](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#35-roi-masked-spm-data)
 
 ## 1. Setting up the experiment
 
