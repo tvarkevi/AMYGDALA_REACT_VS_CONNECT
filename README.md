@@ -9,6 +9,9 @@ Pipeline to predict emotion task reactivity of the amygdala using resting-state 
 > 5. The base directory of the data needs to contain, for each dataset (MARS, BETER) seperately, a directory (LOGS_MARS, LOGS_BETER) that contains the log files of the emotion task (e.g. data_dir > LOGS_BETER > be1a031010-3amygdala_hippo_aug2010.log). These log files need to end with **aug2010.log**, otherwise the program will not be able to identify them. 
 > 6. An Excel (.xlsx) file needs to be present in the working directory which specifies, for each subject, the subject identifier (e.g. xm13101101), the subject number (e.g. MARS011), group membership (e.g. 1 or 0) and the specific suffixes added to the main subject ID in order to differentiate the different scan subdirectories for that subject (e.g. \_4_1, \_5_1, etc.).
 
+Table of contents
+1. [Setting up the experiment](## 1. Setting up the experiment)
+
 ## 1. Setting up the experiment
 
 The Python module [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) that is used to run the analyses described here consists of multiple classes. The parent class that is inherited by all the other subclasses is called Experiment. This class has a (constructor) method called \_\_init__ that constructs all the attributes needed by (and specific for) the experiment in question. Three user inputs need to be specified in the console when initializing the Experiment class:
