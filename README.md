@@ -12,7 +12,7 @@ Pipeline to predict emotion task reactivity of the amygdala using resting-state 
 Table of contents
 1. [Setting up the experiment](#1. Setting up the experiment)
 
-## 1. Setting up the experiment
+## 1. Setting up the experiment <a name="Setting up the experiment"></a>
 
 The Python module [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) that is used to run the analyses described here consists of multiple classes. The parent class that is inherited by all the other subclasses is called Experiment. This class has a (constructor) method called \_\_init__ that constructs all the attributes needed by (and specific for) the experiment in question. Three user inputs need to be specified in the console when initializing the Experiment class:
 1. The full working directory that contains all the scripts and auxilliary files needed for the analysis.
