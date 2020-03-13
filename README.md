@@ -12,7 +12,7 @@ Pipeline to predict emotion task reactivity of the amygdala using resting-state 
 Table of contents
 1. [Setting up the experiment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#1-setting-up-the-experiment-)
 2. [Data preprocessing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#2-data-preprocessing)
-2.1 [Realignment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-realignment)
+  2.1 [Realignment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-realignment)
 
 ## 1. Setting up the experiment <a name="Setting up the experiment"></a>
 
