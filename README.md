@@ -22,6 +22,8 @@ Table of contents
     8. [Normalization](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-normalization)
     9. [Smoothing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#29-smoothing)
     10. [Filtering](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#210-filtering)
+3. [Emotion task](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#3-emotion-task)
+    1. [Behavioral data]()
 
 ## 1. Setting up the experiment <a name="Setting up the experiment"></a>
 
