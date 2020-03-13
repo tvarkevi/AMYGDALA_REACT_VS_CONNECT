@@ -10,7 +10,7 @@ Pipeline to predict emotion task reactivity of the amygdala using resting-state 
 > 6. An Excel (.xlsx) file needs to be present in the working directory which specifies, for each subject, the subject identifier (e.g. xm13101101), the subject number (e.g. MARS011), group membership (e.g. 1 or 0) and the specific suffixes added to the main subject ID in order to differentiate the different scan subdirectories for that subject (e.g. \_4_1, \_5_1, etc.).
 
 Table of contents
-1. [Setting up the experiment](## 1. Setting up the experiment)
+1. [Setting up the experiment](##1. Setting up the experiment)
 
 ## 1. Setting up the experiment
 
