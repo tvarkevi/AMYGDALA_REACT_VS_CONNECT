@@ -508,7 +508,8 @@ Since the RestingState subclass inherits from the main Experiment class, the sam
 
 ## 5. Post-processing
 
-After the first-level analysis of both the emotion task and resting-state data, a number of post-processing steps need to be performed before the group-level analysis can be conducted. As before, many of these post-processing methods are conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command.
+After the first-level analysis of both the emotion task and resting-state data, a number of post-processing steps need to be performed before the group-level analysis can be conducted. The post-processing procedures are conducted via the Postprocessing subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class.
+As before, many of these post-processing methods are conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command.
 
 The following post-processing steps are supported by the pipeline:
 1. Normalization of the beta (connectivity) maps (see section 2.8)
@@ -519,4 +520,87 @@ The following post-processing steps are supported by the pipeline:
 6. Extraction of QC-FC motion correction bencmark (see section 5.4)
 7. Extraction of discriminability motion correction benchmark (see section 5.5)
 
+### 5.1 Inclusive FOV mask
+
+Extraction of a study-specific inclusive voxel (i.e., FOV) mask is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *create_study_FOV_mask* method of the Postprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Postprocessing()
+my_experiment.create_study_FOV_mask()
+```
+
+Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. A prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter FOV_mask_ for the non-normalized FOV mask images.
+3. An input that determines whether or not the individual FOV masks need to be normalized first, or whether this has already been done. Enter 1 to normalize the FOV masks first, or 0 to skip this option.
+
+The *create_study_FOV_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_FOV_mask_REST.nii** or **BETER_Inclusive_FOV_mask_REST.nii**. This file can be used to mask the input images of the second-level analysis, the procedures of which are described in section 6.
+
+### 5.2 Average brain
+
+Extraction of a study-specific average T1 image is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *create_average_brain* method of the Postprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Postprocessing()
+my_experiment.create_average_brain()
+```
+
+Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. An optional prefix to indicate the exact scan identifiers to base the average T1 scan on. Simply press enter to base the average brain on the raw T1 scans of each subject.
+3. An input that determines whether or not the individual (raw) T1 scans need to be normalized first, or whether this has already been done. Enter 1 to normalize the (raw) T1 scans first, or 0 to skip this option.
+
+The *create_average_brain* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Average_Brain_REST.nii** or **BETER_Average_Brain_REST.nii**.
+
+### 5.3 Inclusive grey matter mask
+
+Extraction of a study-specific (inclusive) grey matter mask is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *create_study_grey_matter_mask* method of the Postprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Postprocessing()
+my_experiment.create_study_grey_matter_mask()
+```
+
+Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter c1c for grey matter segmentations of the coregistered (to the mean functional scan) T1 images.
+3. An input that determines whether or not the individual grey matter segmentations need to be normalized first, or whether this has already been done. Enter 1 to normalize the grey matter segmentations first, or 0 to skip this option.
+
+The *create_study_grey_matter_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_GM_Mask_REST.nii** or **BETER_Inclusive_GM_Mask_REST.nii**. This file can be used to mask the input images of the second-level analysis (e.g. alongside the study-specific FOV mask), the procedures of which are described in section 6.
+
+### 5.4 QC-FC motion correction bencmark
+
+In order to assess the success of the motion correction procedures described above, i.e., the realignment method described in section 2.1, and the confound and spike regression methods described in sections 3.2, 3.3, 4.3, and 4.4, a number of motion correction benchmarks can be extracted from the first-level analysis output, following recommendations by [Ciric et al. (2017)](https://www.sciencedirect.com/science/article/pii/S1053811917302288) and [Parkes et al. (2018)](https://www.sciencedirect.com/science/article/pii/S1053811917310972). One such motion correction benchmark is the QC-FC correlation map, which is created via a voxel-wise across-subjects correlation analysis that involves the mean framewise displacement data vs. the (voxel-wise) functional connectivity data.
+
+The extraction of this QC-FC motion correction bencmark is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *motion_correction_benchmark_qc_fc* method of the Postprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Postprocessing()
+my_experiment.motion_correction_benchmark_qc_fc()
+```
+
+Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. The filename as listed in the working directory of the study-specific grey matter mask created in section 5.3. Enter the filename of the study-specific grey matter mask you want to use (e.g. MARS_Inclusive_GM_Mask_REST.nii or BETER_Inclusive_GM_Mask_REST.nii).
+3. A prefix to indicate the exact scan identifiers to base the motion correction benchmark on. Enter either nb_map_lh_ or nb_map_rh_ for the left or right normalized beta maps (respectively).
+
+The *motion_correction_benchmark_qc_fc* method creates a number of output NIFTI images in the working directory that detail voxel-wise and across subjects the correlation coefficients between the mean framewise displacements and functional connectivity values (e.g. working_dir > **BETER_QC-FC_Corr_nB_Map_HemiL_REST.nii**), associated p-values (e.g. working_dir > **BETER_QC-FC_Prob_nB_Map_HemiL_REST.nii**), and a binary map that indicates whether or not these p-values exceed an alpha of < 0.05 uncorrected (e.g. working_dir > **BETER_QC-FC_Sig_nB_Map_HemiL_REST.nii**). The number of voxels with a value of 1 in this latter file, i.e., exceeding an alpha of < 0.05 uncorrected, is also calculated by the method, and written to the console.
+
+### 5.5 Discriminability motion correction benchmark
+
+The second motion correction benchmark that is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is a group analysis of the control group median split according to the mean framewise displacement data.
+
+This so-called discriminability analysis is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *motion_correction_benchmark_discriminability* method of the Postprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Postprocessing()
+my_experiment.motion_correction_benchmark_qc_fc()
+```
+
+Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. The filename as listed in the working directory of the study-specific grey matter mask created in section 5.3. Enter the filename of the study-specific grey matter mask you want to use (e.g. MARS_Inclusive_GM_Mask_REST.nii or BETER_Inclusive_GM_Mask_REST.nii).
+3. A prefix to indicate the exact scan identifiers to base the motion correction benchmark on. Enter either nb_map_lh_ or nb_map_rh_ for the left or right normalized beta maps (respectively).
+
+The *motion_correction_benchmark_discriminability* method creates an output NIFTI image in the working directory that details voxel-wise the independent samples t-scores that assess the difference in mean beta values between the high and low motion groups (e.g. working_dir > **BETER_Discriminability_T_Map_nB_Map_HemiL_REST.nii**). If the number of significant voxels are low at this stage, as indicated by the number of voxels that exceed a given t-threshold at n1 + n2 - 2 degrees of freedom, the motion correction procedures are likely to have been succesful.
 
