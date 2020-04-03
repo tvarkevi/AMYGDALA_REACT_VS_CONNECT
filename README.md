@@ -610,3 +610,13 @@ Since the Postprocessing subclass inherits from the main Experiment class, the s
 The *motion_correction_benchmark_discriminability* method creates an output NIFTI image in the working directory that details voxel-wise the independent samples t-scores that assess the difference in mean beta values between the high and low motion groups (e.g. working_dir > **BETER_Discriminability_T_Map_nB_Map_HemiL_REST.nii**). If the number of significant voxels are low at this stage, as indicated by the number of voxels that exceed a given t-threshold at n1 + n2 - 2 degrees of freedom, the motion correction procedures are likely to have been succesful.
 
 ## 6. Group-level analysis
+
+The prediction of the emotion task reactivity of the amygdala using the seed-based resting-state connectivity of the amygdala is conducted via the GroupAnalysis subclass of the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module. This class inherits all attributes and methods of the Postprocessing class, which itself (in turn) inherits from the Preprocessing subclass, and by extension, the main Experiment class. The two second-level (i.e., group) analysis methods that are defined within the GroupAnalysis class are conducted via the [SnPM](http://www.nisox.org/Software/SnPM13/) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), using a shell call command.
+
+The following group-level analysis steps are supported by the pipeline:
+1. Specification and computation of the second-level (permutation-based) analysis (see section 6.1)
+2. Inference of the second-level (permutation-based) analysis output (see section 6.2)
+
+### 6.1 Second-level specification and computation
+
+### 6.2 Second-level inference
