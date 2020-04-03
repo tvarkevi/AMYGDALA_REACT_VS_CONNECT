@@ -2,7 +2,7 @@
 Pipeline to predict emotion task reactivity of the amygdala using resting-state connectivity of the amygdala as seed-region.
 
 > Preliminary note: The Python module [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) used here assumes the following steps having been undertaken before running the analyses:
-> 1. Many of the procedures described in this manual make use of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. Framewise displacement in this pipeline is calculated using the [Jenkinson](https://pdfs.semanticscholar.org/291c/9d66cf886ed27d89dc03d42a4612b66ab007.pdf) method using code of the [DPARSF](http://rfmri.org/DPARSF) software package. The bandpass filter used in many of the methods described here was originally developed by Thomas Gladwin; the ezfilt.m script can be found at: https://www.tegladwin.com/code.php. Finally, the second-level (group) analysis is conducted in [SnPM](http://www.nisox.org/Software/SnPM13/). Each of these programs have to be installed in order for this pipeline to work properly.
+> 1. Many of the procedures described in this manual make use of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. Framewise displacement in this pipeline is calculated using the [Jenkinson](https://pdfs.semanticscholar.org/291c/9d66cf886ed27d89dc03d42a4612b66ab007.pdf) method using code of the [DPARSF](http://rfmri.org/DPARSF) software package. The bandpass filter used in many of the methods described here was originally developed by Thomas Gladwin; the ezfilt.m script can be found at: https://www.tegladwin.com/code.php. Finally, the second-level (group) analysis is conducted in [SnPM](http://www.nisox.org/Software/SnPM13/). **Each of these programs have to be installed in a subfolder called Programs that is placed within the working directory** in order for this pipeline to work properly. The reason for this last step is important is because many of the methods described here employ a MATLAB script called [start_up](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/start_up.m), which adds the above programs to the MATLAB path, but in order to do so, requires each of the programs to have been placed in the working_dir > Programs subfolder. 
 > 2. The necessary analysis scripts and auxilliary files need to stored in one and the same working directory. The emotion task (EMO) and resting-state (REST) fMRI data needs to have been converted to NIFTI format, and stored in a (seperate) data directory (data_dir) organized such that each combination of dataset (MARS, BETER) and scan type (EMO, REST) has a different subdirectory (i.e., NIFTI_MARS_REST, NIFTI_MARS_EMO, NIFTI_BETER_REST, and NIFTI_BETER_EMO) within that data directory (e.g. data_dir > NIFTI_MARS_REST). 
 > 3. Within each of the NIFTI data subdirectories, each subject has to have its own subfolder, with the name of that subfolder corresponding to the identifier of that subject (e.g. xm13101101). The different types of scans (T1, REST, EMO) for each subject need to be stored as subdirectories within that subject directory, and the identifiers of these subdirectories need to be indicated by suffixes that are added to the main subject identifier (e.g. data_dir > NIFTI_BETER_EMO > be1a031010 > **be1a031010_5_1**). 
 > 4. The first two letters of each subject identifier specify the dataset where to the subject belongs; 'xm' indicates the MARS dataset (e.g. xm13101101), and 'be' indicates the BETER dataset (e.g. be1a031010). 
@@ -51,7 +51,7 @@ working_dir = r'O:\Project directory\Analysis'
 import os
 os.chdir(working_dir)
 
-import amygdala_project as Amy
+import amygdala_recon as Amy
 my_experiment = Amy.Experiment()
 ```
 This code generates an output argument called *my_experiment* which contains attributes that define the parameters of the experiment (e.g. *my_experiment.subjects_list* contains a list of all the subject identifiers).
@@ -92,7 +92,7 @@ Since the Preprocessing subclass inherits from the main Experiment class, the sa
 2. The specific preprocessing step that needs to be conducted. Enter 1 for realignment.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. This option should be skipped at this stage; simply press the enter key to continue.
 
-> Note, the above block of code assumes that the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
+> Note, the above block of code assumes that the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
 
 ```
 working_dir = r'O:\Project directory\Analysis'
@@ -100,12 +100,12 @@ working_dir = r'O:\Project directory\Analysis'
 import os
 os.chdir(working_dir)
 
-import amygdala_project as Amy
+import amygdala_recon as Amy
 ```
 
 ### 2.2 Inclusive mask extraction
 
-Extraction of a subject-specific inclusive voxel mask is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. Enter the following code in the console to execute this process:
+Extraction of a subject-specific inclusive voxel mask is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. Enter the following code in the console to execute this process:
 
 ```
 my_experiment = Amy.Preprocessing()
@@ -115,11 +115,10 @@ my_experiment.extract_inclusive_FOV_mask()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter r for the realigned functional images.
-3. The last input asks whether an across-subjects inclusive mask needs to be constructed. Enter 1 for yes or 0 for no.
 
 ### 2.3 Framewise displacement
 
-The extraction of framewise displacement (FD) data is conducted using [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB function that is responsible for the extraction process is called [FrameWiseDisplacement.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FrameWiseDisplacement.m), and makes use of the y_FD_Jenkinson.m script of the [DPARSF](http://rfmri.org/DPARSF) software package. The DPARSF function calculates the framewise displacement data using the [Jenkinson](https://pdfs.semanticscholar.org/291c/9d66cf886ed27d89dc03d42a4612b66ab007.pdf) method, based on the motion parameter estimates generated by the realignment procedure in [SPM12]((https://www.fil.ion.ucl.ac.uk/spm/software/spm12/)) (see section 2.1). 
+The extraction of framewise displacement (FD) data is conducted using [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB function that is responsible for the extraction process is called [FrameWiseDisplacement.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FrameWiseDisplacement.m), and makes use of the y_FD_Jenkinson.m script of the [DPARSF](http://rfmri.org/DPARSF) software package. The DPARSF function calculates the framewise displacement data using the [Jenkinson](https://pdfs.semanticscholar.org/291c/9d66cf886ed27d89dc03d42a4612b66ab007.pdf) method, based on the motion parameter estimates generated by the realignment procedure in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 2.1). 
 
 Enter the following code in the console to extract the FD Jenkinson data:
 
@@ -184,7 +183,7 @@ Since the Preprocessing subclass inherits from the main Experiment class, the sa
 
 ### 2.7 Erosion 
 
-Erosion of the segmentation data is supported by the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module, via the *erode_segmentation_mask* method of the Preprocessing class. This method uses the MATLAB function [Erosion.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Erosion.m) via a shell call command. 
+Erosion of the segmentation data is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module, via the *erode_segmentation_mask* method of the Preprocessing class. This method uses the MATLAB function [Erosion.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Erosion.m) via a shell call command. 
 
 Enter the following code in the console to execute this process:
 
@@ -278,7 +277,7 @@ my_experiment = Amy.EmotionTask()
 my_experiment.extract_behavioral_data()
 ```
 
-> Note, the above block of code assumes that the [amygdala_project.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_project.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
+> Note, the above block of code assumes that the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
 
 ```
 working_dir = r'O:\Project directory\Analysis'
@@ -286,7 +285,7 @@ working_dir = r'O:\Project directory\Analysis'
 import os
 os.chdir(working_dir)
 
-import amygdala_project as Amy
+import amygdala_recon as Amy
 ```
 
 ### 3.2 Confound regressors
@@ -304,7 +303,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
 2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the white matter and CSF scans to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
-4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected and realigned functional images are used at this stage. Enter ar for the slice-time corrected realigned functional scans.
+4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected realigned functional images are used at this stage. Enter ar for the slice-time corrected realigned functional scans.
 
 The confound regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in the first-level analysis described in section 3.4.
 
@@ -342,7 +341,7 @@ my_experiment.run_1st_level_analysis()
 Since the EmotionTask subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
 2. An optional explicit mask to base the first-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the slice-time corrected and realigned functional data is used at this stage. Enter ar for the slice-time corrected and realigned functional (emotion task) images.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the slice-time corrected realigned functional data is used at this stage. Enter ar for the slice-time corrected realigned functional (emotion task) images.
 
 The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called LEV1, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **LEV1**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
 
@@ -392,7 +391,7 @@ The probability weighted mean (or summed) SPM values are written to an output CS
 
 ## 4. Resting-state
 
-The analysis of the resting-state data is conducted using the RestingState subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class. The seed-based connectivity (first-level) analysis of the resting-state data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via shell call commands.
+The analysis of the resting-state data is conducted using the RestingState subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class.
 
 The following preprocessing pipeline is recommended for the resting-state data:
 1. Realignment of the raw functional images (see section 2.1)
@@ -408,8 +407,6 @@ As part of the first-level seed-based connectivity pipeline of the resting-state
 3. Extraction of the confound regressors (see section 4.3)
 4. Extraction of the spike regressors (see section 4.4)
 5. Voxel-wise seed-based functional connectivity analysis (see section 4.5)
-6. Normalization of the beta (connectivity) maps (see section 2.8)
-7. Optional: smoothing of the normalized beta (connectivity) maps (see section 2.9)
 
 ### 4.1 Native ROI mask
 
@@ -507,4 +504,18 @@ my_experiment.voxel_wise_connectivity_analysis()
 Since the RestingState subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data.
 2. An optional prefix to indicate the exact scan identifiers on which the conncetivity analysis needs to be conducted. It is recommended that the realigned functional data is used at this stage. Enter r for the realigned functional (resting-state) images.
+
+## 5. Post-processing
+
+After the first-level analysis of both the emotion task and resting-state data, a number of post-processing steps need to be performed, before the group-level analysis can be conducted. Many of the data post-processing methods in the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module are conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command.
+
+The following post-processing steps are supported by the pipeline:
+1. Normalization of the beta (connectivity) maps (see section 2.8)
+2. Optional: smoothing of the normalized beta (connectivity) maps (see section 2.9)
+3. Creation of an across-subjects study-specific FOV mask (see setion 5.1)
+4. Creation of an across-subjects study-specific average (T1) brain (see section 5.2)
+5. Creation of an across-subjects study-specific grey matter mask (see section 5.3)
+6. Extraction of QC-FC motion correction bencmark (see section 5.4)
+7. Extraction of discriminability motion correction benchmark (see section 5.5)
+
 
