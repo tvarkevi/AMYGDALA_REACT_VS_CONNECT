@@ -657,3 +657,6 @@ Since the GroupAnalysis subclass inherits from the main Experiment class, the sa
 3. The sign of the effects that are to be inferred. Enter 1 for positive effects or -1 for negative effects.
 
 Depending on what type of inference is entered as input, the *run_2nd_level_inference* method creates one or more output NIFTI images that detail the filtered output of the inference model. The names of these output files always start with SnPM_filtered_, followed hy what test is performed at what (p-)threshold, and the sign of the effect (e.g., SnPM_output_dir > **SnPM_filtered_voxel_wise_uncorrected_0_001_negative.nii**). Also, a pop-up table in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) will appear that details the inference of the results. This table may be saved as a PDF in the SnPM output directory.
+
+
+*Tim Varkevisser*
