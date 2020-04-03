@@ -609,3 +609,4 @@ Since the Postprocessing subclass inherits from the main Experiment class, the s
 
 The *motion_correction_benchmark_discriminability* method creates an output NIFTI image in the working directory that details voxel-wise the independent samples t-scores that assess the difference in mean beta values between the high and low motion groups (e.g. working_dir > **BETER_Discriminability_T_Map_nB_Map_HemiL_REST.nii**). If the number of significant voxels are low at this stage, as indicated by the number of voxels that exceed a given t-threshold at n1 + n2 - 2 degrees of freedom, the motion correction procedures are likely to have been succesful.
 
+## 6. Group-level analysis
