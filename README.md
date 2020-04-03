@@ -36,6 +36,9 @@ Table of contents:
     4. [Spike regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#44-spike-regressors)
     5. [Voxel-wise connectivity analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#45-voxel-wise-connectivity-analysis)
 5. [Post-processing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#5-post-processing)
+    1. 
+    2. [QC-FC motion correction bencmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#54-qc-fc-motion-correction-benchmark)
+    5. [Discriminability motion correction benchmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#55-discriminability-motion-correction-benchmark)
 
 ## 1. Setting up the experiment
 
@@ -568,7 +571,7 @@ Since the Postprocessing subclass inherits from the main Experiment class, the s
 
 The *create_study_grey_matter_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_GM_Mask_REST.nii** or **BETER_Inclusive_GM_Mask_REST.nii**. This file can be used to mask the input images of the second-level analysis (e.g. alongside the study-specific FOV mask), the procedures of which are described in section 6.
 
-### 5.4 QC-FC motion correction bencmark
+### 5.4 QC-FC motion correction benchmark
 
 In order to assess the success of the motion correction procedures described above, i.e., the realignment method described in section 2.1, and the confound and spike regression methods described in sections 3.2, 3.3, 4.3, and 4.4, a number of motion correction benchmarks can be extracted from the first-level analysis output, following recommendations by [Ciric et al. (2017)](https://www.sciencedirect.com/science/article/pii/S1053811917302288) and [Parkes et al. (2018)](https://www.sciencedirect.com/science/article/pii/S1053811917310972). One such motion correction benchmark is the QC-FC correlation map, which is created via a voxel-wise across-subjects correlation analysis that involves the mean framewise displacement data vs. the (voxel-wise) functional connectivity data.
 
