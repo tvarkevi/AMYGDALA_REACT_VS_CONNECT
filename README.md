@@ -12,10 +12,10 @@ Pipeline to predict emotion task reactivity of the amygdala using resting-state 
 Table of contents:
 1. [Setting up the experiment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#1-setting-up-the-experiment)
 2. [Data preprocessing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#2-data-preprocessing)
-    1. [Realignment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-realignment)
-    2. [Inclusive mask extraction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#22-inclusive-mask-extraction)
-    3. [Framewise displacement](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-framewise-displacement)
-    4. [Slice-timing correction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#24-slice-timing-correction)
+    1. [Slice-timing correction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#24-slice-timing-correction)
+    2. [Realignment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-realignment)
+    3. [Inclusive mask extraction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#22-inclusive-mask-extraction)
+    4. [Framewise displacement](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-framewise-displacement)
     5. [Coregistration](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#25-coregistration)
     6. [Segmentation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-segmentation)
     7. [Erosion](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-erosion)
@@ -74,10 +74,10 @@ This code generates an output argument called *my_experiment* which contains att
 Many of the data preprocessing methods in the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module are conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command.
 
 The following preprocessing steps are supported by the pipeline:
-1. Realignment of the functional data (section 2.1)
-2. Extraction of an inclusive mask, based on the functional images (section 2.2)
-3. Calculation of framewise displacements (section 2.3)
-4. Slice-timing correction of the functional data (section 2.4)
+1. Slice-timing correction of the functional data (section 2.4)
+2. Realignment of the functional data (section 2.1)
+3. Extraction of an inclusive mask, based on the functional images (section 2.2)
+4. Calculation of framewise displacements (section 2.3)
 5. Coregistration of the anatomical scan to the mean functional image (section 2.5)
 6. Segmentation of the anatomical image (section 2.6)
 7. Erosion of the segmentation data (section 2.7)
@@ -85,7 +85,23 @@ The following preprocessing steps are supported by the pipeline:
 9. Smoothing of the normalized functional images (section 2.9)
 10. Filtering of the timeseries data (section 2.10)
 
-### 2.1 Realignment
+### 2.1 Slice-timing correction
+
+Slice-timing correction of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are used for the slice-timing correction are [SliceTimingCorrection.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection.m) and [SliceTimingCorrection_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection_job.m)
+
+To conduct the slice-timing correction, enter the following code in a console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.run_preprocessing()
+```
+
+Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. The specific preprocessing step that needs to be conducted. Enter 2 for slice-timing correction.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. This option should be skipped at this stage; simply press the enter key to continue.
+
+### 2.2 Realignment
 
 Realignment of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the realignment process are [Realignment.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Realignment.m) and [Realignment_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Realignment_job.m)
 
@@ -99,7 +115,7 @@ my_experiment.run_preprocessing()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The specific preprocessing step that needs to be conducted. Enter 1 for realignment.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. This option should be skipped at this stage; simply press the enter key to continue.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the motion parameters are estimated from the raw unprocessed functional images, while the realignment itself is performed on the slice-time corrected images. Enter r for the realigned scans.
 
 > Note, the above block of code assumes that the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
 
@@ -112,7 +128,7 @@ os.chdir(working_dir)
 import amygdala_recon as Amy
 ```
 
-### 2.2 Inclusive mask extraction
+### 2.3 Inclusive mask extraction
 
 Extraction of a subject-specific inclusive voxel mask is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. Enter the following code in the console to execute this process:
 
@@ -125,7 +141,7 @@ Since the Preprocessing subclass inherits from the main Experiment class, the sa
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter r for the realigned functional images.
 
-### 2.3 Framewise displacement
+### 2.4 Framewise displacement
 
 The extraction of framewise displacement (FD) data is conducted using [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB function that is responsible for the extraction process is called [FrameWiseDisplacement.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FrameWiseDisplacement.m), and makes use of the y_FD_Jenkinson.m script of the [DPARSF](http://rfmri.org/DPARSF) software package. The DPARSF function calculates the framewise displacement data using the [Jenkinson](https://pdfs.semanticscholar.org/291c/9d66cf886ed27d89dc03d42a4612b66ab007.pdf) method, based on the motion parameter estimates generated by the realignment procedure in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 2.1). 
 
@@ -141,22 +157,6 @@ my_experiment.extract_FD_jenkinson()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The reference scan that is used to calculate the framewise displacement data. Enter 1 for the first image, or M for the mean image.
-
-### 2.4 Slice-timing correction
-
-Slice-timing correction of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are used for the slice-timing correction are [SliceTimingCorrection.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection.m) and [SliceTimingCorrection_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/SliceTimingCorrection_job.m)
-
-To conduct the slice-timing correction, enter the following code in a console:
-
-```
-my_experiment = Amy.Preprocessing()
-my_experiment.run_preprocessing()
-```
-
-Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. The specific preprocessing step that needs to be conducted. Enter 2 for slice-timing correction.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. Slice-timing correction needs to be performed on the realigned functional scans. Enter r for the realigned scans.
 
 ### 2.5 Coregistration
 
@@ -257,11 +257,11 @@ The emotion task described here is based on the paradigm of [Van Buuren et al. (
 The analysis of the emotion task data is conducted via the EmotionTask subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class. The first-level analysis of the emotion task data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via shell call commands.
 
 The following preprocessing pipeline is recommended for the emotion task data:
-1. Realignment of the raw functional images (see section 2.1)
-2. Extraction of the FD Jenkinson data (see section 2.3)
-3. Slice-timing correction of the realigned functional images (see section 2.4)
+1. Slice-timing correction of the realigned functional images (see section 2.1)
+2. Realignment of the raw functional images (see section 2.2)
+3. Extraction of the FD Jenkinson data (see section 2.4)
 4. Coregistration of the anatomical image to the mean functional image (see section 2.5)
-5. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.2)
+5. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.3)
 6. Segmentation of the coregistered anatomical image (see section 2.6)
 7. Erosion of the white-matter and CSF segmentations (see section 2.7)
 
@@ -312,7 +312,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
 2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the white matter and CSF scans to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
-4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected realigned functional images are used at this stage. Enter ar for the slice-time corrected realigned functional scans.
+4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected realigned functional images are used at this stage. Enter ra for the slice-time corrected realigned functional scans.
 
 The confound regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in the first-level analysis described in section 3.4.
 
@@ -350,7 +350,7 @@ my_experiment.run_1st_level_analysis()
 Since the EmotionTask subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
 2. An optional explicit mask to base the first-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the slice-time corrected realigned functional data is used at this stage. Enter ar for the slice-time corrected realigned functional (emotion task) images.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the slice-time corrected realigned functional data is used at this stage. Enter ra for the slice-time corrected realigned functional (emotion task) images.
 
 The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called LEV1, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **LEV1**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
 
@@ -403,10 +403,10 @@ The probability weighted mean (or summed) SPM values are written to an output CS
 The analysis of the resting-state data is conducted using the RestingState subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class.
 
 The following preprocessing pipeline is recommended for the resting-state data:
-1. Realignment of the raw functional images (see section 2.1)
-2. Extraction of the FD Jenkinson data (see section 2.3)
+1. Realignment of the raw functional images (see section 2.2)
+2. Extraction of the FD Jenkinson data (see section 2.4)
 3. Coregistration of the anatomical image to the mean functional image (see section 2.5)
-4. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.2)
+4. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.3)
 5. Segmentation of the coregistered anatomical image (see section 2.6)
 6. Erosion of the white-matter and CSF segmentations (see section 2.7)
 
