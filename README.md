@@ -115,7 +115,7 @@ my_experiment.run_preprocessing()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The specific preprocessing step that needs to be conducted. Enter 2 for realignment.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the motion parameters are estimated from the raw unprocessed functional images, while the realignment itself is performed on the slice-time corrected images. Enter a for the slice-time corrected scans.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the motion parameters are estimated from the raw unprocessed functional images, while the realignment itself is performed on the slice-time corrected images. Enter a for the slice-time corrected scans, or simply press enter to continue.
 
 > Note, the above block of code assumes that the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module has already been imported. If this is not the case, run the following code beforehand in the console:
 
