@@ -338,7 +338,7 @@ The spike regressor process creates an output CSV file in the emotion task scan 
 The first-level analysis of the emotion task data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts responsible for the first-level procedure are [FirstLevelAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m) and [FirstLevelAnalysis_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis_job.m). The first-level analysis step of the pipeline conducts the following three procedures:
 1. Model specification, in which Neutral, Positive, and Negative (picture) conditions are defined, respectively, with the task onsets and durations derived from the output files generated in section 3.1. The confound regressors and spike regressors generated in sections 3.2 and 3.3, respectively, are entered as nuisance variables at this stage.
 2. Model estimation, using the SPM.mat file (e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > LEV1 > **SPM.mat**) generated in the model specification step.
-3. Contrast specification, using the following contrasts (respectively): Negative vs. Neutral, Positive vs. Neutral, and Negative vs. Positive.
+3. Contrast specification, using the following contrasts (respectively): Pictures vs. Baseline, Negative vs. Neutral, Positive vs. Neutral, and Negative vs. Positive, Negative + Positive vs. Neutral.
 
 To perform the first-level analysis, enter the following code in a console:
 
