@@ -312,7 +312,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
 2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the white matter and CSF scans to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
-4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected realigned functional images are used at this stage. Enter ra for the slice-time corrected realigned functional scans.
+4. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected realigned functional images are used at this stage. Enter ra for the slice-time corrected realigned functional scans.
 
 The confound regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in the first-level analysis described in section 3.4.
 
