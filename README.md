@@ -457,7 +457,7 @@ Since the RestingState subclass inherits from the main Experiment class, the sam
 2. The name of the ROI mask used for the analysis, as listed in the working directory. It is recommended that a probability map of the amygdala is used.
 3. The nature of the ROI mask specified in step 2. Enter 1 for a binary ROI mask, or 2 for a probabilistic one.
 4. An optional prefix to indicate what version of the ROI mask should be used for the analyses. It is recommended that the mask is transformed to subject/native space using the procedure described in section 4.1, which generates an output native ROI mask in the T1 directory of each subject. Enter cic to utilize this output (of section 4.1) native ROI mask.
-5. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis needs to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
+5. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
 
 The ROI regressor process creates two output CSV files in the resting-state scan directory called (e.g.) data_dir > NIFTI_MARS_REST > xm13101101 > xm13101101_5_1 > **xm13101101_5_1_lh_roi regressor.csv** and **xm13101101_5_1_rh_roi regressor.csv**. These files can be used to define the predictor-of-interest signal used in the GLM specified in the voxel-wise connectivity analysis, as described in section 4.5.
 
@@ -476,7 +476,7 @@ Since the RestingState subclass inherits from the main Experiment class, the sam
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data.
 2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the white matter an CSF masks to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
-4. An optional prefix to indicate the exact functinoal scan identifiers on which the analysis will to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
+4. An optional prefix to indicate the exact functional scan identifiers on which the analysis will to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
 
 The confound regressor process creates an output CSV file in the resting-state scan directory called (e.g.) data_dir > NIFTI_MARS_REST > xm13101101 > xm13101101_5_1 > **xm13101101_5_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in voxel-wise connectivity analysis model described in section 4.5.
 
