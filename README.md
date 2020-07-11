@@ -78,7 +78,7 @@ The following preprocessing steps are supported by the pipeline:
 2. Realignment of the functional data (section 2.2)
 3. Extraction of an inclusive mask, based on the functional images (section 2.3)
 4. Calculation of framewise displacements (section 2.4)
-5. Coregistration of the anatomical scan to the mean functional image (section 2.5)
+5. Coregistration of the functional images to the anatomical image (section 2.5)
 6. Segmentation of the anatomical image (section 2.6)
 7. Erosion of the segmentation data (section 2.7)
 8. Normalization of the beta (connectivity) maps (or other functional images; section 2.8)
@@ -160,7 +160,7 @@ Since the Preprocessing subclass inherits from the main Experiment class, the sa
 
 ### 2.5 Coregistration
 
-Coregistration of the raw anatomical image to the mean functional image is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the coregistration are [Coregistration.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration.m) and [Coregistration_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration_job.m)
+Coregistration of the functional images to the raw anatomical image is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the coregistration are [Coregistration.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration.m) and [Coregistration_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration_job.m)
 
 To conduct the coregistration procedure, enter the following code in a console:
 
