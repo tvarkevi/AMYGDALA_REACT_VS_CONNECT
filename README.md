@@ -405,19 +405,20 @@ The probability weighted mean (or summed) SPM values are written to an output CS
 The analysis of the resting-state data is conducted using the RestingState subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class.
 
 The following preprocessing pipeline is recommended for the resting-state data:
-1. Realignment of the raw functional images (see section 2.2)
-2. Extraction of the FD Jenkinson data (see section 2.4)
-3. Coregistration of the functional images to the anatomical image (see section 2.5)
-4. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.3)
-5. Segmentation of the coregistered anatomical image (see section 2.6)
-6. Erosion of the white-matter and CSF segmentations (see section 2.7)
+1. Realignment of the raw functional images (see [section 2.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#22-realignment))
+2. Extraction of the FD Jenkinson data (see [section 2.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-framewise-displacement))
+3. Coregistration of the functional images to the anatomical image (see [section 2.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#24-coregistration))
+4. Normalization of the realigned and coregistered functional images (see [section 2.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#25-normalization))
+5. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the preprocessed functional images (see [section 2.6](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-inclusive-mask-extraction))
+6. Segmentation of the anatomical image (see [section 2.7](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-segmentation))
+7. Erosion of the white-matter and CSF segmentations (see [section 2.8](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-erosion))
 
 As part of the first-level seed-based connectivity pipeline of the resting-state data, the following steps need to be performed after the preprocessing steps:
-1. Construction of a (subject-level) native ROI mask (see section 4.1)
-2. Extraction of the region-of-interest (ROI) regressors (see section 4.2)
-3. Extraction of the confound regressors (see section 4.3)
-4. Extraction of the spike regressors (see section 4.4)
-5. Voxel-wise seed-based functional connectivity analysis (see section 4.5)
+1. Construction of a (subject-level) native ROI mask (see [section 4.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#41-native-roi-mask))
+2. Extraction of the region-of-interest (ROI) regressors (see [section 4.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#42-roi-regressors))
+3. Extraction of the confound regressors (see [section 4.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#43-confound-regressors))
+4. Extraction of the spike regressors (see [section 4.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#44-spike-regressosrs))
+5. Voxel-wise seed-based functional connectivity analysis (see [section 4.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#45-voxel-wise-connectivity-analysis))
 
 ### 4.1 Native ROI mask
 
