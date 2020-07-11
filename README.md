@@ -261,11 +261,11 @@ The following preprocessing pipeline is recommended for the emotion task data:
 1. Slice-timing correction of the raw functional images (see [section 2.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-slice-timing-correction))
 2. Realignment of the (slice-time corrected) functional images (see [section 2.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#22-realignment))
 3. Extraction of the FD Jenkinson data (see [section 2.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-framewise-displacement))
-4. Coregistration of the functional images to the anatomical image (see section 2.5)
-5. Normalization of the realigned (slice-time corrected) and coregistered functional images (see section 2.6)
-6. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the preprocessed functional images (see section 2.3)
-7. Segmentation of the anatomical image (see section 2.7)
-8. Erosion of the white-matter and CSF segmentations (see section 2.8)
+4. Coregistration of the functional images to the anatomical image (see [section 2.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#24-coregistration))
+5. Normalization of the realigned (slice-time corrected) and coregistered functional images (see [section 2.6](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#25-normalization))
+6. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the preprocessed functional images (see [section 2.6](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-inclusive-mask-extraction))
+7. Segmentation of the anatomical image (see [section 2.7](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-segmentation))
+8. Erosion of the white-matter and CSF segmentations (see [section 2.8](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-erosion))
 
 As part of the first-level analysis pipeline of the emotion task data, the following steps need to be performed after the preprocessing steps:
 1. Extraction of the behavioral task data from the logfiles (see section 3.1)
