@@ -14,12 +14,12 @@ Table of contents:
 2. [Data preprocessing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#2-data-preprocessing)
     1. [Slice-timing correction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-slice-timing-correction)
     2. [Realignment](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#22-realignment)
-    3. [Inclusive mask extraction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-inclusive-mask-extraction)
-    4. [Framewise displacement](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#24-framewise-displacement)
-    5. [Coregistration](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#25-coregistration)
-    6. [Segmentation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-segmentation)
-    7. [Erosion](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-erosion)
-    8. [Normalization](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-normalization)
+    3. [Framewise displacement](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-framewise-displacement)
+    4. [Coregistration](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#24-coregistration)
+    5. [Normalization](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#25-normalization)  
+    6. [Inclusive mask extraction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-inclusive-mask-extraction)
+    7. [Segmentation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-segmentation)
+    8. [Erosion](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-erosion)
     9. [Smoothing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#29-smoothing)
     10. [Filtering](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#210-filtering)
 3. [Emotion task](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#3-emotion-task)
@@ -76,12 +76,12 @@ Many of the data preprocessing methods in the [amygdala_recon.py](https://github
 The following preprocessing steps are supported by the pipeline:
 1. Slice-timing correction of the functional data (section 2.1)
 2. Realignment of the functional data (section 2.2)
-3. Extraction of an inclusive mask, based on the functional images (section 2.3)
-4. Calculation of framewise displacements (section 2.4)
-5. Coregistration of the functional images to the anatomical image (section 2.5)
-6. Segmentation of the anatomical image (section 2.6)
-7. Erosion of the segmentation data (section 2.7)
-8. Normalization of the beta (connectivity) maps (or other functional images; section 2.8)
+3. Calculation of framewise displacements (section 2.3)
+4. Coregistration of the functional images to the anatomical image (section 2.4)
+5. Normalization of the functional data (section 2.5)
+6. Extraction of an inclusive mask, based on the functional images (section 2.6)
+7. Segmentation of the anatomical image (section 2.7)
+8. Erosion of the segmentation data (section 2.8)
 9. Smoothing of the normalized functional images (section 2.9)
 10. Filtering of the timeseries data (section 2.10)
 
@@ -128,20 +128,7 @@ os.chdir(working_dir)
 import amygdala_recon as Amy
 ```
 
-### 2.3 Inclusive mask extraction
-
-Extraction of a subject-specific inclusive voxel mask is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. Enter the following code in the console to execute this process:
-
-```
-my_experiment = Amy.Preprocessing()
-my_experiment.extract_inclusive_FOV_mask()
-```
-
-Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter ra for the realigned slice-time corrected functional images, or r for the realigned (non-slice-timing corrected) images.
-
-### 2.4 Framewise displacement
+### 2.3 Framewise displacement
 
 The extraction of framewise displacement (FD) data is conducted using [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB function that is responsible for the extraction process is called [FrameWiseDisplacement.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FrameWiseDisplacement.m), and makes use of the y_FD_Jenkinson.m script of the [DPARSF](http://rfmri.org/DPARSF) software package. The DPARSF function calculates the framewise displacement data using the [Jenkinson](https://pdfs.semanticscholar.org/291c/9d66cf886ed27d89dc03d42a4612b66ab007.pdf) method, based on the motion parameter estimates generated by the realignment procedure in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see section 2.1). 
 
@@ -158,7 +145,7 @@ Since the Preprocessing subclass inherits from the main Experiment class, the sa
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The reference scan that is used to calculate the framewise displacement data. Enter 1 for the first image, or M for the mean image.
 
-### 2.5 Coregistration
+### 2.4 Coregistration
 
 Coregistration of the functional images to the raw anatomical image is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the coregistration are [Coregistration.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration.m) and [Coregistration_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Coregistration_job.m)
 
@@ -174,7 +161,37 @@ Since the Preprocessing subclass inherits from the main Experiment class, the sa
 2. The specific preprocessing step that needs to be conducted. Enter 3 for coregistration.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The raw anatomical volume needs to be used as reference image at this stage, with the mean EPI as a source image; the other functional scans need remain in alignment with the mean image. Thus the appropriate prefix of these other scans should be entered at this stage. Enter ra for the realigned slice-time corrected functional images, or r for the realigned (non-slice-timing corrected) images. 
 
-### 2.6 Segmentation 
+### 2.5 Normalization
+
+Normalization of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the normalization procedure are [Normalization.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Normalization.m) and [Normalization_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Normalization_job.m)
+
+To conduct the normalization procedure, enter the following code in a console:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.run_preprocessing()
+```
+
+Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. The specific preprocessing step that needs to be conducted. Enter 5 for normalization.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the normalization can be performed on any series of functional images. Enter ra for the realigned slice-time corrected (coregistered) functional images, or r for the realigned (non-slice-timing corrected) (coregistered) images.
+
+### 2.6 Inclusive mask extraction
+
+Extraction of a subject-specific inclusive voxel mask is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *extract_inclusive_FOV_mask* method of the Preprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Preprocessing()
+my_experiment.extract_inclusive_FOV_mask()
+```
+
+Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter ra for the realigned slice-time corrected functional images, or r for the realigned (non-slice-timing corrected) images.
+
+
+### 2.7 Segmentation 
 
 Segmentation of the anatomical data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the segmentation are [Segmentation.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Segmentation.m) and [Segmentation_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Segmentation_job.m)
 
@@ -190,7 +207,7 @@ Since the Preprocessing subclass inherits from the main Experiment class, the sa
 2. The specific preprocessing step that needs to be conducted. Enter 4 for segmentation.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The segmentation can be conducted on either the raw or coregistered anatomical data. Simply press the enter key to conduct the segmentation on the raw T1 image, or enter c for the coregistered anatomical image.
 
-### 2.7 Erosion 
+### 2.8 Erosion 
 
 Erosion of the segmentation data is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module, via the *erode_segmentation_mask* method of the Preprocessing class. This method uses the MATLAB function [Erosion.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Erosion.m) via a shell call command. 
 
@@ -204,22 +221,6 @@ my_experiment.erode_segmentation_mask()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. An optional prefix to indicate the exact scan identifiers on which the erosion needs to be applied. In theory, the erosion procedure can be conducted on all outputs of the segmentation procedure (c1, c2, c3, c4, c5). To perform the erosion on the white-matter or CSF segmentations, enter c2 or c3, respectively.
-
-### 2.8 Normalization
-
-Normalization of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the normalization procedure are [Normalization.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Normalization.m) and [Normalization_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Normalization_job.m)
-
-To conduct the normalization procedure, enter the following code in a console:
-
-```
-my_experiment = Amy.Preprocessing()
-my_experiment.run_preprocessing()
-```
-
-Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. The specific preprocessing step that needs to be conducted. Enter 5 for normalization.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the normalization can be performed on any series of functional images. Enter connectivity_map_ for the raw connectivity maps.
 
 ### 2.9 Smoothing
 
@@ -235,7 +236,7 @@ my_experiment.run_preprocessing()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The specific preprocessing step that needs to be conducted. Enter 6 for smoothing.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the smoothing procedure can be applied on any series of functional images. Enter nconnectivity_map_ for the normalized connectivity maps.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the smoothing procedure can be applied on any series of functional images. Enter nra for the realigned slice-time corrected (coregistered) normalized functional images, or nr for the realigned (non-slice-timing corrected) (coregistered) normalized images.
 
 ### 2.10 Filtering
 
@@ -257,13 +258,14 @@ The emotion task described here is based on the paradigm of [Van Buuren et al. (
 The analysis of the emotion task data is conducted via the EmotionTask subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class. The first-level analysis of the emotion task data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via shell call commands.
 
 The following preprocessing pipeline is recommended for the emotion task data:
-1. Slice-timing correction of the realigned functional images (see section 2.1)
-2. Realignment of the raw functional images (see section 2.2)
+1. Slice-timing correction of the raw functional images (see section 2.1)
+2. Realignment of the (slice-time corrected) functional images (see section 2.2)
 3. Extraction of the FD Jenkinson data (see section 2.4)
-4. Coregistration of the functional images to the anatomical image  (see section 2.5)
-5. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.3)
-6. Segmentation of the coregistered anatomical image (see section 2.6)
-7. Erosion of the white-matter and CSF segmentations (see section 2.7)
+4. Coregistration of the functional images to the anatomical image (see section 2.5)
+5. Normalization of the realigned (slice-time corrected) and coregistered functional images (see section 2.6)
+6. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the preprocessed functional images (see section 2.3)
+7. Segmentation of the anatomical image (see section 2.7)
+8. Erosion of the white-matter and CSF segmentations (see section 2.8)
 
 As part of the first-level analysis pipeline of the emotion task data, the following steps need to be performed after the preprocessing steps:
 1. Extraction of the behavioral task data from the logfiles (see section 3.1)
