@@ -74,7 +74,7 @@ This code generates an output argument called *my_experiment* which contains att
 Many of the data preprocessing methods in the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module are conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command.
 
 The following preprocessing steps are supported by the pipeline:
-1. Slice-timing correction of the functional data (section 2.1)
+1. Slice-timing correction of the functional data ([section 2.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-slice-timing-correction))
 2. Realignment of the functional data (section 2.2)
 3. Calculation of framewise displacements (section 2.3)
 4. Coregistration of the functional images to the anatomical image (section 2.4)
