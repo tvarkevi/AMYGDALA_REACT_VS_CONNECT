@@ -258,9 +258,9 @@ The emotion task described here is based on the paradigm of [Van Buuren et al. (
 The analysis of the emotion task data is conducted via the EmotionTask subclass. This class inherits all attributes and methods of the Preprocessing class, which itself (in turn) inherits from the main Experiment class. The first-level analysis of the emotion task data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via shell call commands.
 
 The following preprocessing pipeline is recommended for the emotion task data:
-1. Slice-timing correction of the raw functional images (see section 2.1)
-2. Realignment of the (slice-time corrected) functional images (see section 2.2)
-3. Extraction of the FD Jenkinson data (see section 2.4)
+1. Slice-timing correction of the raw functional images (see [section 2.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-slice-timing-correction))
+2. Realignment of the (slice-time corrected) functional images (see [section 2.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#22-realignment))
+3. Extraction of the FD Jenkinson data (see [section 2.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-framewise-displacement))
 4. Coregistration of the functional images to the anatomical image (see section 2.5)
 5. Normalization of the realigned (slice-time corrected) and coregistered functional images (see section 2.6)
 6. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the preprocessed functional images (see section 2.3)
