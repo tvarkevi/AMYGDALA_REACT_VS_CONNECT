@@ -260,7 +260,7 @@ The following preprocessing pipeline is recommended for the emotion task data:
 1. Slice-timing correction of the realigned functional images (see section 2.1)
 2. Realignment of the raw functional images (see section 2.2)
 3. Extraction of the FD Jenkinson data (see section 2.4)
-4. Coregistration of the anatomical image to the mean functional image (see section 2.5)
+4. Coregistration of the functional images to the anatomical image  (see section 2.5)
 5. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.3)
 6. Segmentation of the coregistered anatomical image (see section 2.6)
 7. Erosion of the white-matter and CSF segmentations (see section 2.7)
@@ -405,7 +405,7 @@ The analysis of the resting-state data is conducted using the RestingState subcl
 The following preprocessing pipeline is recommended for the resting-state data:
 1. Realignment of the raw functional images (see section 2.2)
 2. Extraction of the FD Jenkinson data (see section 2.4)
-3. Coregistration of the anatomical image to the mean functional image (see section 2.5)
+3. Coregistration of the functional images to the anatomical image (see section 2.5)
 4. Extraction of a (subject-level) inclusve field-of-view (FOV) voxel mask from the realigned functional images (see section 2.3)
 5. Segmentation of the coregistered anatomical image (see section 2.6)
 6. Erosion of the white-matter and CSF segmentations (see section 2.7)
