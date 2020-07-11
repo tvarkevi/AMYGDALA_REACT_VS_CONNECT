@@ -75,15 +75,15 @@ Many of the data preprocessing methods in the [amygdala_recon.py](https://github
 
 The following preprocessing steps are supported by the pipeline:
 1. Slice-timing correction of the functional data ([section 2.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#21-slice-timing-correction))
-2. Realignment of the functional data (section 2.2)
-3. Calculation of framewise displacements (section 2.3)
-4. Coregistration of the functional images to the anatomical image (section 2.4)
-5. Normalization of the functional data (section 2.5)
-6. Extraction of an inclusive mask, based on the functional images (section 2.6)
-7. Segmentation of the anatomical image (section 2.7)
-8. Erosion of the segmentation data (section 2.8)
-9. Smoothing of the normalized functional images (section 2.9)
-10. Filtering of the timeseries data (section 2.10)
+2. Realignment of the functional data ([section 2.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#22-realignment))
+3. Calculation of framewise displacements ([section 2.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#23-framewise-displacement))
+4. Coregistration of the functional images to the anatomical image ([section 2.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#24-coregistration))
+5. Normalization of the functional data ([section 2.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#25-normalization))
+6. Extraction of an inclusive mask, based on the functional images ([section 2.6](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-inclusive-mask-extraction))
+7. Segmentation of the anatomical image ([section 2.7](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-segmentation))
+8. Erosion of the segmentation data ([section 2.8](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-erosion))
+9. Smoothing of the normalized functional images ([section 2.9](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#29-smoothing))
+10. Filtering of the timeseries data ([section 2.10](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#210-filtering))
 
 ### 2.1 Slice-timing correction
 
