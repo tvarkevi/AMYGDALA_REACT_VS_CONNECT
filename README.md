@@ -314,7 +314,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
 2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the white matter and CSF scans to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
-4. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the slice-time corrected realigned functional images are used at this stage. Enter ra for the slice-time corrected realigned functional scans.
+4. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the realigned, slice-time corrected, and (coregistered) normalized functional images are used at this stage. Enter nra for the realigned, slice-time corrected, and (coregistered) normalized functional scans.
 
 The confound regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in the first-level analysis described in section 3.4.
 
@@ -352,7 +352,7 @@ my_experiment.run_1st_level_analysis()
 Since the EmotionTask subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
 2. An optional explicit mask to base the first-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the slice-time corrected realigned functional data is used at this stage. Enter ra for the slice-time corrected realigned functional (emotion task) images.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the realigned, slice-time corrected, and (coregistered) normalized functional data is used at this stage. Enter nra for the realigned, slice-time corrected, and (coregistered) normalized functional (emotion task) images.
 
 The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called LEV1, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **LEV1**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
 
