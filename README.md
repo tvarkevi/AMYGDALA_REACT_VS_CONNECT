@@ -139,7 +139,7 @@ my_experiment = Amy.Preprocessing()
 my_experiment.extract_FD_jenkinson()
 ```
 
-> Note: It is essential that both [SPM12]((https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) and [DPARSF](http://rfmri.org/DPARSF) are added to the MATLAB path in order for the *extract_FD_jenkinson* method to work properly.
+> Note: It is essential that both [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) and [DPARSF](http://rfmri.org/DPARSF) are added to the MATLAB path in order for the *extract_FD_jenkinson* method to work properly.
 
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
