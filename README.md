@@ -301,7 +301,7 @@ import amygdala_recon as Amy
 
 ### 3.2 Confound regressors
 
-Before the first-level analysis of the emotion task data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors are extracted using the *extract_confound_regressors* method of the EmotionTask class. This method computes a total of 36 nuisance parameters, following recent recommendations by [Satterthwaite et al. (2013)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3811142/), [Ciric et al. (2017)](https://www.sciencedirect.com/science/article/pii/S1053811917302288), [Parkes et al. (2018)](https://www.sciencedirect.com/science/article/pii/S1053811917310972), [Ciric et al. (2018)](https://www.nature.com/articles/s41596-018-0065-y), and [Satterthwaite et al. (2019)](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23665): i.e., the six realignment parameters (6P). their derivatives (12P), quadratic terms (18P), and quadratic terms of their derivatives (24P), as well as the white-matter, CSF, and global mean signal (27P), their derivatives (30P), quadratic terms (33P), and quadratic terms of their derivatives (36P).
+Before the first-level analysis of the emotion task data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors are extracted using the *extract_confound_regressors* method of the EmotionTask class. This method computes a total of 9 nuisance parameters: i.e., the six realignment parameters (6P). and the white-matter, CSF, and global mean signal (27P).
 
 To execute the *extract_confound_regressors* method, enter the following code in the console:
 
@@ -331,7 +331,7 @@ my_experiment.extract_spike_regressors()
 
 Since the EmotionTask subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
-2. The FD Jenkinson threshold above which individual frames will be flagged as outliers. A threshold of 0.2 mm is recommended at this stage.
+2. The FD Jenkinson threshold above which individual frames will be flagged as outliers. A threshold of 0.5 mm is recommended at this stage (see [Siegel et al.,2013](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.22307)).
 
 The spike regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_spike_regressors.csv**. This file can be used to define the GLM in the first-level analysis described in section 3.4. The process also creates an output text files in the working directory, containing, for all subjects of the dataset in question (MARS, BETER), the number of outliers and mean framewise displacement (MFD). This file is stored in the working directory as either **MARS_Outliers_FD_Jenkinson_EMO.txt** or **BETER_Outliers_FD_Jenkinson_EMO.txt**.
 
