@@ -159,7 +159,7 @@ my_experiment.run_preprocessing()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The specific preprocessing step that needs to be conducted. Enter 3 for coregistration.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The raw anatomical volume needs to be used as reference image at this stage, with the mean EPI as a source image; the other functional scans need remain in alignment with the mean image. Thus the appropriate prefix of these other scans should be entered at this stage. Enter ra for the realigned slice-time corrected functional images, or r for the realigned (non-slice-timing corrected) images. 
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The raw anatomical volume needs to be used as reference image at this stage, with the mean EPI as a source image; the other functional scans need remain in alignment with the mean image. The appropriate prefix of these other scans should be entered at this stage: Enter ra for the realigned slice-time corrected functional images, or r for the realigned (non-slice-timing corrected) images. 
 
 ### 2.5 Normalization
 
@@ -174,7 +174,7 @@ my_experiment.run_preprocessing()
 
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. The specific preprocessing step that needs to be conducted. Enter 5 for normalization.
+2. The specific preprocessing step that needs to be conducted. Enter 4 for normalization.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the normalization can be performed on any series of functional images. Enter ra for the realigned slice-time corrected (coregistered) functional images, or r for the realigned (non-slice-timing corrected) (coregistered) images.
 
 ### 2.6 Inclusive mask extraction
@@ -204,8 +204,8 @@ my_experiment.run_preprocessing()
 
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. The specific preprocessing step that needs to be conducted. Enter 4 for segmentation.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The segmentation can be conducted on either the raw or coregistered anatomical data. Enter n for the normalized anatomical image.
+2. The specific preprocessing step that needs to be conducted. Enter 5 for segmentation.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The segmentation can be conducted on either the raw or normalized anatomical data. Enter n for the normalized anatomical image, or simply press enter to use the raw anatomical scan.
 
 ### 2.8 Erosion 
 
