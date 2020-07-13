@@ -188,7 +188,7 @@ my_experiment.extract_inclusive_FOV_mask()
 
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter ra for the realigned slice-time corrected functional images, or r for the realigned (non-slice-timing corrected) images.
+2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter nra for the realigned, slice-time corrected, and (coregistered) normalized functional images, or nr for the realigned (non-slice-timing corrected, but coregistered) normalized images.
 
 
 ### 2.7 Segmentation 
@@ -205,7 +205,7 @@ my_experiment.run_preprocessing()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The specific preprocessing step that needs to be conducted. Enter 4 for segmentation.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The segmentation can be conducted on either the raw or coregistered anatomical data. Simply press the enter key to conduct the segmentation on the raw T1 image, or enter c for the coregistered anatomical image.
+3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. The segmentation can be conducted on either the raw or coregistered anatomical data. Enter n for the normalized anatomical image.
 
 ### 2.8 Erosion 
 
