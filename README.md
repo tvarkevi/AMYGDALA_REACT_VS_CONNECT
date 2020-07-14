@@ -432,15 +432,19 @@ The following preprocessing pipeline is recommended for the resting-state data:
 7. Erosion of the white-matter and CSF segmentations (see [section 2.8](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-erosion))
 
 As part of the first-level seed-based connectivity pipeline of the resting-state data, the following steps need to be performed after the preprocessing steps:
-1. Construction of a (subject-level) native ROI mask (see [section 4.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#41-native-roi-mask))
+1. Construction of a region-of-interest (ROI) mask in subject reference space (see [section 3.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#41-reslice-roi-mask))
 2. Extraction of the region-of-interest (ROI) regressors (see [section 4.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#42-roi-regressors))
 3. Extraction of the confound regressors (see [section 4.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#43-confound-regressors))
 4. Extraction of the spike regressors (see [section 4.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#44-spike-regressosrs))
 5. Voxel-wise seed-based functional connectivity analysis (see [section 4.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#45-voxel-wise-connectivity-analysis))
 
-### 4.1 Native ROI mask
+### 4.1 Reslice ROI mask
 
-Before the seed-based connectivity analysis can be performed, the region-of-interest (ROI) mask needs to be transformed to native space. The *create_native_roi_mask* module used for this procedure ultilizes [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the procedure itself are [GlobalToNativeMask.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask.m) and [GlobalToNativeMask_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask_job.m). This method inverse normalizes the ROI mask specified, via the following 5-step procedure:
+Before the seed-based connectivity analysis can be performed, the region-of-interest (ROI) mask, in this case the amygdala, needs to be resliced to the reference space of each subject in the dataset. This can be achieved in either of two ways: 
+- Option 1: The analyses are conducted mainly in native space, and therefore the ROI mask needs to be resliced to the native reference space of each subject; this can be accomplished via the *create_native_roi_mask* method. 
+- Option 2: The analyses are conducted mainly in standard MNI space, and therefore the ROI mask needs to be resliced to the standard reference space of each subject; this can be achieved via the *obtain_global_roi_mask* method.
+
+The *create_native_roi_mask* method ultilizes [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the procedure itself are [GlobalToNativeMask.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask.m) and [GlobalToNativeMask_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/GlobalToNativeMask_job.m). This method inverse normalizes the ROI mask specified, via the following 5-step procedure:
 1. The coregistered (to the mean functional image) anatomical image is normalized to NMI space.
 2. The ROI mask is coregistered to the normalized anatomical image generated in step 1.
 3. The deformation matrix yielded by step 1 is used to create an inverse (MNI to native) deformation field.
@@ -461,6 +465,21 @@ Since the RestingState subclass inherits from the main Experiment class, the sam
 
 The result of this procedure is a set of files and images that are written to the T1 directory of each subject in the data directory. The native ROI mask used for further analysis steps is indicated by the prefix **cic**, followed by the original filename of the ROI mask; e.g. cicAmygdala_total_probability_map.nii.
 
+The *obtain_global_roi_mask* method also utilizes [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the procedure itself are called [CoregisterGlobalMask.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/CoregisterGlobalMask.m) and [CoregisterGlobalMask_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/CoregisterGlobalMask_job.m). The method reslices the standard ROI mask to the standard reference space of each subject (i.e., with the same voxel size).
+
+To reslice the ROI mask to standard reference space, enter the following code in a console:
+
+```
+my_experiment = Amy.EmotionTask()
+my_experiment.obtain_global_roi_mask()
+```
+
+Since the EmotionTask subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data.
+2. The name of the ROI mask used for the analyses, as listed in the working directory. It is recommended that a probability map of the amygdala is used. 
+3. An optional prefix to indicate the exact scan identifier of the anatomical image to base the inverse normalization on. It is recommended that the normalized anatomical image is used for this procedure. Enter n for the normalized anatomical image.
+
+The output of this procedure is a resliced version of the ROI mask in standard reference space for each subject. The resliced ROI mask used for further analysis steps is indicated by the prefix **r** followed by the original filename of the ROI mask; e.g. rAmygdala_total_probability_map.nii.
 
 ### 4.2 ROI regressors
 
