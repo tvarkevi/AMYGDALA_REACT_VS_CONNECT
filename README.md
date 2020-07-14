@@ -496,8 +496,8 @@ Since the RestingState subclass inherits from the main Experiment class, the sam
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data.
 2. The name of the ROI mask used for the analysis, as listed in the working directory. It is recommended that a probability map of the amygdala is used.
 3. The nature of the ROI mask specified in step 2. Enter 1 for a binary ROI mask, or 2 for a probabilistic one.
-4. An optional prefix to indicate what version of the ROI mask should be used for the analyses. It is recommended that the mask is transformed to subject/native space using the procedure described in section 4.1, which generates an output native ROI mask in the T1 directory of each subject. Enter cic to utilize this output (of section 4.1) native ROI mask.
-5. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
+4. An optional prefix to indicate what version of the ROI mask should be used for the analyses. It is recommended that the output file of section 4.1 (e.g. rAmygdala_total_probability_map.nii, or cicAmygdala_total_probability_map.nii) is used. Enter r for the mask in standard MNI (subject) space, or cic for the mask in native (subject) space
+5. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the normalized (coregistered) and realigned functional images are used at this stage. Enter nr for the normalized (coregistered) and realigned functional scans.
 
 The ROI regressor process creates two output CSV files in the resting-state scan directory called (e.g.) data_dir > NIFTI_MARS_REST > xm13101101 > xm13101101_5_1 > **xm13101101_5_1_lh_roi regressor.csv** and **xm13101101_5_1_rh_roi regressor.csv**. These files can be used to define the predictor-of-interest signal used in the GLM specified in the voxel-wise connectivity analysis, as described in section 4.5.
 
@@ -516,7 +516,7 @@ Since the RestingState subclass inherits from the main Experiment class, the sam
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data.
 2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the white matter an CSF masks to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
-4. An optional prefix to indicate the exact functional scan identifiers on which the analysis will to be performed. It is recommended that the realigned functional images are used at this stage. Enter r for the realigned functional scans.
+4. An optional prefix to indicate the exact functional scan identifiers on which the analysis will to be performed. It is recommended that the normalized (coregistered) and realigned functional images are used at this stage. Enter nr for the normalized (coregistered) and realigned functional scans.
 
 The confound regressor process creates an output CSV file in the resting-state scan directory called (e.g.) data_dir > NIFTI_MARS_REST > xm13101101 > xm13101101_5_1 > **xm13101101_5_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in voxel-wise connectivity analysis model described in section 4.5.
 
@@ -539,7 +539,7 @@ The spike regressor process creates an output CSV file in the resting-state scan
 
 ### 4.5 Voxel-wise connectivity analysis
 
-The voxel-wise seed-based functional connectivity analysis of the resting-state data is conducted via the *voxel_wise_connectivity_analysis* method. This method performs two GLMs for each voxel within the grey matter mask of the brain.. In the first GLM, the signal of the left ROI regressor is entered as predictor-of-interest, along with the 36 confound model (see section 4.3) and spike regressors (see section 4.4) as covariates-of-no-interest, and the signal of each voxel (individually) as outcome variable. In the second GLM, the signal of the right ROI regressor is entered as predictor-of-interest, again with the 36 confound model (see section 4.3) and spike regressors (see section 4.4) as covariates-of-no-interest, and the signal of each voxel (individually) as outcome variable. 
+The voxel-wise seed-based functional connectivity analysis of the resting-state data is conducted via the *voxel_wise_connectivity_analysis* method. This method performs two GLMs for each voxel within the grey matter mask of the brain. In the first GLM, the signal of the left ROI regressor is entered as predictor-of-interest, along with the 36 confound model (see section 4.3) and spike regressors (see section 4.4) as covariates-of-no-interest, and the signal of each voxel (individually) as outcome variable. In the second GLM, the signal of the right ROI regressor is entered as predictor-of-interest, again with the 36 confound model (see section 4.3) and spike regressors (see section 4.4) as covariates-of-no-interest, and the signal of each voxel (individually) as outcome variable. 
 
 The GLM (beta) coefficients of the predictors-of-interest (left/right ROI) are extracted by the method and converted to t-maps, and stored as NIFTI files that can be found in the resting-state directory of each subject (e.g. **connectivity_map_lh_xm13101101.nii**, **connectivity_map_rh_xm13101101.nii**). The t-values contained within each of these files represent a quantification of the relationship of the left/right ROI signals, in this case the left and right amygdalae, with the signal of each individual gray matter voxel, corrected for the nuisance effects of motion, white-matter, CSF, and global signal (36 confound model), with censoring of the frames flagged as framewise displacement outliers (spike regressors), and corrected for the uncertainty of the beta-coefficient by dividing by its own standard error (effectivity converting it into a t-value).
 
@@ -552,7 +552,7 @@ my_experiment.voxel_wise_connectivity_analysis()
 
 Since the RestingState subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data.
-2. An optional prefix to indicate the exact scan identifiers on which the connectivity analysis needs to be conducted. It is recommended that the realigned functional data is used at this stage. Enter r for the realigned functional (resting-state) images.
+2. An optional prefix to indicate the exact scan identifiers on which the connectivity analysis needs to be conducted. It is recommended that the normalized (coregistered) and realigned functional data is used at this stage. Enter nr for the normalized (coregistered) and realigned functional (resting-state) images.
 
 ## 5. Post-processing
 
