@@ -27,7 +27,7 @@ Table of contents:
     2. [Confound regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#32-confound-regressors)
     3. [Spike regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#33-spike-regressors)
     4. [First-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#34-first-level-analysis)
-    5. [Native ROI mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#35-native-roi-mask)
+    5. [Reslice ROI mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#35-reslice-roi-mask)
     6. [ROI-masked SPM data](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#36-roi-masked-spm-data)
 4. [Resting-state](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#4-resting-state)
     1. [Native ROI mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#41-native-roi-mask)
@@ -272,7 +272,7 @@ As part of the first-level analysis pipeline of the emotion task data, the follo
 2. Extraction of the confound regressors (see [section 3.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#32-confound-regressors))
 3. Extraction of the spike regressors (see [section 3.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#33-spike-regressors))
 4. First-level analysis in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) (see [section 3.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#34-first-level-analysis))
-5. Construction of a (subject-level) region-of-interest (ROI) mask in native space (see [section 3.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#35-native-roi-mask))
+5. Construction of a region-of-interest (ROI) mask in subject reference space (see [section 3.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#35-reslice-roi-mask))
 6. Extraction (across subjects) of the ROI-masked statistical paramatric data (see [section 3.6](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#36-roi-masked-spm-data))
 
 ### 3.1 Behavioral data
