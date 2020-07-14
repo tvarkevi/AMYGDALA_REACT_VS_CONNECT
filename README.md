@@ -560,13 +560,11 @@ After the first-level analysis of both the emotion task and resting-state data, 
 As before, many of these post-processing methods are conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command.
 
 The following post-processing steps are supported by the pipeline:
-1. Normalization of the beta (connectivity) maps (see section 2.8)
-2. Optional: smoothing of the normalized beta (connectivity) maps (see section 2.9)
-3. Creation of an across-subjects study-specific FOV mask (see setion 5.1)
-4. Creation of an across-subjects study-specific average (T1) brain (see section 5.2)
-5. Creation of an across-subjects study-specific grey matter mask (see section 5.3)
-6. Extraction of QC-FC motion correction bencmark (see section 5.4)
-7. Extraction of discriminability motion correction benchmark (see section 5.5)
+1. Creation of an across-subjects study-specific FOV mask (see [section 5.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#51-inclusive-fov-mask))
+2. Creation of an across-subjects study-specific grey matter mask (see [see section 5.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#52-inclusive-grey-matter-mask))
+3. Creation of an across-subjects study-specific average (T1) brain ([see section 5.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#53-average-brain))
+4. Extraction of QC-FC motion correction bencmark (see [section 5.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#54-qc-fc-motion-correction-benchmark))
+5. Extraction of discriminability motion correction benchmark (see [section 5.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#55-discriminability-motion-correction-benchmark))
 
 ### 5.1 Inclusive FOV mask
 
@@ -584,23 +582,7 @@ Since the Postprocessing subclass inherits from the main Experiment class, the s
 
 The *create_study_FOV_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_FOV_mask_REST.nii** or **BETER_Inclusive_FOV_mask_REST.nii**. This file can be used to mask the input images of the second-level analysis, the procedures of which are described in section 6.
 
-### 5.2 Average brain
-
-Extraction of a study-specific average T1 image is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *create_average_brain* method of the Postprocessing class. Enter the following code in the console to execute this process:
-
-```
-my_experiment = Amy.Postprocessing()
-my_experiment.create_average_brain()
-```
-
-Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. An optional prefix to indicate the exact scan identifiers to base the average T1 scan on. Simply press enter to base the average brain on the raw T1 scans of each subject.
-3. An input that determines whether or not the individual (raw) T1 scans need to be normalized first, or whether this has already been done. Enter 1 to normalize the (raw) T1 scans first, or 0 to skip this option.
-
-The *create_average_brain* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Average_Brain_REST.nii** or **BETER_Average_Brain_REST.nii**.
-
-### 5.3 Inclusive grey matter mask
+### 5.2 Inclusive grey matter mask
 
 Extraction of a study-specific (inclusive) grey matter mask is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *create_study_grey_matter_mask* method of the Postprocessing class. Enter the following code in the console to execute this process:
 
@@ -615,6 +597,22 @@ Since the Postprocessing subclass inherits from the main Experiment class, the s
 3. An input that determines whether or not the individual grey matter segmentations need to be normalized first, or whether this has already been done. Enter 1 to normalize the grey matter segmentations first, or 0 to skip this option.
 
 The *create_study_grey_matter_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_GM_Mask_REST.nii** or **BETER_Inclusive_GM_Mask_REST.nii**. This file can be used to mask the input images of the second-level analysis (e.g. alongside the study-specific FOV mask), the procedures of which are described in section 6.
+
+### 5.3 Average brain
+
+Extraction of a study-specific average T1 image is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *create_average_brain* method of the Postprocessing class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.Postprocessing()
+my_experiment.create_average_brain()
+```
+
+Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+2. An optional prefix to indicate the exact scan identifiers to base the average T1 scan on. Simply press enter to base the average brain on the raw T1 scans of each subject.
+3. An input that determines whether or not the individual (raw) T1 scans need to be normalized first, or whether this has already been done. Enter 1 to normalize the (raw) T1 scans first, or 0 to skip this option.
+
+The *create_average_brain* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Average_Brain_REST.nii** or **BETER_Average_Brain_REST.nii**.
 
 ### 5.4 QC-FC motion correction benchmark
 
