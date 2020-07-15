@@ -577,8 +577,7 @@ my_experiment.create_study_FOV_mask()
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. A prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter FOV_mask_ for the non-normalized FOV mask images.
-3. An input that determines whether or not the individual FOV masks need to be normalized first, or whether this has already been done. Enter 1 to normalize the FOV masks first, or 0 to skip this option.
+2. A prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter FOV_mask_ for the FOV mask images.
 
 The *create_study_FOV_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_FOV_mask_REST.nii** or **BETER_Inclusive_FOV_mask_REST.nii**. This file can be used to mask the input images of the second-level analysis, the procedures of which are described in section 6.
 
@@ -593,8 +592,7 @@ my_experiment.create_study_grey_matter_mask()
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter c1c for grey matter segmentations of the coregistered (to the mean functional scan) T1 images.
-3. An input that determines whether or not the individual grey matter segmentations need to be normalized first, or whether this has already been done. Enter 1 to normalize the grey matter segmentations first, or 0 to skip this option.
+2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter c1n for grey matter segmentations of the normalized T1 images.
 
 The *create_study_grey_matter_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_GM_Mask_REST.nii** or **BETER_Inclusive_GM_Mask_REST.nii**. This file can be used to mask the input images of the second-level analysis (e.g. alongside the study-specific FOV mask), the procedures of which are described in section 6.
 
@@ -609,8 +607,7 @@ my_experiment.create_average_brain()
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. An optional prefix to indicate the exact scan identifiers to base the average T1 scan on. Simply press enter to base the average brain on the raw T1 scans of each subject.
-3. An input that determines whether or not the individual (raw) T1 scans need to be normalized first, or whether this has already been done. Enter 1 to normalize the (raw) T1 scans first, or 0 to skip this option.
+2. An optional prefix to indicate the exact scan identifiers to base the average T1 scan on. Enter n for the normalized T1 images.
 
 The *create_average_brain* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Average_Brain_REST.nii** or **BETER_Average_Brain_REST.nii**.
 
