@@ -579,7 +579,7 @@ Since the Postprocessing subclass inherits from the main Experiment class, the s
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. A prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter FOV_mask_ for the FOV mask images.
 
-The *create_study_FOV_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_FOV_mask_REST.nii** or **BETER_Inclusive_FOV_mask_REST.nii**. This file can be used to mask the input images of the second-level analysis, the procedures of which are described in section 6.
+The *create_study_FOV_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_FOV_Mask_REST.nii** or **BETER_Inclusive_FOV_Mask_REST.nii**. This file can be used to mask the input images of the second-level analysis, the procedures of which are described in section 6.
 
 ### 5.2 Inclusive grey matter mask
 
