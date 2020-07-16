@@ -672,8 +672,9 @@ Since the GroupAnalysis subclass inherits from the main Experiment class, the sa
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The directory where the output of the second-level analysis is to be written to. If this directory does not already exist it will be created by the program.
 3. The hemisphere on which the analysis should be conducted. Enter either l (left) or r (right).
-4. An optional name of a covariate-of-no-interest, as listed in the SnPM input file in the working directory. Either press enter to continue without using a nuisance covariate, or enter the name of a covariate, e.g. MFD or nOutliers.
-5. An optional explicit mask file to use for the second-level analysis, as listed in the working directory. Enter 
+4. The name of the text file that contains the predictor-of-interest (and covariate) data, as well as the filenams of the connectivity maps (e.g. SnPM_Input_SpmT_0001_HemiL.txt). Note that this file needs to be prepared beforehand.
+5. An optional name of a covariate-of-no-interest, as listed in the SnPM input file in the working directory. Either press enter to continue without using a nuisance covariate, or enter the name of a covariate, e.g. MFD or nOutliers.
+6. An optional explicit mask file to use for the second-level analysis, as listed in the working directory. Enter 
 GRAND_Inclusive_FOV_Mask_REST.nii to use the across-studies inlusive grey matter mask.
 
 The *run_2nd_level_analysis* method creates an **SnPM.mat** file in the SnPM output directory specified in step 2 (along with a number of other files) that can be used as input for the second-level inference (see section 6.2).
