@@ -649,7 +649,7 @@ Since the Postprocessing subclass inherits from the main Experiment class, the s
 3. The filename as listed in the working directory of the study-specific grey matter mask created in section 5.2. Enter the filename of the study-specific grey matter mask you want to use (e.g. MARS_Inclusive_GM_Mask_REST.nii or BETER_Inclusive_GM_Mask_REST.nii).
 4. A prefix to indicate the exact scan identifiers to base the motion correction benchmark on. Enter either connectivity_map_lh_ or connectivity_map_rh_ for the left or right normalized beta maps (respectively).
 
-The *motion_correction_benchmark_discriminability* method creates an output NIFTI image in the working directory that contains the voxel-wise the independent samples t-test scores that assess the difference in mean beta values between the high and low motion groups (e.g. working_dir > **BETER_Discriminability_T_Map_nB_Map_HemiL_REST.nii**). If the number of significant voxels are low at this stage, as indicated by the number of voxels that exceed a given t-threshold at n1 + n2 - 2 degrees of freedom, the motion correction procedures are likely to have been succesful.
+The *motion_correction_benchmark_discriminability* method creates an output NIFTI image in the working directory that contains the voxel-wise the independent samples t-test scores that assess the difference in mean connectivity values between the high and low motion groups (e.g. working_dir > **BETER_Discriminability_T_Map_connectivity_map_lh_REST.nii**). If the number of significant voxels are low at this stage, as indicated by the number of voxels that exceed a given t-threshold at n1 + n2 - 2 degrees of freedom, the motion correction procedures are likely to have been succesful.
 
 ## 6. Group-level analysis
 
