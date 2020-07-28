@@ -634,7 +634,7 @@ The *motion_correction_benchmark_qc_fc* method creates a number of output NIFTI 
 
 ### 5.5 Discriminability motion correction benchmark
 
-The second motion correction benchmark that is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is a group analysis of the control group, median split according to the mean framewise displacement data. That is to say, the non-psychiatric control subjects are median-split based on the subject-level mean framewise displacement values; a group analysis is then conducted on the connectivity maps. If the motion correction pipeline was succesful in mitigating the effects of head motion, group differences would be expected to be minimal at this stage.
+The second motion correction benchmark that is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is a group analysis of the control group, median split according to the mean framewise displacement data. That is to say, the non-psychiatric control subjects are median-split based on the subject-level mean framewise displacement values; a group analysis is then conducted on the connectivity maps. If the motion correction pipeline was succesful in mitigating the effects of head motion, group differences in functional connectivity would be expected to be minimal at this stage.
 
 This so-called discriminability analysis is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *motion_correction_benchmark_discriminability* method of the Postprocessing class. Enter the following code in the console to execute this process:
 
