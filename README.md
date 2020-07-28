@@ -634,7 +634,7 @@ The *motion_correction_benchmark_qc_fc* method creates a number of output NIFTI 
 
 ### 5.5 Discriminability motion correction benchmark
 
-The second motion correction benchmark that is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is a group analysis of the control group median split according to the mean framewise displacement data.
+The second motion correction benchmark that is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is a group analysis of the control group, median split according to the mean framewise displacement data. That is to say, the non-psychiatric control subjects are median-split based on the subject-level mean framewise displacement values; a group analysis is then conducted on the connectivity maps. If the motion correction pipeline was succesful in mitigating the effects of head motion, group differences would be expected to be minimal at this stage.
 
 This so-called discriminability analysis is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *motion_correction_benchmark_discriminability* method of the Postprocessing class. Enter the following code in the console to execute this process:
 
@@ -645,10 +645,11 @@ my_experiment.motion_correction_benchmark_qc_fc()
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. The filename as listed in the working directory of the study-specific grey matter mask created in section 5.3. Enter the filename of the study-specific grey matter mask you want to use (e.g. MARS_Inclusive_GM_Mask_REST.nii or BETER_Inclusive_GM_Mask_REST.nii).
-3. A prefix to indicate the exact scan identifiers to base the motion correction benchmark on. Enter either nb_map_lh_ or nb_map_rh_ for the left or right normalized beta maps (respectively).
+2. The filename as listed in the working directory of the output textfile, created via the procedures described in section 4.4, that contains the mean framewise displacement (MFD) data and number of flagged outlier frames (nOutliers) across subjects, for the resting-state data (e.g. BETER_Outliers_FD_Jenkinson_REST_log.txt or MARS_Outliers_FD_Jenkinson_REST_log.txt).
+3. The filename as listed in the working directory of the study-specific grey matter mask created in section 5.2. Enter the filename of the study-specific grey matter mask you want to use (e.g. MARS_Inclusive_GM_Mask_REST.nii or BETER_Inclusive_GM_Mask_REST.nii).
+4. A prefix to indicate the exact scan identifiers to base the motion correction benchmark on. Enter either connectivity_map_lh_ or connectivity_map_rh_ for the left or right normalized beta maps (respectively).
 
-The *motion_correction_benchmark_discriminability* method creates an output NIFTI image in the working directory that details voxel-wise the independent samples t-scores that assess the difference in mean beta values between the high and low motion groups (e.g. working_dir > **BETER_Discriminability_T_Map_nB_Map_HemiL_REST.nii**). If the number of significant voxels are low at this stage, as indicated by the number of voxels that exceed a given t-threshold at n1 + n2 - 2 degrees of freedom, the motion correction procedures are likely to have been succesful.
+The *motion_correction_benchmark_discriminability* method creates an output NIFTI image in the working directory that contains the voxel-wise the independent samples t-test scores that assess the difference in mean beta values between the high and low motion groups (e.g. working_dir > **BETER_Discriminability_T_Map_nB_Map_HemiL_REST.nii**). If the number of significant voxels are low at this stage, as indicated by the number of voxels that exceed a given t-threshold at n1 + n2 - 2 degrees of freedom, the motion correction procedures are likely to have been succesful.
 
 ## 6. Group-level analysis
 
