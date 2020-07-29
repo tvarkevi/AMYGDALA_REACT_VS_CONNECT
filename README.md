@@ -42,8 +42,8 @@ Table of contents:
     4. [QC-FC motion correction bencmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#54-qc-fc-motion-correction-benchmark)
     5. [Discriminability motion correction benchmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#55-discriminability-motion-correction-benchmark)
 6. [Group-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#6-group-level-analysis)
-    1. [Parametric group analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-standard-group-parametric-analysis)
-    1. [Second-level specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-non-parametric-analysis-specification-and-computation)
+    1. [Standard parametric group analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-standard-group-level-parametric-analysis)
+    1. [Second-level specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-non-parametric-analysis-specification-and-computation)
     2. [Second-level inference](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-inference)
 
 ## 1. Setting up the experiment
