@@ -42,7 +42,8 @@ Table of contents:
     4. [QC-FC motion correction bencmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#54-qc-fc-motion-correction-benchmark)
     5. [Discriminability motion correction benchmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#55-discriminability-motion-correction-benchmark)
 6. [Group-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#6-group-level-analysis)
-    1. [Second-level specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-specification-and-computation)
+    1. [Parametric group analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-standard-group-parametric-analysis)
+    1. [Second-level specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-non-parametric-analysis-specification-and-computation)
     2. [Second-level inference](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-inference)
 
 ## 1. Setting up the experiment
@@ -354,7 +355,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 2. An optional explicit mask to base the first-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the realigned, slice-time corrected, and (coregistered) normalized functional data is used at this stage. Enter nra for the realigned, slice-time corrected, and (coregistered) normalized functional (emotion task) images.
 
-The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called LEV1, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **LEV1**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
+The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called LEV1, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **first_level_analysis**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
 
 ### 3.5 Reslice ROI mask
 
@@ -576,7 +577,7 @@ my_experiment.create_study_FOV_mask()
 ```
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+1. The type of scans on which the post-processing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. A prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter FOV_mask_ for the FOV mask images.
 
 The *create_study_FOV_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_FOV_Mask_REST.nii** or **BETER_Inclusive_FOV_Mask_REST.nii**. This file can be used to mask the input images of the second-level analysis, the procedures of which are described in section 6.
@@ -591,7 +592,7 @@ my_experiment.create_study_grey_matter_mask()
 ```
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+1. The type of scans on which the post-processing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. An optional prefix to indicate the exact scan identifiers to base the extraction of the inclusive mask on. Enter c1n for grey matter segmentations of the normalized T1 images.
 
 The *create_study_grey_matter_mask* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Inclusive_GM_Mask_REST.nii** or **BETER_Inclusive_GM_Mask_REST.nii**. This file can be used to mask the input images of the second-level analysis (e.g. alongside the study-specific FOV mask), the procedures of which are described in section 6.
@@ -606,7 +607,7 @@ my_experiment.create_average_brain()
 ```
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+1. The type of scans on which the post-processing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. An optional prefix to indicate the exact scan identifiers to base the average T1 scan on. Enter n for the normalized T1 images.
 
 The *create_average_brain* method creates an output NIFTI image in the working directory called (e.g.) working_dir > **MARS_Average_Brain_REST.nii** or **BETER_Average_Brain_REST.nii**.
@@ -625,7 +626,7 @@ my_experiment.motion_correction_benchmark_qc_fc()
 ```
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+1. The type of scans on which the post-processing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The filename as listed in the working directory of the output textfile, created via the procedures described in section 4.4, that contains the mean framewise displacement (MFD) data and number of flagged outlier frames (nOutliers) across subjects, for the resting-state data (e.g. BETER_Outliers_FD_Jenkinson_REST_log.txt or MARS_Outliers_FD_Jenkinson_REST_log.txt).
 3. The filename as listed in the working directory of the study-specific grey matter mask created in section 5.2. Enter the filename of the study-specific grey matter mask you want to use (e.g. MARS_Inclusive_GM_Mask_REST.nii or BETER_Inclusive_GM_Mask_REST.nii).
 4. A prefix to indicate the exact scan identifiers to base the motion correction benchmark on. Enter either connectivity_map_lh_ or connectivity_map_rh_ for the left or right normalized beta maps (respectively).
@@ -644,7 +645,7 @@ my_experiment.motion_correction_benchmark_qc_fc()
 ```
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+1. The type of scans on which the post-processing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. The filename as listed in the working directory of the output textfile, created via the procedures described in section 4.4, that contains the mean framewise displacement (MFD) data and number of flagged outlier frames (nOutliers) across subjects, for the resting-state data (e.g. BETER_Outliers_FD_Jenkinson_REST_log.txt or MARS_Outliers_FD_Jenkinson_REST_log.txt).
 3. The filename as listed in the working directory of the study-specific grey matter mask created in section 5.2. Enter the filename of the study-specific grey matter mask you want to use (e.g. MARS_Inclusive_GM_Mask_REST.nii or BETER_Inclusive_GM_Mask_REST.nii).
 4. A prefix to indicate the exact scan identifiers to base the motion correction benchmark on. Enter either connectivity_map_lh_ or connectivity_map_rh_ for the left or right normalized beta maps (respectively).
@@ -659,9 +660,27 @@ The following group-level analysis steps are supported by the pipeline:
 1. Specification and computation of the second-level (permutation-based) analysis (see [see section 6.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-specification-and-computation))
 2. Inference of the second-level (permutation-based) analysis output (see [see section 6.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-inference))
 
-### 6.1 Second-level specification and computation
+### 6.1 Standard group-level parametric analysis
 
-The second-level analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via the Multiple Regression option of the Statistical nonParametric Mapping ([SnPM](http://www.nisox.org/Software/SnPM13/)) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/). This toolbox provides an extensible framework for non-parametric permutation/randomisation tests using the General Linear Model and pseudo t-statistics for independent observations.
+Before the resting-state connectivity vs. task reactivity analysis can be conducted, the group-level effects of the task reactivity data can be extracted via standard statistical (parametric) analysis. The second-level parametric analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts responsible for the first-level procedure are [ParametricSecondLevelAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m) and [ParametricSecondLevelAnalysis_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis_job.m). 
+
+To perform the standard parametric second-level analysis, enter the following code in a console:
+
+```
+my_experiment = Amy.GroupAnalysis()
+my_experiment.run_parametric_2nd_level_analysis()
+```
+
+Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
+2. The filename as listed in the subject's first-level output directory of the contrast map that is to be used for the analysis (e.g. con_0001.nii or con_0002.nii).
+3. An optional explicit mask to base the second-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
+
+The output beta, contrast, and t-maps of the parametric second-level procedure are stored in a subfolder of the working directory that is named after the study ID (MARS, BETER), and contrast image used for the analysis (con_0001, con_0002, con_0003, con_0004, con_0005); e.g., working_dir > **BETER_parametric_second_level_analysis_con_0001**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
+
+### 6.2 Second-level non-parametric analysis: specification and computation
+
+The second-level (non-parametric) analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via the Multiple Regression option of the Statistical nonParametric Mapping ([SnPM](http://www.nisox.org/Software/SnPM13/)) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/). This toolbox provides an extensible framework for non-parametric permutation/randomisation tests using the General Linear Model and pseudo t-statistics for independent observations.
 
 The specification and computation of the voxel-wise multiple regression permutation models, with the reactivity of the amygdala of all subjects as predictor-of-interest (i.e., the mean of the negative vs. neutral contrast maps generated by the first-level analysis of the emotion task data), and the voxel-wise connectivity maps of all subjects as outcome variable (i.e., the connectivity maps generated by the first-level analysis of the resting-state data), is supported by the *run_2nd_level_analysis* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
 
@@ -671,7 +690,7 @@ my_experiment.run_non_parametric_2nd_level_analysis()
 ```
 
 Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
 2. The directory where the output of the second-level analysis is to be written to. If this directory does not already exist it will be created by the program.
 3. The hemisphere on which the analysis should be conducted. Enter either l (left) or r (right).
 4. The name of the text file that contains the predictor-of-interest (and covariate) data, as well as the filenams of the connectivity maps (e.g. SnPM_Input_SpmT_0001_HemiL.txt). Note that this file needs to be prepared beforehand.
@@ -681,7 +700,7 @@ GRAND_Inclusive_FOV_Mask_REST.nii to use the across-studies inlusive grey matter
 
 The *run_2nd_level_analysis* method creates an **SnPM.mat** file in the SnPM output directory specified in step 2 (along with a number of other files) that can be used as input for the second-level inference (see section 6.2).
 
-### 6.2 Second-level inference
+### 6.3 Second-level non-parametric analysis: inference
 
 The inference of the results yielded by the voxel-wise multiple regression permutation models is performed by the *run_2nd_level_inference* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
 
@@ -690,7 +709,7 @@ my_experiment = Amy.GroupAnalysis()
 my_experiment.run_2nd_level_inference()
 ```
 Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
+1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
 2. The directory where the output of the second-level analysis was written to, as specified in step 2 of section 6.1.
 3. The type of inference of the output images that is to be conducted. Enter 1 for voxel-wise/uncorrected inference, 2 for voxel-wise/FDR-corrected, 3 for voxel-wise/FWE-corrected, or 4 for cluster-wise/FWE-corrected inference.
 3. The sign of the effects that are to be inferred. Enter 1 for positive effects or -1 for negative effects.
