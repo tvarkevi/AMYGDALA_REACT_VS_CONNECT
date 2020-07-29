@@ -43,8 +43,8 @@ Table of contents:
     5. [Discriminability motion correction benchmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#55-discriminability-motion-correction-benchmark)
 6. [Group-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#6-group-level-analysis)
     1. [Standard group-level parametric analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-standard-group-level-parametric-analysis)
-    1. [Second-level analysis (non-parametric): specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-non-parametric-analysis-specification-and-computation)
-    2. [Second-level analysis (non-parametric): inference](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-second-level-non-parametric-analysis-inference)
+    2. [Second-level non-parametric analysis: specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-non-parametric-analysis-specification-and-computation)
+    3. [Second-level non-parametric analysis: inference](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-second-level-non-parametric-analysis-inference)
 
 ## 1. Setting up the experiment
 
@@ -657,8 +657,9 @@ The *motion_correction_benchmark_discriminability* method creates an output NIFT
 The prediction of the emotion task reactivity of the amygdala using the seed-based resting-state connectivity of the amygdala is conducted via the GroupAnalysis subclass of the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module. This class inherits all attributes and methods of the Postprocessing class, which itself (in turn) inherits from the Preprocessing subclass, and by extension, the main Experiment class. The two second-level (i.e., group) analysis methods that are defined within the GroupAnalysis class are conducted via the [SnPM](http://www.nisox.org/Software/SnPM13/) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), using a shell call command.
 
 The following group-level analysis steps are supported by the pipeline:
-1. Specification and computation of the second-level (permutation-based) analysis (see [see section 6.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-specification-and-computation))
-2. Inference of the second-level (permutation-based) analysis output (see [see section 6.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-inference))
+1. Standard group-level parametric analysis of the task reactivity data (see [section 6.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-standard-group-level-parametric-analysis))
+2. Specification and computation of the second-level non-parametric (permutation-based) connectivity vs. reactivity analysis (see [see section 6.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-second-level-non-parametric-analysis-specification-and-computation))
+3. Inference of the second-level non-parametric (permutation-based) connectivity vs. reactivity analysis output (see [see section 6.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-second-level-non-parametric-analysis-inference))
 
 ### 6.1 Standard group-level parametric analysis
 
@@ -680,7 +681,7 @@ The output beta, contrast, and t-maps of the parametric second-level procedure a
 
 ### 6.2 Second-level non-parametric analysis: specification and computation
 
-The second-level (non-parametric) analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via the Multiple Regression option of the Statistical nonParametric Mapping ([SnPM](http://www.nisox.org/Software/SnPM13/)) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/). This toolbox provides an extensible framework for non-parametric permutation/randomisation tests using the General Linear Model and pseudo t-statistics for independent observations.
+The second-level non-parametric (permutation-based) connectivity vs. reactivity analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via the Multiple Regression option of the Statistical nonParametric Mapping ([SnPM](http://www.nisox.org/Software/SnPM13/)) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/). This toolbox provides an extensible framework for non-parametric permutation/randomisation tests using the General Linear Model and pseudo t-statistics for independent observations.
 
 The specification and computation of the voxel-wise multiple regression permutation models, with the reactivity of the amygdala of all subjects as predictor-of-interest (i.e., the mean of the negative vs. neutral contrast maps generated by the first-level analysis of the emotion task data), and the voxel-wise connectivity maps of all subjects as outcome variable (i.e., the connectivity maps generated by the first-level analysis of the resting-state data), is supported by the *run_2nd_level_analysis* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
 
@@ -702,7 +703,7 @@ The *run_2nd_level_analysis* method creates an **SnPM.mat** file in the SnPM out
 
 ### 6.3 Second-level non-parametric analysis: inference
 
-The inference of the results yielded by the voxel-wise multiple regression permutation models is performed by the *run_2nd_level_inference* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
+The inference of the second-level non-parametric results yielded by the voxel-wise connectivity vs. reactivity multiple regression permutation models is performed by the *run_2nd_level_inference* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
 
 ```
 my_experiment = Amy.GroupAnalysis()
