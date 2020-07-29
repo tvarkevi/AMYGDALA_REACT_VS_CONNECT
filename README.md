@@ -696,7 +696,7 @@ Since the GroupAnalysis subclass inherits from the main Experiment class, the sa
 3. The hemisphere on which the analysis should be conducted. Enter either l (left) or r (right).
 4. The name of the text file that contains the predictor-of-interest (and covariate) data, as well as the filenams of the connectivity maps (e.g. SnPM_Input_SpmT_0001_HemiL.txt). Note that this file needs to be prepared beforehand.
 5. An optional name of a covariate-of-no-interest, as listed in the SnPM input file in the working directory. Either press enter to continue without using a nuisance covariate, or enter the name of a covariate, e.g. MFD or nOutliers.
-6. The number of permutations that should be conducted. The default number of permutations should be 10000.
+6. The number of permutations that should be conducted. The optimal number of permutations is 10000.
 7. An optional explicit mask file to use for the second-level analysis, as listed in the working directory. Enter 
 GRAND_Inclusive_FOV_Mask_REST.nii to use the across-studies inlusive grey matter mask.
 
