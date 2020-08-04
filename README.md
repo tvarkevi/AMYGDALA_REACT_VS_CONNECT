@@ -39,7 +39,7 @@ Table of contents:
     1. [Inclusive FOV mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#51-inclusive-fov-mask)
     3. [Inclusive grey matter mask](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#52-inclusive-grey-matter-mask)
     2. [Average brain](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#53-average-brain)
-    4. [QC-FC motion correction bencmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#54-qc-fc-motion-correction-benchmark)
+    4. [QC-FC motion correction benchmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#54-qc-fc-motion-correction-benchmark)
     5. [Discriminability motion correction benchmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#55-discriminability-motion-correction-benchmark)
 6. [Group-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#6-group-level-analysis)
     1. [Standard group-level parametric analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-standard-group-level-parametric-analysis)
