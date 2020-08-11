@@ -665,7 +665,7 @@ The following group-level analysis steps are supported by the pipeline:
 4. Specification and computation of the statistical non-parametric (permutation-based) connectivity vs. reactivity analysis (see [see section 6.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#64-statistical-non-parametric-analysis-specification-and-computation))
 5. Inference of the second-level non-parametric (permutation-based) connectivity vs. reactivity analysis output (see [see section 6.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#65-statistical-non-parametric-analysis-inference))
 
-### 6.1 Second-level parametric analysis
+### 6.1 Second-level analysis
 
 Before the resting-state connectivity vs. task reactivity analysis can be conducted, the group-level effects of the task reactivity data can be extracted via standard statistical (parametric) analysis. The second-level analysis method supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts responsible for the second-level procedure are [SecondLevelAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m) and [SecondLevelAnalysis_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis_job.m). 
 
