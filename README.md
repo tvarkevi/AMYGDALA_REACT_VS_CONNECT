@@ -43,8 +43,10 @@ Table of contents:
     5. [Discriminability motion correction benchmark](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#55-discriminability-motion-correction-benchmark)
 6. [Group-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#6-group-level-analysis)
     1. [Second-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-analysis)
-    2. [Statistical non-parametric analysis: specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#64-statistical-non-parametric-analysis-specification-and-computation)
-    3. [Statistical non-parametric analysis: inference](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#65-statistical-non-parametric-analysis-inference)
+    2. [Voxel-matched regression analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-voxel-matched-regression-analysis)
+    3. [ROI-matched regression analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-roi-matched-regression-analysis))
+    4. [Statistical non-parametric analysis: specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#64-statistical-non-parametric-analysis-specification-and-computation)
+    5. [Statistical non-parametric analysis: inference](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#65-statistical-non-parametric-analysis-inference)
 
 ## 1. Setting up the experiment
 
@@ -657,58 +659,107 @@ The *motion_correction_benchmark_discriminability* method creates an output NIFT
 The prediction of the emotion task reactivity of the amygdala using the seed-based resting-state connectivity of the amygdala is conducted via the GroupAnalysis subclass of the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module. This class inherits all attributes and methods of the Postprocessing class, which itself (in turn) inherits from the Preprocessing subclass, and by extension, the main Experiment class. The two second-level (i.e., group) analysis methods that are defined within the GroupAnalysis class are conducted via the [SnPM](http://www.nisox.org/Software/SnPM13/) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), using a shell call command.
 
 The following group-level analysis steps are supported by the pipeline:
-1. Standard group-level parametric analysis of the task reactivity data (see [section 6.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-parametric-analysis))
-2. Specification and computation of the statistical non-parametric (permutation-based) connectivity vs. reactivity analysis (see [see section 6.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#64-statistical-non-parametric-analysis-specification-and-computation))
-3. Inference of the second-level non-parametric (permutation-based) connectivity vs. reactivity analysis output (see [see section 6.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#65-statistical-non-parametric-analysis-inference))
+1. Standard group-level analysis of the task reactivity data (see [section 6.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-parametric-analysis))
+2. Voxel-matched regression analysis of the connectivity vs. reactivity data (see [section 6.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-voxel-matched-regression-analysis))
+2. ROI-matched regression analysis of the connectivity vs. reactivity data (see [section 6.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-roi-matched-regression-analysis))
+4. Specification and computation of the statistical non-parametric (permutation-based) connectivity vs. reactivity analysis (see [see section 6.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#64-statistical-non-parametric-analysis-specification-and-computation))
+5. Inference of the second-level non-parametric (permutation-based) connectivity vs. reactivity analysis output (see [see section 6.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#65-statistical-non-parametric-analysis-inference))
 
 ### 6.1 Second-level parametric analysis
 
-Before the resting-state connectivity vs. task reactivity analysis can be conducted, the group-level effects of the task reactivity data can be extracted via standard statistical (parametric) analysis. The second-level parametric analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts responsible for the first-level procedure are [ParametricSecondLevelAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m) and [ParametricSecondLevelAnalysis_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis_job.m). 
+Before the resting-state connectivity vs. task reactivity analysis can be conducted, the group-level effects of the task reactivity data can be extracted via standard statistical (parametric) analysis. The second-level analysis method supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts responsible for the second-level procedure are [SecondLevelAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m) and [SecondLevelAnalysis_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis_job.m). 
 
 To perform the standard parametric second-level analysis, enter the following code in a console:
 
 ```
 my_experiment = Amy.GroupAnalysis()
-my_experiment.run_parametric_2nd_level_analysis()
+my_experiment.run_2nd_level_analysis()
 ```
 
 Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
-2. The filename as listed in the subject's first-level output directory of the contrast map that is to be used for the analysis (e.g. con_0001.nii or con_0002.nii).
+2. The filename, as listed in the subjects' first-level output directories, of the contrast map that is to be used for the analysis (e.g. con_0001.nii or con_0002.nii).
 3. An optional explicit mask to base the second-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
 
 The output beta, contrast, and t-maps of the parametric second-level procedure are stored in a subfolder of the working directory that is named after the study ID (MARS, BETER), and contrast image used for the analysis (con_0001, con_0002, con_0003, con_0004, con_0005); e.g., working_dir > **BETER_parametric_second_level_analysis_con_0001**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
 
-### 6.4 Statistical non-parametric analysis: specification and computation
+### 6.2 Voxel-matched regression analysis
 
-The second-level non-parametric (permutation-based) connectivity vs. reactivity analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via the Multiple Regression option of the Statistical nonParametric Mapping ([SnPM](http://www.nisox.org/Software/SnPM13/)) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/). This toolbox provides an extensible framework for non-parametric permutation/randomisation tests using the General Linear Model and pseudo t-statistics for independent observations.
+Voxel-matched connectivity vs. reactivity regression analysis using landscape-based clustering with permutation testing is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *voxel_matched_regression_analysis* method, and follows the approach described by [Mennes et al. (2010)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2839004/). This methods conducts a simple linear regression model across participants for ewch locus in standard MNI space, wherein the connectivity value of each voxel coordinate across subjects is used as predictor-of-interest, and the reactivity value spatially matched to that voxel is used as outcome variable. The beta-map yielded by this approach is then converted into a t-map and subjected to landscape-based cluster analysis with permutation/randomisation testing, following the procedures described by [Gladwin, Vink, and Mars (2016)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4950168/).
 
-The specification and computation of the voxel-wise multiple regression permutation models, with the reactivity of the amygdala of all subjects as predictor-of-interest (i.e., the mean of the negative vs. neutral contrast maps generated by the first-level analysis of the emotion task data), and the voxel-wise connectivity maps of all subjects as outcome variable (i.e., the connectivity maps generated by the first-level analysis of the resting-state data), is supported by the *run_non_parametric_2nd_level_analysis* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
+The voxel-matched regression analysis method supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via a shell call command in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html). The MATLAB script responsible for the voxel-matched regression procedures is [VoxelMatchedRegressionAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m).
+
+Enter the following code in the console to execute this process:
 
 ```
 my_experiment = Amy.GroupAnalysis()
-my_experiment.run_non_parametric_2nd_level_analysis()
+my_experiment.voxel_matched_regression_analysis()
+```
+
+Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
+2. The name of a text file listed in the working directory that contains the list of subjects that are to be included in the analysis (e.g. voxel_matched_regression_analysis.txt). Note that this file needs to be manually prepared beforehand.
+3. A prefix to indicate the exact scan identifiers to base the voxel-matched regression analyses on; i.e., on the predictor side of the equation. Enter either connectivity_map_lh_ or connectivity_map_rh_ for the left or right normalized connectivity maps (respectively).
+4. The filename, as listed in the subjects' first-level output directories, of the contrast images used for the voxel-matched regression analyses; i.e., on the outcome side of the equation (e.g. spmT_0001.nii, spmT_0002.nii, spmT_0003.nii, spmT_0004.nii, spmT_0005.nii).
+5. A **non-optional** explicit mask file to use for the voxel-matched regression analysis, as listed in the working directory. Enter GRAND_Inclusive_FOV_GM_Mask_REST_EMO.nii to use the across-studies inlusive field-of-view and grey matter mask.
+6. The full-width half-maximum (FWHM) at which the input connectivity and reactivity maps are smoothed before the actual voxel-matched regression procedures are conducted. It is recommended that a FWHM of 6 cubic mm is used at this stage.
+7. The number of permutation/randomisations that are to be conducted during the landscape-based cluster analysis. It is recommended that 2000 permutations are entered at this stage.
+
+The *voxel_matched_regression_analysis* method creates a new subdirectory within the main working directory, which is named after both the connectivity prefix (entered in step 3) and reactivity contrast image (entered in step 4) used for the analysis, and which contains the output files and images of the landscape-based cluster analysis (e.g. working_dir > voxel_matched_regression_connectivity_map_lh_vs_spmT_0001). The R.mat file written to this directory is the essential output yielded by the analysis; the other files and images contained by the directory are derived from this main output file.
+
+### 6.3 ROI-matched regression analysis
+
+The ROI-matched regression analysis ia a variation on the main voxel-matched regression method described in section 6.2, which is based on the approach originally documented by [Mennes et al. (2010)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2839004/). Rather than matching the connectivity value of each locus to the reactivity value at that corresponding coordinate in standard MNI space, the ROI-matched regression analysis analysis conducts a simple linear regression model for each voxel, wherein the connectivity value of that voxel across subjects is still used as predictor-of-interest, but rather than using the reactivity value of that (matched) locus (as in section 6.2), the same across-subjects vector of mean reactivity values of a given ROI is used as outcome variable for each voxel.
+
+The ROI-matched connectivity vs. reactivity regression analysis with landscape-based clustering using permutation testing is supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module via the *roi_matched_regression_analysis* method. This method uses a shell call command in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html). The MATLAB script responsible for the voxel-matched regression procedures is [ROIMatchedRegressionAnalysis.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/FirstLevelAnalysis.m). Note that the method assumes that a text file is prepared manually beforehand, in which the ROI reactivity values for the left hemisphere and for the right hemisphere (in that order), are listed alongside the subject identifiers (with no colunn headers).
+
+Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.GroupAnalysis()
+my_experiment.roi_matched_regression_analysis()
+```
+
+Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
+1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
+2. A prefix to indicate the exact scan identifiers to base the voxel-matched regression analyses on; i.e., on the predictor side of the equation. Enter either connectivity_map_lh_ or connectivity_map_rh_ for the left or right normalized connectivity maps (respectively).
+3. The filename, as listed in the subjects' first-level output directories, of the contrast images used for the ROI-matched regression analyses; i.e., on the outcome side of the equation (e.g. spmT_0001.nii, spmT_0002.nii, spmT_0003.nii, spmT_0004.nii, spmT_0005.nii). Note that a text file needs to be manually prepared beforehand, in which the ROI reactivity values are listed alongside the subject identifiers (with no colunn headers), seperately for the left and right hemisphere (in that order), and this file needs to be named (e.g.) in the following manner: **ROI_SpmT_0001_matched_regression_analysis.txt**. More specifically, the name of the input contrast image needs to correspond to the filename of the text file that is used an an implicit input by the method.
+4. The hemisphere to extract the reactivity values for from the text file mentioned in step 3. Note that the method assumes that this text file contains one column of subject identifiers, followed by one column of ROI reactivity values of the left hemisphere, and  and one column of ROI reactivity values of the right hemisphere, respectively; that is to say, in that specific order. If this requirement is met, then enter 1 for the left hemisphere or 2 for the right hemisphere.
+5. A **non-optional** explicit mask file to use for the ROI-matched regression analysis, as listed in the working directory. Enter GRAND_Inclusive_FOV_GM_Mask_REST_EMO.nii to use the across-studies inlusive field-of-view and grey matter mask.
+6. The full-width half-maximum (FWHM) at which the input connectivity maps are smoothed before the actual ROI-matched regression procedures are conducted. It is recommended that a FWHM of 6 cubic mm is used at this stage.
+7. The number of permutation/randomisations that are to be conducted during the landscape-based cluster analysis. It is recommended that 2000 permutations are entered at this stage.
+
+The *roi_matched_regression_analysis* method creates a new subdirectory within the main working directory, which is named after the connectivity prefix (entered in step 2), reactivity contrast image (entered in step 3), and reactivity hemisphere (entered in step 4) used for the analysis, and which contains the output files and images of the landscape-based cluster analysis (e.g. working_dir > roi_matched_regression_connectivity_map_lh_vs_spmT_0001_HemiL). The R.mat file written to this directory is the essential output yielded by the analysis; the other files and images contained by the directory are derived from this main output file.
+
+### 6.4 Statistical non-parametric analysis: specification and computation
+
+The statistical non-parametric (permutation-based) connectivity vs. reactivity analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via the Multiple Regression option of the Statistical nonParametric Mapping ([SnPM](http://www.nisox.org/Software/SnPM13/)) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/). This toolbox provides an extensible framework for non-parametric permutation/randomisation tests using the General Linear Model and pseudo t-statistics for independent observations.
+
+The specification and computation of the voxel-wise multiple regression permutation models, with the reactivity of the amygdala of all subjects as predictor-of-interest (i.e., the mean of the negative vs. neutral contrast maps generated by the first-level analysis of the emotion task data), and the voxel-wise connectivity maps of all subjects as outcome variable (i.e., the connectivity maps generated by the first-level seed-based connectivity analysis of the resting-state data), is supported by the *run_snpm_specification_and_computation* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
+
+```
+my_experiment = Amy.GroupAnalysis()
+my_experiment.run_snpm_specification_and_computation()
 ```
 
 Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
 2. The directory where the output of the second-level analysis is to be written to. If this directory does not already exist it will be created by the program.
 3. The hemisphere on which the analysis should be conducted. Enter either l (left) or r (right).
-4. The name of the text file that contains the predictor-of-interest (and covariate) data, as well as the filenams of the connectivity maps (e.g. SnPM_Input_SpmT_0001_HemiL.txt). Note that this file needs to be prepared beforehand.
+4. The name of a text file that contains the predictor-of-interest (and covariate) data, as well as the filenams of the connectivity maps (e.g. SnPM_Input_SpmT_0001_HemiL.txt). Note that this file needs to be manually prepared beforehand.
 5. An optional name of a covariate-of-no-interest, as listed in the SnPM input file in the working directory. Either press enter to continue without using a nuisance covariate, or enter the name of a covariate, e.g. MFD or nOutliers.
 6. The number of permutations that should be conducted. The optimal number of permutations is 10000.
-7. An optional explicit mask file to use for the second-level analysis, as listed in the working directory. Enter 
-GRAND_Inclusive_FOV_GM_Mask_REST_EMO.nii to use the across-studies inlusive field-of-view and grey matter mask.
+7. An optional explicit mask file to use for the second-level analysis, as listed in the working directory. Enter GRAND_Inclusive_FOV_GM_Mask_REST_EMO.nii to use the across-studies inlusive field-of-view and grey matter mask.
 
-The *run_2nd_level_analysis* method creates an **SnPM.mat** file in the SnPM output directory specified in step 2 (along with a number of other files) that can be used as input for the second-level inference (see section 6.2).
+The *run_snpm_specification_and_computation* method creates an **SnPM.mat** file in the SnPM output directory specified in step 2 (along with a number of other files) that can be used as input for the inference step of the statistical non-parametric analysis (see section 6.2).
 
 ### 6.5 Statistical non-parametric analysis: inference
 
-The inference of the second-level non-parametric results yielded by the voxel-wise connectivity vs. reactivity multiple regression permutation models is performed by the *run_2nd_level_inference* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
+The inference of the statistical non-parametric results yielded by the voxel-wise connectivity vs. reactivity multiple regression permutation models, generated by the procedures described in section 6.4, is performed by the *run_snpm_inference* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
 
 ```
 my_experiment = Amy.GroupAnalysis()
-my_experiment.run_2nd_level_inference()
+my_experiment.run_snpm_inference()
 ```
 Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
@@ -716,7 +767,7 @@ Since the GroupAnalysis subclass inherits from the main Experiment class, the sa
 3. The type of inference of the output images that is to be conducted. Enter 1 for voxel-wise/uncorrected inference, 2 for voxel-wise/FDR-corrected, 3 for voxel-wise/FWE-corrected, or 4 for cluster-wise/FWE-corrected inference.
 3. The sign of the effects that are to be inferred. Enter 1 for positive effects or -1 for negative effects.
 
-Depending on what type of inference is entered as input, the *run_non_parametric_2nd_level_inference* method creates one or more output NIFTI images that detail the filtered output of the inference model. The names of these output files always start with SnPM_filtered_, followed hy what test is performed at what (p-)threshold, and the sign of the effect (e.g., SnPM_output_dir > **SnPM_filtered_voxel_wise_uncorrected_0_001_negative.nii**). Also, a pop-up table in [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) will appear that details the inference of the results. This table may be saved as a PDF in the SnPM output directory.
+Depending on what type of inference is entered as input, the *run_snpm_inference* method creates one or more output NIFTI images that detail the filtered output of the inference model. The names of these output files always start with SnPM_filtered_, followed hy what test is performed at what (p-)threshold, and the sign of the effect (e.g., SnPM_output_dir > **SnPM_filtered_voxel_wise_uncorrected_0_001_negative.nii**). Also, a pop-up table will appear that details the inference of the results, which is saved as a PDF in the SnPM output directory.
 
 
 *Tim Varkevisser*
