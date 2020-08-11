@@ -698,7 +698,7 @@ Since the GroupAnalysis subclass inherits from the main Experiment class, the sa
 5. An optional name of a covariate-of-no-interest, as listed in the SnPM input file in the working directory. Either press enter to continue without using a nuisance covariate, or enter the name of a covariate, e.g. MFD or nOutliers.
 6. The number of permutations that should be conducted. The optimal number of permutations is 10000.
 7. An optional explicit mask file to use for the second-level analysis, as listed in the working directory. Enter 
-GRAND_Inclusive_FOV_Mask_REST.nii to use the across-studies inlusive grey matter mask.
+GRAND_Inclusive_FOV_GM_Mask_REST_EMO.nii to use the across-studies inlusive field-of-view and grey matter mask.
 
 The *run_2nd_level_analysis* method creates an **SnPM.mat** file in the SnPM output directory specified in step 2 (along with a number of other files) that can be used as input for the second-level inference (see section 6.2).
 
