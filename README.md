@@ -304,7 +304,7 @@ import amygdala_recon as Amy
 
 ### 3.2 Confound regressors
 
-Before the first-level analysis of the emotion task data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors are extracted using the *extract_confound_regressors* method of the EmotionTask class. This method computes a total of 9 nuisance parameters: i.e., the six realignment parameters (6P). and the white-matter, CSF, and global mean signal (27P).
+Before the first-level analysis of the emotion task data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors are extracted using the *extract_confound_regressors* method of the EmotionTask class. This method computes a total of 9 nuisance parameters: i.e., the six realignment parameters (6P). and the white-matter, CSF, and global mean signal (9P).
 
 To execute the *extract_confound_regressors* method, enter the following code in the console:
 
