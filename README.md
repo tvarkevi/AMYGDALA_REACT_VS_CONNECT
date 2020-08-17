@@ -323,7 +323,7 @@ The confound regressor process creates an output CSV file in the emotion task sc
 
 ### 3.3 Spike regressors
 
-Before the first-level analysis of the emotion task data can be conducted, the spike regressors need to be extracted from the FD Jenkinson data. The spike regressors are extracted using the *extract_spike_regressors* method of the EmotionTask class. The number and identity of the spike regressors computed by this method are defined by how many and what frames exceed a given pre-specified threshold (e.g. 0.2 mm).
+Before the first-level analysis of the emotion task data can be conducted, the spike regressors need to be extracted from the FD Jenkinson data. The spike regressors are extracted using the *extract_spike_regressors* method of the EmotionTask class. The number and identity of the spike regressors computed by this method are defined by how many and what frames exceed a given pre-specified threshold (e.g. 0.5 mm).
 
 To execute the *extract_spike_regressors* method, enter the following code in the console:
 
