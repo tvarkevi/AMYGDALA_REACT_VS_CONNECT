@@ -304,7 +304,7 @@ import amygdala_recon as Amy
 
 ### 3.2 Confound regressors
 
-Before the first-level analysis of the emotion task data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors are extracted using the *extract_confound_regressors* method of the EmotionTask class. This method computes a total of 9 nuisance parameters: i.e., the six realignment parameters (6P). and the white-matter, CSF, and global mean signal (9P).
+Before the first-level analysis of the emotion task data can be conducted, the confound regressor model needs to be extracted from the data. The confound regressors are extracted using the *extract_confound_regressors* method of the EmotionTask class. This method computes a total of 8 nuisance parameters: i.e., the six realignment parameters (6P). and the white-matter and CSF signals (8P).
 
 To execute the *extract_confound_regressors* method, enter the following code in the console:
 
@@ -315,15 +315,14 @@ my_experiment.extract_confound_regressors()
 
 Since the EmotionTask subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter EMO for the emotion task data.
-2. An optional prefix to indicate the gray matter scan to base the confound model on. It is recommended that this option is skipped at this stage. Simply press the enter key to continue.
-3. An optional prefix to indicate the white matter and CSF scans to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
-4. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the realigned, slice-time corrected, and (coregistered) normalized functional images are used at this stage. Enter nra for the realigned, slice-time corrected, and (coregistered) normalized functional scans.
+2. An optional prefix to indicate the white matter and CSF scans to base the confound model on. It is recommended that the eroded white-matter and CSF segmentations are used at this stage. Enter e for the eroded white-matter and CSF segmentations.
+3. An optional prefix to indicate the exact functional scan identifiers on which the analysis needs to be performed. It is recommended that the realigned, slice-time corrected, and (coregistered) normalized functional images are used at this stage. Enter nra for the realigned, slice-time corrected, and (coregistered) normalized functional scans.
 
 The confound regressor process creates an output CSV file in the emotion task scan directory called (e.g.) data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **xm13101101_3_1_confound_regressors.csv**. This file can be used to define the nuisance regressors of the GLM defined in the first-level analysis described in section 3.4.
 
 ### 3.3 Spike regressors
 
-Before the first-level analysis of the emotion task data can be conducted, the spike regressors need to be extracted from the FD Jenkinson data. The spike regressors are extracted using the *extract_spike_regressors* method of the EmotionTask class. The number and identity of the spike regressors computed by this method are defined by how many and what frames exceed a given pre-specified threshold (e.g. 0.5 mm).
+Before the first-level analysis of the emotion task data can be conducted, the spike regressors can, but do not have to be extracted from the FD Jenkinson data (this step is optional). The spike regressors are extracted using the *extract_spike_regressors* method of the EmotionTask class. The number and identity of the spike regressors computed by this method are defined by how many and what frames exceed a given pre-specified threshold (e.g. 0.5 mm).
 
 To execute the *extract_spike_regressors* method, enter the following code in the console:
 
