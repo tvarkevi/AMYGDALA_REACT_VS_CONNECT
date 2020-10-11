@@ -356,7 +356,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 2. An optional explicit mask to base the first-level analysis on. It is recommended that this option be skipped at this stage. Simply press the enter key to continue.
 3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. It is recommended that the realigned, slice-time corrected, and (coregistered) normalized functional data is used at this stage. Enter nra for the realigned, slice-time corrected, and (coregistered) normalized functional (emotion task) images.
 
-The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called LEV1, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **first_level_analysis**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
+The output beta, contrast, and t-maps of the first-level procedure are stored in a subdirectory called first_level_analysis, in the emotion task folder of each subject; e.g., data_dir > NIFTI_MARS_EMO > xm13101101 > xm13101101_3_1 > **first_level_analysis**. In this folder can be found the beta-maps of each of the predictors specified in the model, as well as the specified contrast maps and corresponding t-maps.
 
 ### 3.5 Reslice ROI mask
 
