@@ -70,7 +70,7 @@ This code generates an output argument called *my_experiment* which contains att
 
 > Note: Since the Experiment class is inherited by all the other subclasses, it is not strictly necessary to initialize this method on its own, before conducting any of the other procedures described here (although it is possible). It is called automatically when initializing the other subclasses of the pipeline.
 
-> Note: Later on, for the post-processing and group analysis steps, the above-mentioned Excel file that contains the subject information also needs to contain the following additional columns: 1. A column that detail whether or not a subject will be included in the second-level analysis (column header: Include), 2. columns that details the mean framewise displacement (MFD) and number of motion outliers for each subject, for both the resting state and emotion task data (column headers: MFD_REST, nOut_REST, MFD_EMO, nOut_EMO), and 3. the mean statistical contrast values (e.g. from con_0001.nii) of the ROI, per hemisphere, as an index of the reactivity of the ROI (column headers: Con_0001_HemiL, Con_0001_HemiR).
+> Note: Later on, for the post-processing and group analysis steps, the above-mentioned Excel file that contains the subject information also needs to contain an additional column that detail whether or not a subject will be included in the second-level analysis (column header: Include).
 
 ## 2. Data preprocessing
 
