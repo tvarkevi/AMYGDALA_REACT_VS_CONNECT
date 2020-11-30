@@ -1,4 +1,4 @@
-function log_fname = Coregistration(iSubject, subject_ID, t1_dir, t2_dir, scans_dir, ~, study_ID, working_dir, log_fname)
+function log_fname = Coregistration(iSubject, subject_ID, t1_dir, t2_dir, scans_dir, prefix, study_ID, working_dir, log_fname)
 
 % Preprocessing of the fMRI data: Coregistration
 %
@@ -31,16 +31,22 @@ fprintf(['\n' num2str(iSubject) '\tCoregistration for subject: \t' subject_ID '\
 anatomical_folder = [subject_ID t1_dir];
 functional_folder = [subject_ID t2_dir];
 
-% ----- Define inputs{1}: mean image ----- %
-this_scan = dir([scans_dir '\' subject_ID '\' functional_folder '\mean' study_ID '*.nii']);
-for iScan = 1:length(this_scan)
-    inputs{1} = {[scans_dir '\' subject_ID '\' functional_folder '\' this_scan(iScan).name ',1']};
-end
-
-% ----- Define inputs{2}: anatomical scan ----- %
+% ----- Define inputs{1}: reference image - anatomical scan ----- %
 this_scan = dir([scans_dir '\' subject_ID '\' anatomical_folder '\' study_ID '*.nii']);
 for iScan = 1:length(this_scan)
-    inputs{2} = {[scans_dir '\' subject_ID '\' anatomical_folder '\' this_scan(iScan).name ',1']};
+    inputs{1} = {[scans_dir '\' subject_ID '\' anatomical_folder '\' this_scan(iScan).name ',1']};
+end
+
+% ----- Define inputs{2}: source image - mean image ----- %
+this_scan = dir([scans_dir '\' subject_ID '\' functional_folder '\mean*' study_ID '*.nii']);
+for iScan = 1:length(this_scan)
+    inputs{2} = {[scans_dir '\' subject_ID '\' functional_folder '\' this_scan(iScan).name ',1']};
+end
+
+% ----- Define inputs{3}: other imgages - functional images ----- %
+all_scans = dir([scans_dir '\' subject_ID '\' functional_folder '\' prefix study_ID '*.nii']);
+for iScan = 1:length(all_scans)
+    inputs{3}{iScan, 1} = [scans_dir '\' subject_ID '\' functional_folder '\' all_scans(iScan).name ',1'];
 end
 
 % ----- Run preprocessing ----- %
