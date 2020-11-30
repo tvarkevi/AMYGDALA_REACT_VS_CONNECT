@@ -16,7 +16,7 @@ function FirstLevelAnalysis(iSubject, subject_ID, working_dir, t1_dir, t2_dir, p
 %       onsets_dir = 'F:\Classification of Amygdala Reactivity
 %           (CAR)\Analysis\Onsets';             (onsets data directory)
 %       log_fname = 'log.txt';                  (log filename)
-% Subfunctions: -
+% Subfunctions: FirstLevelAnalysis_job
 %
 % List of open inputs
 %       fMRI model specification: Directory - cfg_files
@@ -29,8 +29,6 @@ function FirstLevelAnalysis(iSubject, subject_ID, working_dir, t1_dir, t2_dir, p
 %       fMRI model specification: Durations - cfg_entry
 %       fMRI model specification: Multipe regressors - cfg_entry
 %       fMRI model specification: Explicit mask - cfg_files
-%       Model estimation: Select SPM.mat - cfg_files
-%       Contrast Manager: Select SPM.mat - cfg_files
 
 
 inputs = {};
@@ -43,7 +41,7 @@ subject_t2_directory = [subject_ID t2_dir];
 subject_t1_directory = [subject_ID t1_dir];
 
 % ----- Specify the (1st level) output directory ----- %
-inputs{1} = {[scans_dir '\' subject_ID '\' subject_t2_directory '\LEV1']};
+inputs{1} = {[scans_dir '\' subject_ID '\' subject_t2_directory '\first_level_analysis']};
 if ~exist(inputs{1}{1}, 'dir')
     mkdir(inputs{1}{1});
 end
@@ -54,7 +52,7 @@ if exist(preexisting_file, 'file')
     delete(preexisting_file);
 end
 
-% ----- Specify the realigned and smoothed input images ----- %
+% ----- Specify the input images ----- %
 all_scans = dir([scans_dir '\' subject_ID '\' subject_t2_directory '\' prefix subject_ID '*.nii']);
 for iScan = 1:length(all_scans)
     inputs{2}{iScan, 1} = [all_scans(iScan).folder '\' all_scans(iScan).name ',1'];
@@ -82,7 +80,9 @@ try
             column_headers = column_headers{1};
             % ----- Find column indices ----- %
             onset_column = strcmp(column_headers, 'onsets');
-            condition_column = strcmp(column_headers, 'conditions');
+            % condition_column = strcmp(column_headers, 'conditions');
+            % response_column = strcmp(column_headers, 'response');
+            congruent_column = strcmp(column_headers, 'congruent');
             % ----- Proceed to next line ----- %
             this_line = this_line + 1;
             continue % continue to next line
@@ -94,7 +94,9 @@ try
         
         % ----- Extract onsets ----- %
         this_onset = str2double(this_data_entry{onset_column});
-        this_condition = str2double(this_data_entry{condition_column});
+        % this_condition = str2double(this_data_entry{condition_column});
+        % this_condition = str2double(this_data_entry{response_column});
+        this_condition = str2double(this_data_entry{congruent_column}); % Use only congruent trials (condition == response)
         if this_condition == 1 % onsets neutral
             inputs{3} = [inputs{3}; this_onset];
         end
@@ -115,6 +117,28 @@ try
     inputs{5} = inputs{5} ./ 10000;
     inputs{7} = inputs{7} ./ 10000;
     
+    % ----- Warn if subject has too little trials in any category  ----- %
+    cut_off_value = 10; % corresponds to 30%
+    if length(inputs{3}) < cut_off_value
+        % ----- Write progress to log file ----- %
+        fileID = fopen([working_dir '\' log_fname], 'a');
+        fprintf(fileID, ['\t\tWarning: less than ' num2str(cut_off_value) ' neutral trials remaining for subject: ' subject_ID '\n']);
+        fclose(fileID);
+    end
+    if length(inputs{5}) < cut_off_value
+        % ----- Write progress to log file ----- %
+        fileID = fopen([working_dir '\' log_fname], 'a');
+        fprintf(fileID, ['\t\tWarning: less than ' num2str(cut_off_value) ' positive trials remaining for subject: ' subject_ID '\n']);
+        fclose(fileID);
+    end
+    if length(inputs{7}) < cut_off_value
+        % ----- Write progress to log file ----- %
+        fileID = fopen([working_dir '\' log_fname], 'a');
+        fprintf(fileID, ['\t\tWarning: less than ' num2str(cut_off_value) ' negative trials remaining for subject: ' subject_ID '\n']);
+        fclose(fileID);
+    end
+    
+    
     % ----- Specify durations ----- %
     durations = 2;
     inputs{4} = zeros(size(inputs{3})) + durations;
@@ -125,10 +149,11 @@ try
     confound_regressors_file = dir([scans_dir '\' subject_ID '\' subject_t2_directory '\' subject_ID '*confound_regressors.csv']);
     confound_regressors = importdata([confound_regressors_file.folder '\' confound_regressors_file.name]);
     
-    spike_regressors_file = dir([scans_dir '\' subject_ID '\' subject_t2_directory '\' subject_ID '*spike_regressors.csv']);
-    spike_regressors = importdata([spike_regressors_file.folder '\' spike_regressors_file.name]);
+    % spike_regressors_file = dir([scans_dir '\' subject_ID '\' subject_t2_directory '\' subject_ID '*spike_regressors.csv']);
+    % spike_regressors = importdata([spike_regressors_file.folder '\' spike_regressors_file.name]);
     
-    R = [confound_regressors spike_regressors];
+    R = [confound_regressors];
+    % R = [confound_regressors spike_regressors];
     savename = [scans_dir '\' subject_ID '\' subject_t2_directory '\R.mat'];
     save(savename, 'R');
     
@@ -140,12 +165,6 @@ try
     else
         inputs{10} = {''};
     end
-    
-    % ----- Specify the SPM(.mat) file for model estimation ----- %
-    inputs{11} = {[inputs{1}{1} '\SPM.mat']};
-    
-    % ----- Specify the SPM(.mat) file for parameter estimation ----- %
-    inputs{12} = inputs{11};
     
     % ----- Run first level analysis ----- %
     jobfile = {[working_dir '\' 'FirstLevelAnalysis_job.m']};
