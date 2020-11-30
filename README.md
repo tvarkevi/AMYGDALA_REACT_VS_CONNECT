@@ -1,4 +1,4 @@
-# AMYGDALA_REACT_VS_CONNECT
+# AMYGDALA_RECON
 Pipeline to predict emotion task reactivity of the amygdala using resting-state connectivity of the amygdala as seed-region.
 
 > Preliminary note: The Python module [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) used here assumes the following steps having been undertaken before running the analyses:
