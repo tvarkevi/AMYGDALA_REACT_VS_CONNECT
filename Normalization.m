@@ -49,6 +49,8 @@ inputs{3} = {[working_dir '\Programs\spm12\tpm\TPM.nii']};
 % ----- Run preprocessing ----- %
 jobfile = {[working_dir '\Normalization_job.m']};
 try
+    inputs{2} = [inputs{1}; inputs{2}];
+    
     spm_jobman('run', jobfile, inputs{:});
     % ----- Write progress to log file ----- %
     fileID = fopen([working_dir '\' log_fname], 'a');
