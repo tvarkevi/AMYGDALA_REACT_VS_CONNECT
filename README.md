@@ -437,7 +437,7 @@ As part of the first-level seed-based connectivity pipeline of the resting-state
 1. Construction of a region-of-interest (ROI) mask in subject reference space (see [section 3.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#41-reslice-roi-mask))
 2. Extraction of the region-of-interest (ROI) regressors (see [section 4.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#42-roi-regressors))
 3. Extraction of the confound regressors (see [section 4.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#43-confound-regressors))
-4. Extraction of the spike regressors (see [section 4.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#44-spike-regressosrs))
+4. Extraction of the spike regressors (see [section 4.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#44-spike-regressors))
 5. Voxel-wise seed-based functional connectivity analysis (see [section 4.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#45-voxel-wise-connectivity-analysis))
 
 ### 4.1 Reslice ROI mask
