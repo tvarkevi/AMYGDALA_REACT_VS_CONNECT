@@ -399,7 +399,7 @@ Since the EmotionTask subclass inherits from the main Experiment class, the same
 2. The name of the ROI mask used for the analyses, as listed in the working directory. A binary mask or probability map of the amygdala should be used. 
 3. An optional prefix to indicate the exact scan identifier of the anatomical image to base the inverse normalization on. It is recommended that the normalized anatomical image is used for this procedure. Enter n for the normalized anatomical image.
 
-The output of this procedure is a resliced version of the ROI mask in standard reference space for each subject. The resliced ROI mask used for further analysis steps is indicated by the prefix **r** followed by the original filename of the ROI mask; e.g. cicAmygdala_total_binary_mask_thr_0_5.nii.
+The output of this procedure is a resliced version of the ROI mask in standard reference space for each subject. The resliced ROI mask used for further analysis steps is indicated by the prefix **r** followed by the original filename of the ROI mask; e.g. rAmygdala_total_binary_mask_thr_0_5.nii.
 
 ### 3.6 ROI-masked SPM data
 
