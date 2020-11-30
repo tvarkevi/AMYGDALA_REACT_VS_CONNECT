@@ -18,7 +18,7 @@ function GlobalToNativeMask(working_dir, input_native_img, input_global_img)
 %       Normalise: Write: Voxel sizes - cfg_entry
 
 
-% ----- Specify base directory ----- %
+% ----- Specify subject directory ----- %
 fname_pts = strsplit(input_native_img, '\');
 if length(fname_pts) > 1
     subjects_scan_dir = strjoin(fname_pts(1:end-1), '\');
@@ -29,7 +29,7 @@ end
 H_Raw = spm_vol(input_native_img);
 [BB, vx] = spm_get_bbox(H_Raw, 0);
 
-% ----- Define input for spm jobfile ----- %
+% ----- Define inputs for spm jobfile ----- %
 inputs = {};
 inputs{1} = {[input_native_img ',1']};
 inputs{2} = inputs{1};
@@ -45,9 +45,11 @@ jobfile = {[working_dir '\' 'GlobalToNativeMask_job.m']};
 spm_jobman('run', jobfile, inputs{:});
 
 % ----- Move output native mask to subject directory ----- %
-movefile([working_dir '\c' input_global_img], [subjects_scan_dir '\c' input_global_img])
-movefile([working_dir '\ic' input_global_img], [subjects_scan_dir '\ic' input_global_img])
-movefile([working_dir '\cic' input_global_img], [subjects_scan_dir '\cic' input_global_img])
+movefile([working_dir '\c' input_global_img], [subjects_scan_dir '\c' input_global_img]);
+movefile([working_dir '\ic' input_global_img], [subjects_scan_dir '\ic' input_global_img]);
+movefile([working_dir '\cic' input_global_img], [subjects_scan_dir '\cic' input_global_img]);
 
 % ----- Return to working directory ----- %
-cd(working_dir)
+cd(working_dir);
+
+end
