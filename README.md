@@ -42,9 +42,7 @@ Table of contents:
 6. [Group-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#6-group-level-analysis)
     1. [Second-level analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-analysis)
     2. [Voxel-matched regression analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-voxel-matched-regression-analysis)
-    3. [ROI-based regression analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-roi-based-regression-analysis)
-    4. [Statistical non-parametric analysis: specification and computation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#64-statistical-non-parametric-analysis-specification-and-computation)
-    5. [Statistical non-parametric analysis: inference](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#65-statistical-non-parametric-analysis-inference)
+    3. [ROI-matched regression analysis](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-roi-matched-regression-analysis)
 
 ## 1. Setting up the experiment
 
