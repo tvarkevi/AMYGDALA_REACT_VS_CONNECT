@@ -1,13 +1,13 @@
 %-----------------------------------------------------------------------
-% Job saved on 17-Jan-2020 15:23:52 by cfg_util (rev $Rev: 7345 $)
+% Job saved on 06-Jul-2020 21:53:16 by cfg_util (rev $Rev: 7345 $)
 % spm SPM - SPM12 (7487)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
 matlabbatch{1}.spm.stats.fmri_spec.dir = '<UNDEFINED>';
 matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
 matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 1.6;
-matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 16;
-matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 8;
+matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 30;
+matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 15;
 matlabbatch{1}.spm.stats.fmri_spec.sess.scans = '<UNDEFINED>';
 matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).name = 'Neutral';
 matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).onset = '<UNDEFINED>';
@@ -35,20 +35,26 @@ matlabbatch{1}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
 matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
 matlabbatch{1}.spm.stats.fmri_spec.volt = 1;
 matlabbatch{1}.spm.stats.fmri_spec.global = 'None';
-matlabbatch{1}.spm.stats.fmri_spec.mthresh = 0.6;
+matlabbatch{1}.spm.stats.fmri_spec.mthresh = -Inf;
 matlabbatch{1}.spm.stats.fmri_spec.mask = '<UNDEFINED>';
 matlabbatch{1}.spm.stats.fmri_spec.cvi = 'AR(1)';
-matlabbatch{2}.spm.stats.fmri_est.spmmat = '<UNDEFINED>';
+matlabbatch{2}.spm.stats.fmri_est.spmmat(1) = cfg_dep('fMRI model specification: SPM.mat File', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
 matlabbatch{2}.spm.stats.fmri_est.write_residuals = 0;
 matlabbatch{2}.spm.stats.fmri_est.method.Classical = 1;
-matlabbatch{3}.spm.stats.con.spmmat = '<UNDEFINED>';
-matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'negative_vs_neutral';
-matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [-1 0 1];
+matlabbatch{3}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
+matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'pictures_vs_baseline';
+matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [(1/3) (1/3) (1/3)];
 matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'positive_vs_neutral';
-matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [-1 1 0];
+matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'negative_vs_neutral';
+matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [-1 0 1];
 matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
-matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'negative_vs_positive';
-matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 -1 1];
+matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'positive_vs_neutral';
+matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [-1 1 0];
 matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
-matlabbatch{3}.spm.stats.con.delete = 0;
+matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'negative_vs_positive';
+matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 -1 1];
+matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
+matlabbatch{3}.spm.stats.con.consess{5}.tcon.name = 'negative_plus_positive_vs_neutral';
+matlabbatch{3}.spm.stats.con.consess{5}.tcon.weights = [-1 0.5 0.5];
+matlabbatch{3}.spm.stats.con.consess{5}.tcon.sessrep = 'none';
+matlabbatch{3}.spm.stats.con.delete = 1;
