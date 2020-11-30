@@ -642,7 +642,7 @@ This so-called discriminability analysis is supported by the [amygdala_recon.py]
 
 ```
 my_experiment = Amy.Postprocessing()
-my_experiment.motion_correction_benchmark_qc_fc()
+my_experiment.motion_correction_benchmark_discriminability()
 ```
 
 Since the Postprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
