@@ -5,7 +5,7 @@ function log_fname = Segmentation(iSubject, subject_ID, t1_dir, ~, scans_dir, pr
 %
 % Input arguments:
 %       iSubject = 85;                          (subject iterator)
-%       subject_ID = 'be1l080213';              (subject identifier)
+%       be1l080213';              (subject identifier)
 %       t1_dir = '_4_1';                        (anatomical folder)
 %       template_fn = 'G:\Classification of Amygdala Reactivity
 %           (CAR)\Data\Nifti BETER\be1l080213\be1l080213_5_1\
