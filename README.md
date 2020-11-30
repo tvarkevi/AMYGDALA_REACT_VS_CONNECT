@@ -146,7 +146,7 @@ my_experiment.extract_FD_jenkinson()
 
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. The reference scan that is used to calculate the framewise displacement data. Enter 1 for the first image, or M for the mean image.
+2. The reference scan that is used to calculate the framewise displacement data. Enter 1 for the first image (recommended), or M for the mean image.
 
 ### 2.4 Coregistration
 
