@@ -20,8 +20,6 @@ Table of contents:
     6. [Inclusive mask extraction](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-inclusive-mask-extraction)
     7. [Segmentation](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-segmentation)
     8. [Erosion](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-erosion)
-    9. [Smoothing](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#29-smoothing)
-    10. [Filtering](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#210-filtering)
 3. [Emotion task](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#3-emotion-task)
     1. [Behavioral data](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#31-behavioral-data)
     2. [Confound regressors](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#32-confound-regressors)
@@ -85,8 +83,6 @@ The following preprocessing steps are supported by the pipeline:
 6. Extraction of an inclusive mask, based on the functional images ([section 2.6](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#26-inclusive-mask-extraction))
 7. Segmentation of the anatomical image ([section 2.7](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#27-segmentation))
 8. Erosion of the segmentation data ([section 2.8](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#28-erosion))
-9. Smoothing of the normalized functional images ([section 2.9](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#29-smoothing))
-10. Filtering of the timeseries data ([section 2.10](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#210-filtering))
 
 ### 2.1 Slice-timing correction
 
@@ -224,35 +220,6 @@ my_experiment.erode_segmentation_mask()
 Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
 1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
 2. An optional prefix to indicate the exact scan identifiers on which the erosion needs to be applied. In theory, the erosion procedure can be conducted on all outputs of the segmentation procedure (c1, c2, c3, c4, c5). To perform the erosion on the white-matter or CSF segmentations, enter c2 or c3, respectively.
-
-### 2.9 Smoothing
-
-Smoothing of the functional data is conducted using [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), via a shell call command. The MATLAB scripts that are responsible for the smoothing procedure are [Smoothing.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Smoothing.m) and [Smoothing_job.m](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/Smoothing_job.m)
-
-To conduct the smoothing procedure, enter the following code in a console:
-
-```
-my_experiment = Amy.Preprocessing()
-my_experiment.run_preprocessing()
-```
-
-Since the Preprocessing subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans on which the preprocessing needs to be conducted. Enter REST for resting-state data or EMO for emotion task data.
-2. The specific preprocessing step that needs to be conducted. Enter 6 for smoothing.
-3. An optional prefix to indicate the exact scan identifiers on which the preprocessing needs to be conducted. In theory, the smoothing procedure can be applied on any series of functional images. Enter nra for the realigned slice-time corrected (coregistered) normalized functional images, or nr for the realigned (non-slice-timing corrected) (coregistered) normalized images.
-
-### 2.10 Filtering
-
-Filtering of the timeseries data is conducted via the *run_filtering* method of the Preprocessing class. This method utilizes a filtering procedure *ezfilt.m* developed by Thomas Gladwin (https://www.tegladwin.com/), rewritten into this pipeline. Note that this filtering method is integrated in many of the more advanced procedures described here, and does not need to be initialized seperately. Nevertheless, it *is* possible to call the method manually from the console. For instance, to bandpass filter a given signal (your_signal) at 0.01-0.08 Hz, at a given repetition time (your_TR), enter the following code:
-
-```
-TR = your_TR
-
-my_experiment = Amy.Preprocessing()
-
-unused, your_signal = my_experiment.run_filtering(your_signal, 1/TR, 0.01)
-your_signal, unused = my_experiment.run_filtering(your_signal, 1/TR, 0.08)
-```
 
 ## 3. Emotion task
 
@@ -656,14 +623,12 @@ The *motion_correction_benchmark_discriminability* method creates an output NIFT
 
 ## 6. Group-level analysis
 
-The prediction of the emotion task reactivity of the amygdala using the seed-based resting-state connectivity of the amygdala is conducted via the GroupAnalysis subclass of the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module. This class inherits all attributes and methods of the Postprocessing class, which itself (in turn) inherits from the Preprocessing subclass, and by extension, the main Experiment class. The two second-level (i.e., group) analysis methods that are defined within the GroupAnalysis class are conducted via the [SnPM](http://www.nisox.org/Software/SnPM13/) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) in [MATLAB R2016b](https://nl.mathworks.com/products/matlab.html), using a shell call command.
+The prediction of the emotion task reactivity of the amygdala using the seed-based resting-state connectivity of the amygdala is conducted via the GroupAnalysis subclass of the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module. This class inherits all attributes and methods of the Postprocessing class, which itself (in turn) inherits from the Preprocessing subclass, and by extension, the main Experiment class.
 
 The following group-level analysis steps are supported by the pipeline:
-1. Standard group-level analysis of the task reactivity data (see [section 6.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-parametric-analysis))
+1. Standard group-level analysis of the task reactivity or resting-state connectivity data (see [section 6.1](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#61-second-level-parametric-analysis))
 2. Voxel-matched regression analysis of the connectivity vs. reactivity data (see [section 6.2](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#62-voxel-matched-regression-analysis))
 2. ROI-based regression analysis of the connectivity vs. reactivity data (see [section 6.3](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#63-roi-based-regression-analysis))
-4. Specification and computation of the statistical non-parametric (permutation-based) connectivity vs. reactivity analysis (see [see section 6.4](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#64-statistical-non-parametric-analysis-specification-and-computation))
-5. Inference of the second-level non-parametric (permutation-based) connectivity vs. reactivity analysis output (see [see section 6.5](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/README.md#65-statistical-non-parametric-analysis-inference))
 
 ### 6.1 Second-level analysis
 
@@ -732,44 +697,6 @@ Since the GroupAnalysis subclass inherits from the main Experiment class, the sa
 7. The number of permutation/randomisations that are to be conducted during the landscape-based cluster analysis. It is recommended that 2000 permutations are entered at this stage.
 
 The *roi_based_regression_analysis* method creates a new subdirectory within the main working directory, which is named after the connectivity prefix (entered in step 2), reactivity contrast image (entered in step 3), and hemisphere of reactivity values (entered in step 4) used for the analysis, and which contains the output files and images of the landscape-based cluster analysis (e.g. working_dir > **roi_based_regression_connectivity_t_map_lh_vs_spmT_0001_HemiL**). The *R.mat* file written to this directory is the essential output yielded by the analysis; the other files and images contained by the directory are derived from this main output file.
-
-### 6.4 Statistical non-parametric analysis: specification and computation
-
-The statistical non-parametric (permutation-based) connectivity vs. reactivity analysis supported by the [amygdala_recon.py](https://github.com/tvarkevi/AMYGDALA_REACT_VS_CONNECT/blob/master/amygdala_recon.py) module is conducted via the Multiple Regression option of the Statistical nonParametric Mapping ([SnPM](http://www.nisox.org/Software/SnPM13/)) toolbox of [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/). This toolbox provides an extensible framework for non-parametric permutation/randomisation tests using the General Linear Model and pseudo t-statistics for independent observations.
-
-The specification and computation of the voxel-wise multiple regression permutation models, with the reactivity of the amygdala of all subjects as predictor-of-interest (i.e., the mean of the negative vs. neutral contrast maps generated by the first-level analysis of the emotion task data), and the voxel-wise connectivity maps of all subjects as outcome variable (i.e., the connectivity maps generated by the first-level seed-based connectivity analysis of the resting-state data), is supported by the *run_snpm_specification_and_computation* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
-
-```
-my_experiment = Amy.GroupAnalysis()
-my_experiment.run_snpm_specification_and_computation()
-```
-
-Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
-2. The directory where the output of the second-level analysis is to be written to. If this directory does not already exist it will be created by the program.
-3. The hemisphere on which the analysis should be conducted. Enter either l (left) or r (right).
-4. The name of a text file that contains the predictor-of-interest (and covariate) data, as well as the filenams of the connectivity maps (e.g. SnPM_Input_SpmT_0001_HemiL.txt). Note that this file needs to be manually prepared beforehand.
-5. An optional name of a covariate-of-no-interest, as listed in the SnPM input file in the working directory. Either press enter to continue without using a nuisance covariate, or enter the name of a covariate, e.g. MFD or nOutliers.
-6. The number of permutations that should be conducted. The optimal number of permutations is 10000.
-7. An optional explicit mask file to use for the second-level analysis, as listed in the working directory. Enter GRAND_Inclusive_FOV_GM_Mask_REST_EMO.nii to use the across-studies inlusive field-of-view and grey matter mask.
-
-The *run_snpm_specification_and_computation* method creates an **SnPM.mat** file in the SnPM output directory specified in step 2 (along with a number of other files) that can be used as input for the inference step of the statistical non-parametric analysis (see section 6.2).
-
-### 6.5 Statistical non-parametric analysis: inference
-
-The inference of the statistical non-parametric results yielded by the voxel-wise connectivity vs. reactivity multiple regression permutation models, generated by the procedures described in section 6.4, is performed by the *run_snpm_inference* method of the GroupAnalysis class. Enter the following code in the console to execute this process:
-
-```
-my_experiment = Amy.GroupAnalysis()
-my_experiment.run_snpm_inference()
-```
-Since the GroupAnalysis subclass inherits from the main Experiment class, the same three user inputs as described above (see section 1) need to be entered. The program will ask for the following additional inputs to be specified in the console:
-1. The type of scans to be used for the analysis (this input-dependent attribute is inherited from the \_\_init__ method of the Preprocessing class). Enter REST for the resting-state data or EMO for the emotion task data.
-2. The directory where the output of the second-level analysis was written to, as specified earlier in step 2 of section 6.1.
-3. The type of inference of the output images that is to be conducted. Enter 1 for voxel-wise/uncorrected inference, 2 for voxel-wise/FDR-corrected, 3 for voxel-wise/FWE-corrected, or 4 for cluster-wise/FWE-corrected inference.
-3. The sign of the effects that are to be inferred. Enter 1 for positive effects or -1 for negative effects.
-
-Depending on what type of inference is entered as input, the *run_snpm_inference* method creates one or more output NIFTI images that detail the filtered output of the inference model. The names of these output files always start with SnPM_filtered_, followed hy what test is performed at what (p-)threshold, and the sign of the effect (e.g., SnPM_output_dir > **SnPM_filtered_voxel_wise_uncorrected_0_001_negative.nii**). Also, a pop-up table will appear that details the inference of the results, which is saved as a PDF in the SnPM output directory.
 
 
 *Tim Varkevisser*
