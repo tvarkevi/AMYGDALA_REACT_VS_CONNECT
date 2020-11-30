@@ -4,8 +4,8 @@ function Erosion(input_filename)
 %
 % Input argument (input_filename): Specify the name of the file to be
 % eroded, e.g.:
-%       input_filename = 'F:\Classification of Amygdala Reactivity (CAR)\Data\NIFTI_MARS\xm13101101\xm13101101_4_1\c2cxm13101101_4_1-0001.nii'
-%       input_filename = 'F:\Classification of Amygdala Reactivity (CAR)\Data\NIFTI_MARS\xm13101101\xm13101101_4_1\c3cxm13101101_4_1-0001.nii'
+%       input_filename = 'F:\Classification of Amygdala Reactivity (CAR)\Data\NIFTI_MARS\xm13101101\xm13101101_4_1\c2xm13101101_4_1-0001.nii'
+%       input_filename = 'F:\Classification of Amygdala Reactivity (CAR)\Data\NIFTI_MARS\xm13101101\xm13101101_4_1\c3xm13101101_4_1-0001.nii'
 % Input argument (reslice_mask): Indicate whether the nuisance variable map
 % Subfunctions: -
 
