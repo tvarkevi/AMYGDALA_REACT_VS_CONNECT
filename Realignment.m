@@ -1,4 +1,4 @@
-function log_fname = Realignment(iSubject, subject_ID, ~, t2_dir, scans_dir, ~, study_ID, working_dir, log_fname)
+function log_fname = Realignment(iSubject, subject_ID, ~, t2_dir, scans_dir, prefix, study_ID, working_dir, log_fname)
 
 % Preprocessing of the fMRI data: Realignment
 %
@@ -15,7 +15,8 @@ function log_fname = Realignment(iSubject, subject_ID, ~, t2_dir, scans_dir, ~, 
 % Subfunctions: -
 %
 % List of open inputs:
-%       inputs{1} = Realign: Estimate & Reslice: Session - cfg_files
+%       inputs{1} = Realign: Estimate: Data - cfg_repeat
+%       inputs{2} = Realign: Reslice: Images - cfg_files
 
 
 inputs = {};
@@ -26,10 +27,16 @@ fprintf(['\n' num2str(iSubject) '\tRealignment for subject: \t' subject_ID '\n']
 % ----- Specify subfolders ----- %
 functional_folder = [subject_ID t2_dir];
 
-% ----- Define inputs{1}: functional scans ----- %
+% ----- Define inputs{1}: raw functional scans ----- %
 all_scans = dir([scans_dir '\' subject_ID '\' functional_folder '\' study_ID '*.nii']);
 for iScan = 1:length(all_scans)
     inputs{1}{iScan, 1} = [scans_dir '\' subject_ID '\' functional_folder '\' all_scans(iScan).name ',1'];
+end
+
+% ----- Define inputs{2}: (slice-time corrected) functional scans ----- %
+all_scans = dir([scans_dir '\' subject_ID '\' functional_folder '\' prefix study_ID '*.nii']);
+for iScan = 1:length(all_scans)
+    inputs{2}{iScan, 1} = [scans_dir '\' subject_ID '\' functional_folder '\' all_scans(iScan).name ',1'];
 end
 
 % ----- Run preprocessing ----- %
