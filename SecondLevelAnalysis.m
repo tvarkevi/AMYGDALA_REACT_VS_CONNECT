@@ -1,56 +1,49 @@
-function SecondLevelAnalysis(working_dir, analysis_dir, scans_dir, prefix, predictor_filename, covariate_filename, explicit_mask)
+function SecondLevelAnalysis(working_dir, study_ID, contrast_map, container_file, mask_fn)
 
-% Introudction
-%
-% Input arguments:
-%       working_dir = 'E:\AMYGDALA_REACT_VS_CONNECT\Analysis';
-%                                               (working directory)
-%       analysis_dir = 'E:\AMYGDALA_REACT_VS_CONNECT\Analysis\SnPM';
-%                                               (output directory)
-%       scans_dir = 'E:\AMYGDALA_REACT_VS_CONNECT\Data\SnPM';
-%                                               (scan data directory)
-%       prefix = 'nb_map_lh_';                  (normalized left beta maps)
-%       predictor_filename = 'snpm_predictor_vector_lhemi.txt';
-%                                               (left amygdala reactivity)
-%       covariate_filename = '';                (covariate data)
-%       explicit_mask = 'GRAND_Inclusive_GM_FOV_Mask_REST.nii';
-%                                               (inlusive FOV-weighted grey matter mask)
-% Subfunctions: -
+% Univariate second level analysis of the task fMRI data.
+%       working_dir = 'E:\AMYGDALA_RECON\Analysis';
+%       study_ID = 'be';
+%       contrast_map = 'con_0001';
+%       contrast_map = 'connectivity_map_lh_';
+%       container_file = 'E:\AMYGDALA_RECON\Analysis\scan_filenames.txt';
+%       mask_fn = 'GRAND_Inclusive_FOV_GM_Mask_REST_EMO.nii';
+% Subfunctions: ParametricSecondLevelAnalysis_job
 %
 % List of open inputs
-%       MultiSub: Simple Regression; 1 covariate of interest: Analysis Directory - cfg_files
-%       MultiSub: Simple Regression; 1 covariate of interest: Images to analyze - cfg_files
-%       MultiSub: Simple Regression; 1 covariate of interest: Covariate - cfg_entry
-%       MultiSub: Simple Regression; 1 covariate of interest: Vector - cfg_entry
-%       MultiSub: Simple Regression; 1 covariate of interest: Name - cfg_entry
+%       Factorial design specification: Directory - cfg_files
+%       Factorial design specification: Scans - cfg_files
 
 
 inputs = {};
 
-% ----- Specify the (2nd level) output directory ----- %
-inputs{1} = {analysis_dir};
+% ----- Print progress to command window ----- %
+fprintf('\nConducting 2nd level analysis\n');
 
-% ----- Specify the input (beta map) images ----- %
-all_scans = dir([scans_dir '\' prefix '*.nii']);
-for iScan = 1:length(all_scans)
-    inputs{2}{iScan, 1} = [all_scans(iScan).folder '\' all_scans(iScan).name ',1'];
+% ----- Specify the (1st level) output directory ----- %
+inputs{1} = {[working_dir '\' study_ID '_second_level_analysis_' contrast_map]};
+if exist(inputs{1}{1}, 'dir')
+    rmdir(inputs{1}{1}, 's')
+end
+if ~exist(inputs{1}{1}, 'dir')
+    mkdir(inputs{1}{1});
 end
 
-% ----- Extract predictor-of-interest data from file ----- %
-inputs{3} = importdata(predictor_filename);
+% ----- Specify the contrast input images ----- %
+fid = fopen(container_file);
 
-% ----- Extract the covariate-of-no-interest data from file ----- %
-if ~isempty(covariate_filename)
-    inputs{4} = struct('c', {importdata(covariate_filename)}, 'cname', {covariate_filename(1:end-4)});
-else
-    inputs{4} = struct('c', {}, 'cname', {});
+iScan = 1;
+while ~feof(fid)
+    inputs{2}{iScan, 1} = [fgetl(fid) ',1'];
+    
+    iScan = iScan + 1;
 end
+fclose(fid);
 
 % ----- Specify the explicit (grey matter) mask ----- %
-if ~isempty(explicit_mask)
-    inputs{5} = {[explicit_mask ',1']};
+if ~isempty(mask_fn)
+    inputs{3} = {[working_dir '\' mask_fn ',1']};
 else
-    inputs{5} = {''};
+    inputs{3} = {''};
 end
 
 % ----- Run first level analysis ----- %
